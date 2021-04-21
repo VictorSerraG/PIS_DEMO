@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">BLOC DE NOTAS</string>
+    <string name="textView_Titulo">Titulo de la nota</string>
+    <string name="textView_Lista">Lista de Notas</string>
+    <string name="listView_Lista">Lista de Notas</string>
+    <string name="editText_Titulo">Titulo</string>
+    <string name="button_Agregar">Agregar Nota</string>
+    <string name="add_Nota">Add/Edit nota</string>
+    <string name="ver_nota">Visualización de la nota</string>
+    <string name="menu_crear">Crear Nota</string>
+    <string name="menu_editar">Editar Nota</string>
+    <string name="menu_eliminar">Eliminar Nota</string>
+    <string name="menu_borrar_todas">Borrar Todas</string>
+    <string name="menu_salir">Salir</string>
+
+
+</resources>
