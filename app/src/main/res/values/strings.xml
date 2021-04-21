@@ -12,6 +12,18 @@
     <string name="menu_eliminar">Eliminar Nota</string>
     <string name="menu_borrar_todas">Borrar Todas</string>
     <string name="menu_salir">Salir</string>
-
+    <string name="menu_cerrar">Cerrar cuenta</string>
+    <string name="action_settings">Settings</string>
+    <string name="fab">fab</string>
+    <string name="welcome">Bienvenido</string>
+    <string name="username">Usuario</string>
+    <string name="password">Contraseña</string>
+    <string name="login">Entrar</string>
+    <string name="ToRegister">¿No tienes Cuenta? Registrate</string>
+    <string name="register">Registrate</string>
+    <string name="passwordSecure">Repite Contraseña</string>
+    <string name="create">Crear</string>
+    <string name="TermsOfUse">Acepto los términos de uso</string>
+    <string name="buttonNote">Boto flotant per afegir notes</string>
 
 </resources>

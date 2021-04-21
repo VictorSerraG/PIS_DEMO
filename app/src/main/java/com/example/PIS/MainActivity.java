@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main,menu);
         menu.add(1,ADD,0,R.string.menu_crear);
         menu.add(1,DELETE,0,R.string.menu_borrar_todas);
-        menu.add(1,EXIST,0,R.string.menu_salir);
+        menu.add(1,EXIST,0,R.string.menu_cerrar);
         super.onCreateOptionsMenu(menu);
         return true;
     }

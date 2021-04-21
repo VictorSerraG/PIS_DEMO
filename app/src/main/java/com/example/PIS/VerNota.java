@@ -1,4 +1,6 @@
 package com.example.PIS;
 
-public class VerNota {
+import android.app.Activity;
+
+public class VerNota extends Activity {
 }
