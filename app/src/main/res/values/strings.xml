@@ -10,7 +10,9 @@
     <string name="menu_crear">Crear Nota</string>
     <string name="menu_editar">Editar Nota</string>
     <string name="menu_eliminar">Eliminar Nota</string>
-    <string name="menu_borrar_todas">Borrar Todas</string>
+    <string name="menu_settings">Ajustes</string>
+    <string name="menu_ordenar">Ordenar</string>
+    <string name="menu_archivados">Archivados</string>
     <string name="menu_salir">Salir</string>
     <string name="menu_cerrar">Cerrar cuenta</string>
     <string name="action_settings">Settings</string>
@@ -25,5 +27,41 @@
     <string name="create">Crear</string>
     <string name="TermsOfUse">Acepto los términos de uso</string>
     <string name="buttonNote">Boto flotant per afegir notes</string>
+    <string name="NoteListU"> <u>Lista de Notas</u> </string>
+    <string name="noteTitle"> Titulo de la nota </string>
+    <string name="noteContent"> Contenido de la nota </string>
+    <string name="tamaño"> <u>Tamaño:</u> </string>
+    <string name="letra"> <u>Letra:</u> </string>
+    <string name="estilo"> <u>Estilo:</u> </string>
+    <string name="idioma"> <u>Idioma:</u> </string>
+    <string name="buttonAplicar"> Aplicar </string>
+
+    <string-array name="tamaño">
+        <item>8</item>
+        <item>10</item>
+        <item>12</item>
+        <item>14</item>
+        <item>16</item>
+        <item>18</item>
+        <item>20</item>
+        <item>22</item>
+    </string-array>
+    <string-array name="letra">
+        <item>sans-serif</item>
+        <item>sans-serif-black</item>
+        <item>serif</item>
+        <item>casual</item>
+    </string-array>
+    <string-array name="estilo">
+        <item>Dia</item>
+        <item>Noche</item>
+        <item>Default</item>
+    </string-array>
+    <string-array name="idioma">
+        <item>Castellano</item>
+        <item>Ingles</item>
+    </string-array>
+
+
 
 </resources>

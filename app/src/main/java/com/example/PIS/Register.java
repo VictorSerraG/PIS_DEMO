@@ -1,6 +1,6 @@
 package com.example.PIS;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -10,7 +10,11 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class Register extends Activity {
+import androidx.appcompat.app.AppCompatActivity;
+
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
+
+public class Register extends AppCompatActivity {
     Button crear;
     EditText usuario, password, password2;
     CheckBox terms;
@@ -33,6 +37,11 @@ public class Register extends Activity {
                 crear();
             }
         });
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
 
     private void crear(){

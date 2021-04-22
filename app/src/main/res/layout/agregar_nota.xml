@@ -12,7 +12,7 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Titulo de la nota" />
+            android:text="@string/noteTitle" />
 
         <EditText
             android:id="@+id/editText_Titulo"
@@ -25,7 +25,7 @@
             android:id="@+id/textView_Contenido"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Contenido de la nota" />
+            android:text="@string/noteContent" />
 
         <EditText
             android:id="@+id/editText_Contenido"

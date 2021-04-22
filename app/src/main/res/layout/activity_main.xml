@@ -4,22 +4,49 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginBottom="10dp"
     tools:context=".MainActivity">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/textView_Lista"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Lista de Notas" />
+            android:layout_marginBottom="10dp"
+            android:text="@string/NoteListU"
+            android:textSize="18sp" />
 
         <ListView
             android:id="@+id/listView_Lista"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </LinearLayout>
+            android:layout_height="671dp"
+            android:layout_gravity="center|start|center_horizontal|fill_horizontal|center_vertical|end"
+            android:layout_marginTop="10dp"
+            android:foregroundGravity="bottom"
+            android:stackFromBottom="false">
+
+        </ListView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:clickable="true"
+            app:srcCompat="@android:drawable/ic_input_add"
+            android:contentDescription="@string/fab"
+            android:focusable="true" />
+
+    </FrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

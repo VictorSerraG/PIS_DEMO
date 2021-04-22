@@ -1,6 +1,7 @@
 package com.example.PIS;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -15,6 +16,8 @@ import android.webkit.CookieManager;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 
 public class AgregarNota extends AppCompatActivity {
@@ -82,6 +85,12 @@ public class AgregarNota extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+    }
+
 /*
     public boolean onOptionItemSelected(MenuItem items){
 

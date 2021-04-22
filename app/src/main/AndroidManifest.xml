@@ -20,8 +20,7 @@
         </activity>
 
         <activity
-            android:name=".Login"
-            android:parentActivityName="com.example.PIS.MainActivity" >
+            android:name=".Login" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,11 +30,19 @@
 
         <activity
             android:name=".Register"
-            android:parentActivityName="com.example.PIS.MainActivity" >
+            android:parentActivityName="com.example.PIS.Login" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.PIS.Login" />
         </activity>
 
         <activity
             android:name=".VerNota"
+            android:parentActivityName="com.example.PIS.MainActivity" >
+        </activity>
+
+        <activity
+            android:name=".Ajustes"
             android:parentActivityName="com.example.PIS.MainActivity" >
         </activity>
 
