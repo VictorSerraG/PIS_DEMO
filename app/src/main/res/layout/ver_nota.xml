@@ -12,24 +12,28 @@
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="Titulo de la Nota" />
 
         <TextView
             android:id="@+id/textView_Titulo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="clip_horizontal|center"
             android:text="Titulo" />
 
         <TextView
             android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:text="Contenido de la nota" />
 
         <TextView
             android:id="@+id/textView_Content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:text="Contenido" />
     </LinearLayout>
 </RelativeLayout>

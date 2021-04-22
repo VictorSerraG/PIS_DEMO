@@ -2,6 +2,7 @@ package com.example.PIS;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -36,5 +37,22 @@ public class AdaptadorBD extends SQLiteOpenHelper {
         valores.put(TITLE,title);
         valores.put(CONTENT,content);
         this.getWritableDatabase().insert(TABLE,null,valores);
+    }
+    public Cursor getNote(String condition){
+        String columnas[]={TABLE_ID,TITLE,CONTENT};
+        String[] args = new String[] {condition};
+        Cursor c = this.getReadableDatabase().query(TABLE,columnas,TITLE+"=?",args,null,null,null);
+        return c;
+    }
+    public void deleteNota(String condition){
+        String args[]={condition};
+        this.getWritableDatabase().delete(TABLE,TITLE +"=?",args);
+    }
+    public void updateNota(String title,String content,String condition){
+        String args[]={condition};
+        ContentValues valores= new ContentValues();
+        valores.put(TITLE,title);
+        valores.put(CONTENT,content);
+        this.getWritableDatabase().update(TABLE,valores,TITLE +"=?",args);
     }
 }

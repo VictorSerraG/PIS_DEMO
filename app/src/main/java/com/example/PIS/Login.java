@@ -31,7 +31,7 @@ public class Login extends Activity {
         ViewPump.init(ViewPump.builder()
                 .addInterceptor(new CalligraphyInterceptor(
                         new CalligraphyConfig.Builder()
-                                .setDefaultFontPath("fonts/Roboto-Thin.ttf")
+                                .setDefaultFontPath("fonts/Roboto-Bold.ttf")
                                 .setFontAttrId(R.attr.fontPath)
                                 .build()))
                 .build());
