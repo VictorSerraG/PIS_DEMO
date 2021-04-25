@@ -87,12 +87,12 @@ public class AgregarNota extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-/*
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
-*/
+
     private void addUpdateNotes(){
         DB = new AdaptadorBD(this);
         String title,content,msj;
