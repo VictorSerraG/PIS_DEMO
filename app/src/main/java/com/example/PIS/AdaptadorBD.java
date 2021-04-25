@@ -55,4 +55,12 @@ public class AdaptadorBD extends SQLiteOpenHelper {
         valores.put(CONTENT,content);
         this.getWritableDatabase().update(TABLE,valores,TITLE +"=?",args);
     }
+    public Cursor getNotes(){
+        String columnas[]={TABLE_ID,TITLE,CONTENT};
+        Cursor c = this.getReadableDatabase().query(TABLE,columnas,null,null,null,null,null);
+        return c;
+    }
+    public void deleteNotes(){
+        this.getWritableDatabase().delete(TABLE,null,null);
+    }
 }
