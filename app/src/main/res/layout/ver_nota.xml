@@ -9,31 +9,31 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/textTitulo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Titulo de la Nota" />
+            android:text="@string/noteTitle" />
 
         <TextView
             android:id="@+id/textView_Titulo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="clip_horizontal|center"
-            android:text="Titulo" />
+            android:text="@string/textTitulo" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/textContenido"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="Contenido de la nota" />
+            android:text="@string/noteContent" />
 
         <TextView
             android:id="@+id/textView_Content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="Contenido" />
+            android:text="@string/textContennido" />
     </LinearLayout>
 </RelativeLayout>

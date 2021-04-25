@@ -2,6 +2,7 @@ package com.example.PIS;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +17,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import org.w3c.dom.Text;
 
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
+
 
 public class VerNota extends AppCompatActivity {
     private static final int EDITAR = Menu.FIRST;
@@ -24,6 +27,7 @@ public class VerNota extends AppCompatActivity {
     String title,content;
     TextView TITLE,CONTENT;
     AdaptadorBD DB;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +43,7 @@ public class VerNota extends AppCompatActivity {
         TITLE.setText(title);
         CONTENT.setText(content);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu_main,menu);
@@ -67,6 +72,12 @@ public class VerNota extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+    }
+
     public void actividad(String f){
         if(f.equals("edit")) {
             String type = "edit";
@@ -86,11 +97,13 @@ public class VerNota extends AppCompatActivity {
             }
         }
     }
+
     private void alert(){
         AlertDialog alerta;
         alerta = new AlertDialog.Builder(this).create();
         alerta.setTitle("Mensaje de confirmación");
         alerta.setMessage("¿Quiere eliminar la nota?");
+
         alerta.setButton("Borrar nota", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -98,6 +111,7 @@ public class VerNota extends AppCompatActivity {
 
             }
         });
+
         alerta.setButton2("Cancelar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -106,6 +120,7 @@ public class VerNota extends AppCompatActivity {
         });
         alerta.show();
     }
+
     private void delete(){
         DB = new AdaptadorBD(this);
         DB.deleteNota(title);

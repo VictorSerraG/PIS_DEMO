@@ -22,7 +22,6 @@
             android:autoSizeTextType="none"
             android:background="#00FAFAFA"
             android:backgroundTint="#00FBFBFB"
-            android:fontFamily="sans-serif"
             android:text="@string/welcome"
             android:textAllCaps="false"
             android:textColor="#FDD5DEFA"

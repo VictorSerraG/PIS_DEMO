@@ -9,6 +9,9 @@ import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import io.github.inflationx.calligraphy3.CalligraphyConfig;
+import io.github.inflationx.calligraphy3.CalligraphyInterceptor;
+import io.github.inflationx.viewpump.ViewPump;
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 public class Ajustes extends AppCompatActivity {
@@ -58,5 +61,25 @@ public class Ajustes extends AppCompatActivity {
         txtEstilo = estilo.getSelectedItem().toString();
         txtIdioma = idioma.getSelectedItem().toString();
 
+        if(txtLetra.equals("Negrita")){
+            txtLetra = "Roboto-Bold";
+        }
+        else if(txtLetra.equals("Negrita-Normal")){
+            txtLetra = "Roboto-Medium";
+        }
+        else if(txtLetra.equals("Normal")){
+            txtLetra = "Roboto-Regular";
+        }
+        else{
+            txtLetra = "Roboto-Thin";
+        }
+        txtLetra = "fonts/" + txtLetra + ".ttf";
+        ViewPump.init(ViewPump.builder()
+                .addInterceptor(new CalligraphyInterceptor(
+                        new CalligraphyConfig.Builder()
+                                .setDefaultFontPath(txtLetra)
+                                .setFontAttrId(R.attr.fontPath)
+                                .build()))
+                .build());
     }
 }
