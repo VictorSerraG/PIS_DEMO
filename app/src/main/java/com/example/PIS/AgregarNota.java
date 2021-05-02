@@ -19,6 +19,8 @@ import android.webkit.CookieManager;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+//import com.google.firebase.database.FirebaseDatabase;
+
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 
@@ -28,11 +30,14 @@ public class AgregarNota extends AppCompatActivity {
     String type, getTitle;
     private static final int SALIR = Menu.FIRST;
     AdaptadorBD DB;
+    //FirebaseDatabase basef;
     SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
 
         sharedPreferences = getSharedPreferences("VALUES", MODE_PRIVATE);
         int theme = sharedPreferences.getInt("THEME", 1);
@@ -63,13 +68,13 @@ public class AgregarNota extends AppCompatActivity {
         });
 
         if (type.equals(("add"))) {
-            Add.setText("Add nota");
+            Add.setText("Afegir nota");
 
         } else {
             if (type.equals("edit")) {
                 TITLE.setText(getTitle);
                 CONTENT.setText(content);
-                Add.setText("Update nota");
+                Add.setText("Actualitzar nota");
             }
         }
 
@@ -107,6 +112,7 @@ public class AgregarNota extends AppCompatActivity {
     }
 
     private void addUpdateNotes(){
+        //basef = FirebaseDatabase.getInstance();
         DB = new AdaptadorBD(this);
         String title,content,msj;
         title = TITLE.getText().toString();

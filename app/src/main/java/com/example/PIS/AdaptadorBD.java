@@ -25,7 +25,7 @@ public class AdaptadorBD extends SQLiteOpenHelper {
                 TABLE_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, "+
                 TITLE + " TEXT," + CONTENT +" TEXT)");
 
-    }
+    } 
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
