@@ -55,7 +55,9 @@ public class MainActivity extends AppCompatActivity {
             case 2: setTheme(R.style.FeedActivityThemeDark);
                 break;
         }
-
+        Bundle bundle = this.getIntent().getExtras();
+        String email = bundle.getString("email");
+        setUp(email);
         setContentView(R.layout.activity_main);
 
         textLista = (TextView)findViewById(R.id.textView_Lista);
@@ -240,5 +242,8 @@ public class MainActivity extends AppCompatActivity {
                 DB.deleteNotes();
             }
         }
+    }
+    private void setUp(String email){
+
     }
 }

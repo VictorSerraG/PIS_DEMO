@@ -86,7 +86,7 @@ public class Register extends AppCompatActivity {
                                 Log.d(TAG, "createUserWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 updateUI(user);
-                                menuMain();
+                                menuMain(task.getResult().getUser().getEmail());
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -109,8 +109,9 @@ public class Register extends AppCompatActivity {
     private void updateUI(FirebaseUser user) {
 
     }
-    private void menuMain(){
+    private void menuMain(String email){
         Intent intent = new Intent(Register.this, MainActivity.class);
+        intent.putExtra("email",email);
         startActivity(intent);
     }
 }

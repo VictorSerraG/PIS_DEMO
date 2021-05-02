@@ -97,7 +97,7 @@ public class Login extends Activity {
                                 Log.d(TAG, "signInWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 updateUI(user);
-                                menuMain();
+                                menuMain(task.getResult().getUser().getEmail());
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.w(TAG, "signInWithEmail:failure", task.getException());
@@ -119,8 +119,9 @@ public class Login extends Activity {
     private void updateUI(FirebaseUser user) {
 
     }
-    private void menuMain(){
+    private void menuMain(String email){
         Intent intent = new Intent(Login.this, MainActivity.class);
+        intent.putExtra("email",email);
         startActivity(intent);
     }
 }
