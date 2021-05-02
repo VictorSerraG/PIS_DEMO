@@ -9,9 +9,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import io.github.inflationx.calligraphy3.CalligraphyConfig;
 import io.github.inflationx.calligraphy3.CalligraphyInterceptor;
 import io.github.inflationx.viewpump.ViewPump;
@@ -90,6 +88,7 @@ public class Ajustes extends AppCompatActivity {
             txtLetra = "Roboto-Thin";
         }
         txtLetra = "fonts/" + txtLetra + ".ttf";
+
         ViewPump.init(ViewPump.builder()
                 .addInterceptor(new CalligraphyInterceptor(
                         new CalligraphyConfig.Builder()

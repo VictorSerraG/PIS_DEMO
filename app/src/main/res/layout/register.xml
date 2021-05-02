@@ -15,9 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:autoSizeTextType="uniform"
             android:background="#00FAFAFA"
-            android:backgroundTint="#00FBFBFB"
             android:text="@string/register"
             android:textAllCaps="false"
             android:textColor="#FDD5DEFA"
@@ -32,9 +30,8 @@
             android:background="#FFFFFF"
             android:ems="10"
             android:hint="@string/username"
-            android:inputType="textPersonName"
-            android:textSize="22sp"
-            android:autoSizeTextType="uniform"/>
+            android:inputType="textEmailAddress"
+            android:textSize="22sp"/>
 
         <EditText
             android:id="@+id/editTextPasswordRegister"
@@ -46,8 +43,7 @@
             android:ems="10"
             android:hint="@string/password"
             android:inputType="textPassword"
-            android:textSize="22sp"
-            android:autoSizeTextType="uniform"/>
+            android:textSize="22sp"/>
 
         <EditText
             android:id="@+id/editTextPasswordRegisterSecure"
@@ -59,8 +55,7 @@
             android:ems="10"
             android:hint="@string/passwordSecure"
             android:inputType="textPassword"
-            android:textSize="22sp"
-            android:autoSizeTextType="uniform"/>
+            android:textSize="22sp"/>
 
         <CheckBox
             android:id="@+id/termsOfUse"
@@ -70,8 +65,7 @@
             android:layout_marginRight="30dp"
             android:layout_marginBottom="10dp"
             android:gravity="center_vertical"
-            android:text="@string/TermsOfUse"
-            android:autoSizeTextType="uniform"/>
+            android:text="@string/TermsOfUse"/>
 
         <Button
             android:id="@+id/buttonCrear"
@@ -79,14 +73,12 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:background="@color/md_white_1000"
-            android:backgroundTintMode="add"
             android:gravity="bottom|clip_horizontal|center|center_horizontal|center_vertical|fill_vertical"
             android:hapticFeedbackEnabled="false"
             android:text="@string/create"
             android:textAllCaps="false"
             android:textColor="#D3000000"
-            android:textSize="15sp"
-            android:autoSizeTextType="uniform"/>
+            android:textSize="15sp"/>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

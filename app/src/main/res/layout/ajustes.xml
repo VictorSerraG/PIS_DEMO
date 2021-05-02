@@ -18,104 +18,103 @@
             android:id="@+id/textView_Ajustes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center|center_horizontal|fill|fill_horizontal|center_vertical|fill_vertical"
             android:layout_marginLeft="20dp"
             android:layout_marginBottom="10dp"
             android:text="@string/tamaño"
-            android:textSize="18sp"
             android:textColor="?attr/primaryTextColor"
-            android:autoSizeTextType="uniform"/>
+            android:textSize="18sp" />
 
         <Spinner
             android:id="@+id/tamaño"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="fill_vertical"
+            android:layout_gravity="center|center_horizontal|fill|fill_horizontal|center_vertical|fill_vertical"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="20dp"
             android:background="@android:drawable/btn_dropdown"
             android:gravity="center|fill"
             android:spinnerMode="dropdown"
-            android:textColor="?attr/primaryTextColor"
-            android:autoSizeTextType="uniform"/>
+            android:textColor="?attr/primaryTextColor" />
 
         <TextView
             android:id="@+id/textView_Letra"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center|center_horizontal|fill|fill_horizontal|fill_vertical"
             android:layout_marginLeft="20dp"
             android:layout_marginBottom="10dp"
             android:text="@string/letra"
-            android:textSize="18sp"
             android:textColor="?attr/primaryTextColor"
-            android:autoSizeTextType="uniform"/>
+            android:textSize="18sp" />
 
         <Spinner
             android:id="@+id/letra"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center|center_horizontal|fill|fill_horizontal|center_vertical|fill_vertical"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="20dp"
             android:background="@android:drawable/btn_dropdown"
             android:gravity="center|fill|fill_vertical"
             android:spinnerMode="dropdown"
-            android:textColor="?attr/primaryTextColor"
-            android:autoSizeTextType="uniform"/>
+            android:textColor="?attr/primaryTextColor" />
 
         <TextView
             android:id="@+id/textView_Estilo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center|center_horizontal|fill|fill_horizontal|center_vertical|fill_vertical"
             android:layout_marginLeft="20dp"
             android:layout_marginBottom="10dp"
             android:text="@string/estilo"
-            android:textSize="18sp"
             android:textColor="?attr/primaryTextColor"
-            android:autoSizeTextType="uniform"/>
+            android:textSize="18sp" />
 
         <Spinner
             android:id="@+id/estilo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center|center_horizontal|fill|fill_horizontal|center_vertical|fill_vertical"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="20dp"
             android:background="@android:drawable/btn_dropdown"
             android:gravity="center|fill|fill_vertical"
             android:spinnerMode="dropdown"
-            android:textColor="?attr/primaryTextColor"
-            android:autoSizeTextType="uniform"/>
+            android:textColor="?attr/primaryTextColor" />
 
         <TextView
             android:id="@+id/textView_Idioma"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center|center_horizontal|fill|fill_horizontal|center_vertical|fill_vertical"
             android:layout_marginLeft="20dp"
             android:layout_marginBottom="10dp"
             android:text="@string/idioma"
-            android:textSize="18sp"
             android:textColor="?attr/primaryTextColor"
-            android:autoSizeTextType="uniform"/>
+            android:textSize="18sp" />
 
         <Spinner
             android:id="@+id/idioma"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center|end"
+            android:layout_gravity="bottom|center|center_horizontal|fill|fill_horizontal|center_vertical|fill_vertical|end"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="20dp"
             android:background="@android:drawable/btn_dropdown"
             android:gravity="center|fill|fill_vertical"
             android:spinnerMode="dropdown"
-            android:textColor="?attr/primaryTextColor"
-            android:autoSizeTextType="uniform"/>
+            android:textColor="?attr/primaryTextColor" />
 
         <Button
             android:id="@+id/buttonAplicar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center|center_horizontal|fill|fill_horizontal|center_vertical|fill_vertical|end"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="30dp"
@@ -125,9 +124,8 @@
             android:hapticFeedbackEnabled="false"
             android:text="@string/buttonAplicar"
             android:textAllCaps="false"
-            android:textSize="15sp"
             android:textColor="?attr/secondaryTextColor"
-            android:autoSizeTextType="uniform"/>
+            android:textSize="15sp" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

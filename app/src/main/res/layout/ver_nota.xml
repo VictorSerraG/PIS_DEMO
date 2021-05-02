@@ -4,49 +4,52 @@
     android:layout_height="match_parent"
     android:background="?attr/backgroundCardColor">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/textTitulo"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:text="@string/noteTitle"
+        android:textColor="?attr/primaryTextColor" />
 
-        <TextView
-            android:id="@+id/textTitulo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/noteTitle"
-            android:autoSizeTextType="uniform"
-            android:textColor="?attr/primaryTextColor"/>
+    <TextView
+        android:id="@+id/textView_Titulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textTitulo"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:gravity="clip_horizontal|center"
+        android:text="@string/textTitulo"
+        android:textColor="?attr/primaryTextColor" />
 
-        <TextView
-            android:id="@+id/textView_Titulo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="clip_horizontal|center"
-            android:text="@string/textTitulo"
-            android:autoSizeTextType="uniform"
-            android:textColor="?attr/primaryTextColor"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"/>
+    <TextView
+        android:id="@+id/textContenido"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView_Titulo"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:text="@string/noteContent"
+        android:textColor="?attr/primaryTextColor" />
 
-        <TextView
-            android:id="@+id/textContenido"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="@string/noteContent"
-            android:autoSizeTextType="uniform"
-            android:textColor="?attr/primaryTextColor"/>
+    <TextView
+        android:id="@+id/textView_Content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textContenido"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:gravity="center_horizontal"
+        android:text="@string/textContennido"
+        android:textColor="?attr/primaryTextColor" />
 
-        <TextView
-            android:id="@+id/textView_Content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:autoSizeTextType="uniform"
-            android:gravity="center_horizontal"
-            android:text="@string/textContennido"
-            android:textColor="?attr/primaryTextColor" />
-    </LinearLayout>
 </RelativeLayout>

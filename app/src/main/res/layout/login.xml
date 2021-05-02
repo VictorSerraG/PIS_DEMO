@@ -18,8 +18,8 @@
             android:id="@+id/welcome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center|center_horizontal|center_vertical"
             android:layout_marginBottom="20dp"
-            android:autoSizeTextType="uniform"
             android:background="#00FAFAFA"
             android:text="@string/welcome"
             android:textAllCaps="false"
@@ -30,57 +30,57 @@
             android:id="@+id/editTextUsernameLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center|center_horizontal|center_vertical"
             android:layout_marginBottom="10dp"
             android:autofillHints=""
             android:background="#FFFFFF"
             android:ems="10"
             android:hint="@string/username"
-            android:inputType="textPersonName"
-            android:textSize="22sp"
-            android:autoSizeTextType="uniform"/>
+            android:inputType="textEmailAddress"
+            android:textSize="22sp" />
 
         <EditText
             android:id="@+id/editTextPasswordLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center|center_horizontal|center_vertical"
             android:layout_marginBottom="20dp"
+            android:autofillHints=""
             android:background="#FFFFFF"
             android:ems="10"
             android:hint="@string/password"
             android:inputType="textPassword"
-            android:textSize="22sp"
-            android:autofillHints=""
-            android:autoSizeTextType="uniform"/>
+            android:textSize="22sp" />
 
         <Button
             android:id="@+id/buttonLogin"
             android:layout_width="220dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center|center_horizontal|center_vertical"
             android:layout_marginBottom="20dp"
             android:background="#FFFFFF"
-            android:backgroundTint="@color/design_default_color_secondary_variant"
-            android:backgroundTintMode="add"
             android:gravity="bottom|clip_horizontal|center|center_horizontal|center_vertical|fill_vertical"
             android:hapticFeedbackEnabled="false"
             android:text="@string/login"
             android:textAllCaps="false"
             android:textColor="#D3000000"
-            android:textSize="15sp"
-            android:autoSizeTextType="uniform"/>
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/textRegister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center|center_horizontal|center_vertical"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
+            android:clickable="true"
+            android:focusable="true"
             android:gravity="center|fill_vertical"
+            android:onClick="onClick"
             android:text="@string/ToRegister"
             android:textColor="#D77EDAF1"
-            android:textSize="18sp"
-            android:onClick="onClick"
-            android:clickable="true"
-            android:autoSizeTextType="uniform"/>
+            android:textSize="18sp" />
+
 
     </LinearLayout>
 

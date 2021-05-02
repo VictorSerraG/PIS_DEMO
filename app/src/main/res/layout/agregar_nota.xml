@@ -4,54 +4,58 @@
     android:layout_height="match_parent"
     android:background="?attr/backgroundCardColor">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="false"
+        android:text="@string/noteTitle"
+        android:textColor="?attr/primaryTextColor" />
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:autoSizeTextType="uniform"
-            android:text="@string/noteTitle"
-            android:textColor="?attr/primaryTextColor" />
+    <EditText
+        android:id="@+id/editText_Titulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:autofillHints=""
+        android:ems="10"
+        android:importantForAutofill="yes"
+        android:inputType="textPersonName"
+        android:textColor="?attr/primaryTextColor" />
 
-        <EditText
-            android:id="@+id/editText_Titulo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:autoSizeTextType="uniform"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:textColor="?attr/primaryTextColor" />
+    <TextView
+        android:id="@+id/textView_Contenido"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editText_Titulo"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/noteContent"
+        android:textColor="?attr/primaryTextColor" />
 
-        <TextView
-            android:id="@+id/textView_Contenido"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:autoSizeTextType="uniform"
-            android:text="@string/noteContent"
-            android:textColor="?attr/primaryTextColor" />
+    <EditText
+        android:id="@+id/editText_Contenido"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView_Contenido"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:autofillHints=""
+        android:ems="10"
+        android:importantForAutofill="yes"
+        android:inputType="textPersonName"
+        android:textColor="?attr/primaryTextColor" />
 
-        <EditText
-            android:id="@+id/editText_Contenido"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:autoSizeTextType="uniform"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:textColor="?attr/primaryTextColor" />
+    <Button
+        android:id="@+id/button_Agregar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editText_Contenido"
+        android:layout_centerHorizontal="true"
+        android:background="#FFFFFF"
+        android:text="@string/button_Agregar"
+        android:textColor="?attr/secondaryTextColor" />
 
-        <Button
-            android:id="@+id/button_Agregar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:autoSizeTextType="uniform"
-            android:background="#FFFFFF"
-            android:gravity="center"
-            android:text="@string/button_Agregar"
-            android:textColor="?attr/primaryTextColor" />
-    </LinearLayout>
 </RelativeLayout>

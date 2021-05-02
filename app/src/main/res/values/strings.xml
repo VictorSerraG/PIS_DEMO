@@ -14,9 +14,10 @@
     <string name="menu_ordenar">Ordenar</string>
     <string name="menu_salir">Salir</string>
     <string name="menu_cerrar">Cerrar cuenta</string>
+    <string name="menu_borrar">Borrar todos</string>
     <string name="action_settings">Ajustes</string>
     <string name="fab">fab</string>
-    <string name="welcome">Bienvenido</string>
+    <string name="welcome"> <u>Bienvenido</u> </string>
     <string name="username">Usuario</string>
     <string name="password">Contraseña</string>
     <string name="login">Entrar</string>
@@ -58,7 +59,4 @@
         <item>Castellano</item>
         <item>Ingles</item>
     </string-array>
-
-
-
 </resources>

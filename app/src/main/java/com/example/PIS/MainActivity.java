@@ -16,15 +16,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
-
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.inflationx.calligraphy3.CalligraphyConfig;
+import io.github.inflationx.calligraphy3.CalligraphyInterceptor;
+import io.github.inflationx.viewpump.ViewPump;
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 
@@ -86,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         menu.add(1,SETTINGS,0,R.string.menu_settings);
         menu.add(1,ORDENAR,0,R.string.menu_ordenar);
         menu.add(1,EXIST,0,R.string.menu_cerrar);
-        menu.add(1,DELETE,0,"Borrar tots");
+        menu.add(1,DELETE,0,R.string.menu_borrar);
         super.onCreateOptionsMenu(menu);
         return true;
     }
