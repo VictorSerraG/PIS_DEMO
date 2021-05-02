@@ -5,17 +5,16 @@
     <string name="listView_Lista">Lista de Notas</string>
     <string name="editText_Titulo">Titulo</string>
     <string name="button_Agregar">Agregar Nota</string>
-    <string name="add_Nota">Add/Edit nota</string>
+    <string name="add_Nota">Añadir/Editar nota</string>
     <string name="ver_nota">Visualización de la nota</string>
     <string name="menu_crear">Crear Nota</string>
     <string name="menu_editar">Editar Nota</string>
     <string name="menu_eliminar">Eliminar Nota</string>
     <string name="menu_settings">Ajustes</string>
     <string name="menu_ordenar">Ordenar</string>
-    <string name="menu_archivados">Archivados</string>
     <string name="menu_salir">Salir</string>
     <string name="menu_cerrar">Cerrar cuenta</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Ajustes</string>
     <string name="fab">fab</string>
     <string name="welcome">Bienvenido</string>
     <string name="username">Usuario</string>
@@ -26,7 +25,7 @@
     <string name="passwordSecure">Repite Contraseña</string>
     <string name="create">Crear</string>
     <string name="TermsOfUse">Acepto los términos de uso</string>
-    <string name="buttonNote">Boto flotant per afegir notes</string>
+    <string name="buttonNote">Boton flotante para añadir notas</string>
     <string name="NoteListU"> <u>Lista de Notas</u> </string>
     <string name="noteTitle"> Titulo de la nota </string>
     <string name="noteContent"> Contenido de la nota </string>
@@ -39,14 +38,11 @@
     <string name="textContennido"> Contenido </string>
 
     <string-array name="tamaño">
-        <item>8</item>
-        <item>10</item>
-        <item>12</item>
-        <item>14</item>
-        <item>16</item>
-        <item>18</item>
-        <item>20</item>
-        <item>22</item>
+        <item>Muy pequeña</item>
+        <item>Pequeña</item>
+        <item>Mediana</item>
+        <item>Grande</item>
+        <item>Muy grande</item>
     </string-array>
     <string-array name="letra">
         <item>Negrita</item>
@@ -57,7 +53,6 @@
     <string-array name="estilo">
         <item>Dia</item>
         <item>Noche</item>
-        <item>Default</item>
     </string-array>
     <string-array name="idioma">
         <item>Castellano</item>

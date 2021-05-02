@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,10 +28,22 @@ public class VerNota extends AppCompatActivity {
     String title,content;
     TextView TITLE,CONTENT;
     AdaptadorBD DB;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        sharedPreferences = getSharedPreferences("VALUES", MODE_PRIVATE);
+        int theme = sharedPreferences.getInt("THEME", 1);
+
+        switch (theme){
+            case 1: setTheme(R.style.FeedActivityThemeLight);
+                break;
+            case 2: setTheme(R.style.FeedActivityThemeDark);
+                break;
+        }
+
         setContentView(R.layout.ver_nota);
 
         Bundle bundle = this.getIntent().getExtras();

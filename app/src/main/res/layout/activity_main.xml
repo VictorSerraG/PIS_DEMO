@@ -4,10 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="10dp"
-    android:layout_marginTop="10dp"
-    android:layout_marginRight="10dp"
-    android:layout_marginBottom="10dp"
+    android:background="?attr/backgroundCardColor"
     tools:context=".MainActivity">
 
     <FrameLayout
@@ -18,18 +15,22 @@
             android:id="@+id/textView_Lista"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:autoSizeTextType="uniform"
+            android:gravity="fill|fill_horizontal|fill_vertical"
             android:text="@string/NoteListU"
-            android:textSize="18sp" />
+            android:textColor="?attr/primaryTextColor" />
 
         <ListView
             android:id="@+id/listView_Lista"
             android:layout_width="match_parent"
-            android:layout_height="671dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center|start|center_horizontal|fill_horizontal|center_vertical|end"
             android:layout_marginTop="10dp"
+            android:autoSizeTextType="uniform"
+            android:background="?attr/backgroundCardColor"
             android:foregroundGravity="bottom"
-            android:stackFromBottom="false">
+            android:stackFromBottom="false"
+            android:textColor="?attr/primaryTextColor">
 
         </ListView>
 
@@ -45,7 +46,8 @@
             android:clickable="true"
             app:srcCompat="@android:drawable/ic_input_add"
             android:contentDescription="@string/fab"
-            android:focusable="true" />
+            android:focusable="true"
+            android:autoSizeTextType="uniform"/>
 
     </FrameLayout>
 

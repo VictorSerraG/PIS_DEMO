@@ -1,7 +1,10 @@
 package com.example.PIS;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -17,10 +20,22 @@ import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 public class Ajustes extends AppCompatActivity {
     Spinner tamaño, letra, estilo, idioma;
     Button aplicar;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        sharedPreferences = getSharedPreferences("VALUES", MODE_PRIVATE);
+        int theme = sharedPreferences.getInt("THEME", 1);
+
+        switch (theme){
+            case 1: setTheme(R.style.FeedActivityThemeLight);
+                break;
+            case 2: setTheme(R.style.FeedActivityThemeDark);
+                break;
+        }
+
         setContentView(R.layout.ajustes);
 
         tamaño = (Spinner) findViewById(R.id.tamaño);
@@ -61,6 +76,7 @@ public class Ajustes extends AppCompatActivity {
         txtEstilo = estilo.getSelectedItem().toString();
         txtIdioma = idioma.getSelectedItem().toString();
 
+        // Letra
         if(txtLetra.equals("Negrita")){
             txtLetra = "Roboto-Bold";
         }
@@ -81,5 +97,16 @@ public class Ajustes extends AppCompatActivity {
                                 .setFontAttrId(R.attr.fontPath)
                                 .build()))
                 .build());
+
+        // Estilo
+        if(txtEstilo.equals("Dia")){
+            sharedPreferences.edit().putInt("THEME",1).apply();
+            Intent intent = new Intent(Ajustes.this, Ajustes.class);
+            startActivity(intent);
+        }else{
+            sharedPreferences.edit().putInt("THEME",2).apply();
+            Intent intent = new Intent(Ajustes.this, Ajustes.class);
+            startActivity(intent);
+        }
     }
 }

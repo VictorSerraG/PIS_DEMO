@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,10 +39,22 @@ public class MainActivity extends AppCompatActivity {
     AdaptadorBD DB;
     List<String> item = null;
     String getTitle;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        sharedPreferences = getSharedPreferences("VALUES", MODE_PRIVATE);
+        int theme = sharedPreferences.getInt("THEME", 1);
+
+        switch (theme){
+            case 1: setTheme(R.style.FeedActivityThemeLight);
+                break;
+            case 2: setTheme(R.style.FeedActivityThemeDark);
+                break;
+        }
+
         setContentView(R.layout.activity_main);
 
         textLista = (TextView)findViewById(R.id.textView_Lista);
@@ -66,10 +80,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu_main,menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         menu.add(1,SETTINGS,0,R.string.menu_settings);
         menu.add(1,ORDENAR,0,R.string.menu_ordenar);
-        menu.add(1,ARCHIVADOS,0,R.string.menu_archivados);
         menu.add(1,EXIST,0,R.string.menu_cerrar);
         menu.add(1,DELETE,0,"Borrar tots");
         super.onCreateOptionsMenu(menu);
@@ -91,8 +104,6 @@ public class MainActivity extends AppCompatActivity {
             case DELETE:
                 alert("deletes");
                 return true;
-            case ARCHIVADOS:
-                return true;
             case EXIST:
                 finish();
                 return true;
@@ -105,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
+    
     private void showNotes(){
         DB = new AdaptadorBD(this);
         Cursor c = DB.getNotes();
@@ -122,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,item);
         lista.setAdapter(adaptador);
     }
+
     public String getNote(){
         String type ="",content= "";
 
@@ -135,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return content;
     }
+
     public void actividad(String act){
         String type ="",content="";
         if (act.equals("add")){
@@ -162,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
     private void alert(String f){
         AlertDialog alerta;
         alerta = new android.app.AlertDialog.Builder(this).create();
@@ -214,6 +229,7 @@ public class MainActivity extends AppCompatActivity {
         }
         alerta.show();
     }
+
     private void delete(String f){
         DB = new AdaptadorBD(this);
         if (f.equals("delete")){

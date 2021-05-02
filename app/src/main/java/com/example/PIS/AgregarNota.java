@@ -3,6 +3,7 @@ package com.example.PIS;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -27,10 +28,22 @@ public class AgregarNota extends AppCompatActivity {
     String type, getTitle;
     private static final int SALIR = Menu.FIRST;
     AdaptadorBD DB;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        sharedPreferences = getSharedPreferences("VALUES", MODE_PRIVATE);
+        int theme = sharedPreferences.getInt("THEME", 1);
+
+        switch (theme){
+            case 1: setTheme(R.style.FeedActivityThemeLight);
+                break;
+            case 2: setTheme(R.style.FeedActivityThemeDark);
+                break;
+        }
+
         setContentView(R.layout.agregar_nota);
 
         Add = (Button) findViewById(R.id.button_Agregar);
@@ -105,7 +118,7 @@ public class AgregarNota extends AppCompatActivity {
                 Mensaje(msj);
             }else{
                 if(content.equals("")){
-                    msj = "Afegeix contingut a la nota";
+                    msj = "Añade contenido a la nota";
                     CONTENT.requestFocus();
                     Mensaje(msj);
                 }else{
@@ -118,7 +131,7 @@ public class AgregarNota extends AppCompatActivity {
                     }
                     if(gettitle.equals(title)){
                         TITLE.requestFocus();
-                        msj = "El titol d'aquesta nota ja exsiteix";
+                        msj = "El titulo de esta nota ya existe";
                         Mensaje(msj);
                     }else{
                         DB.addNote(title,content);
@@ -131,12 +144,12 @@ public class AgregarNota extends AppCompatActivity {
             if(type.equals("edit")){
                 Add.setText("Update nota");
                 if (title.equals("")){
-                    msj = "Afegeix un titol";
+                    msj = "Añade una nota";
                     TITLE.requestFocus();
                     Mensaje(msj);
                 }else{
                     if (content.equals("")){
-                        msj = "Afegeix contingut a la nota";
+                        msj = "Añade contenido a la nota";
                         CONTENT.requestFocus();
                         Mensaje(msj);
                     }
