@@ -121,7 +121,8 @@ public class MainActivity extends AppCompatActivity {
                 alert("deletes");
                 return true;
             case EXIST:
-                finish();
+                intent = new Intent(MainActivity.this, Login.class);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
