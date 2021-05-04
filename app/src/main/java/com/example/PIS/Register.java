@@ -2,7 +2,11 @@ package com.example.PIS;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -20,6 +24,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Locale;
+
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 public class Register extends AppCompatActivity {
@@ -28,9 +34,30 @@ public class Register extends AppCompatActivity {
     EditText email, password, password2;
     CheckBox terms;
     private FirebaseAuth mAuth;
+    SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        sharedPreferences = getSharedPreferences("VALUES", MODE_PRIVATE);
+
+        int theme = sharedPreferences.getInt("THEME", 1);
+        switch (theme){
+            case 1: setTheme(R.style.FeedActivityThemeLight);
+                break;
+            case 2: setTheme(R.style.FeedActivityThemeDark);
+                break;
+        }
+
+        int language = sharedPreferences.getInt("LANGUAGE", 1);
+        switch (language){
+            case 1: setAppLocale("esp");
+                break;
+            case 2: setAppLocale("en");
+                break;
+        }
+
         setContentView(R.layout.register);
         mAuth = FirebaseAuth.getInstance();
         crear = (Button) findViewById(R.id.buttonCrear);
@@ -113,5 +140,13 @@ public class Register extends AppCompatActivity {
         Intent intent = new Intent(Register.this, MainActivity.class);
         intent.putExtra("email",email);
         startActivity(intent);
+    }
+
+    private void setAppLocale(String localeCode) {
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.setLocale(new Locale(localeCode.toLowerCase()));
+        res.updateConfiguration(conf, dm);
     }
 }

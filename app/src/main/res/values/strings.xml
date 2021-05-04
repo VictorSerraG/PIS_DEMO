@@ -4,7 +4,7 @@
     <string name="textView_Lista">Lista de Notas</string>
     <string name="listView_Lista">Lista de Notas</string>
     <string name="editText_Titulo">Titulo</string>
-    <string name="button_Agregar">Agregar Nota</string>
+    <string name="buttonAgregar">Agregar Nota</string>
     <string name="add_Nota">Añadir/Editar nota</string>
     <string name="ver_nota">Visualización de la nota</string>
     <string name="menu_crear">Crear Nota</string>
@@ -27,16 +27,16 @@
     <string name="create">Crear</string>
     <string name="TermsOfUse">Acepto los términos de uso</string>
     <string name="buttonNote">Boton flotante para añadir notas</string>
-    <string name="NoteListU"> <u>Lista de Notas</u> </string>
-    <string name="noteTitle"> Titulo de la nota </string>
-    <string name="noteContent"> Contenido de la nota </string>
-    <string name="tamaño"> <u>Tamaño:</u> </string>
-    <string name="letra"> <u>Letra:</u> </string>
-    <string name="estilo"> <u>Estilo:</u> </string>
-    <string name="idioma"> <u>Idioma:</u> </string>
-    <string name="buttonAplicar"> Aplicar </string>
-    <string name="textTitulo"> Titulo </string>
-    <string name="textContennido"> Contenido </string>
+    <string name="NoteListU"><u>Lista de Notas</u> </string>
+    <string name="noteTitle">Titulo de la nota </string>
+    <string name="noteContent">Contenido de la nota </string>
+    <string name="tamaño"><u>Tamaño:</u> </string>
+    <string name="letra"><u>Letra:</u> </string>
+    <string name="estilo"><u>Estilo:</u> </string>
+    <string name="idioma"><u>Idioma:</u> </string>
+    <string name="buttonAplicar">Aplicar </string>
+    <string name="textTitulo">Titulo </string>
+    <string name="textContennido">Contenido </string>
 
     <string-array name="tamaño">
         <item>Muy pequeña</item>

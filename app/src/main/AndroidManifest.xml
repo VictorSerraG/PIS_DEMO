@@ -39,11 +39,6 @@
         <activity
             android:name=".VerNota"
             android:label="@string/ver_nota" >
-        <intent-filter>
-            <action android:name="android.intent.action.VerNota" />
-
-            <category android:name="android.intent.category.DEFAULT" />
-        </intent-filter>
         </activity>
 
         <activity

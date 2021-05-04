@@ -3,13 +3,19 @@ package com.example.PIS;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.Locale;
+
 import io.github.inflationx.calligraphy3.CalligraphyConfig;
 import io.github.inflationx.calligraphy3.CalligraphyInterceptor;
 import io.github.inflationx.viewpump.ViewPump;
@@ -25,12 +31,20 @@ public class Ajustes extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         sharedPreferences = getSharedPreferences("VALUES", MODE_PRIVATE);
-        int theme = sharedPreferences.getInt("THEME", 1);
 
+        int theme = sharedPreferences.getInt("THEME", 1);
         switch (theme){
             case 1: setTheme(R.style.FeedActivityThemeLight);
                 break;
             case 2: setTheme(R.style.FeedActivityThemeDark);
+                break;
+        }
+
+        int language = sharedPreferences.getInt("LANGUAGE", 1);
+        switch (language){
+            case 1: setAppLocale("esp");
+                break;
+            case 2: setAppLocale("en");
                 break;
         }
 
@@ -68,44 +82,72 @@ public class Ajustes extends AppCompatActivity {
     }
 
     private void saveApply(){
-        String txtTamaño, txtLetra, txtEstilo, txtIdioma;
-        txtTamaño = tamaño.getSelectedItem().toString();
-        txtLetra = letra.getSelectedItem().toString();
-        txtEstilo = estilo.getSelectedItem().toString();
-        txtIdioma = idioma.getSelectedItem().toString();
+        int txtTamaño, txtLetra, txtEstilo, txtIdioma;
+        String strletra = "";
+        txtTamaño = tamaño.getSelectedItemPosition();
+        txtLetra = letra.getSelectedItemPosition();
+        txtEstilo = estilo.getSelectedItemPosition();
+        txtIdioma = idioma.getSelectedItemPosition();
 
         // Letra
-        if(txtLetra.equals("Negrita")){
-            txtLetra = "Roboto-Bold";
+        switch (txtLetra){
+            case 0:
+                strletra = "Roboto-Bold";
+                break;
+            case 1:
+                strletra = "Roboto-Medium";
+                break;
+            case 2:
+                strletra = "Roboto-Regular";
+                break;
+            case 3:
+                strletra = "Roboto-Thin";
+                break;
+            default:
+                break;
         }
-        else if(txtLetra.equals("Negrita-Normal")){
-            txtLetra = "Roboto-Medium";
-        }
-        else if(txtLetra.equals("Normal")){
-            txtLetra = "Roboto-Regular";
-        }
-        else{
-            txtLetra = "Roboto-Thin";
-        }
-        txtLetra = "fonts/" + txtLetra + ".ttf";
+        strletra = "fonts/" + strletra + ".ttf";
 
         ViewPump.init(ViewPump.builder()
                 .addInterceptor(new CalligraphyInterceptor(
                         new CalligraphyConfig.Builder()
-                                .setDefaultFontPath(txtLetra)
+                                .setDefaultFontPath(strletra)
                                 .setFontAttrId(R.attr.fontPath)
                                 .build()))
                 .build());
 
         // Estilo
-        if(txtEstilo.equals("Dia")){
+        if(txtEstilo == 0){
             sharedPreferences.edit().putInt("THEME",1).apply();
-            Intent intent = new Intent(Ajustes.this, Ajustes.class);
-            startActivity(intent);
+
         }else{
             sharedPreferences.edit().putInt("THEME",2).apply();
-            Intent intent = new Intent(Ajustes.this, Ajustes.class);
-            startActivity(intent);
         }
+
+        // Idioma
+        switch (txtIdioma){
+            case 0:
+                setAppLocale("esp");
+                sharedPreferences.edit().putInt("LANGUAGE",1).apply();
+                break;
+            case 1:
+                setAppLocale("en");
+                sharedPreferences.edit().putInt("LANGUAGE",2).apply();
+                break;
+            default:
+                break;
+        }
+
+
+        Intent intent = new Intent(Ajustes.this, Ajustes.class);
+        startActivity(intent);
+    }
+
+    private void setAppLocale(String localeCode) {
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.setLocale(new Locale(localeCode.toLowerCase()));
+        res.updateConfiguration(conf, dm);
     }
 }

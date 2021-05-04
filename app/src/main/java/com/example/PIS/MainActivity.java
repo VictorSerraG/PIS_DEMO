@@ -6,9 +6,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import io.github.inflationx.calligraphy3.CalligraphyConfig;
 import io.github.inflationx.calligraphy3.CalligraphyInterceptor;
@@ -55,6 +59,15 @@ public class MainActivity extends AppCompatActivity {
             case 2: setTheme(R.style.FeedActivityThemeDark);
                 break;
         }
+
+        int language = sharedPreferences.getInt("LANGUAGE", 1);
+        switch (language){
+            case 1: setAppLocale("esp");
+                break;
+            case 2: setAppLocale("en");
+                break;
+        }
+
         //Bundle bundle = this.getIntent().getExtras();
         //String email = bundle.getString("email");
         //setUp(email);
@@ -245,5 +258,13 @@ public class MainActivity extends AppCompatActivity {
     }
     private void setUp(String email){
 
+    }
+
+    private void setAppLocale(String localeCode) {
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.setLocale(new Locale(localeCode.toLowerCase()));
+        res.updateConfiguration(conf, dm);
     }
 }

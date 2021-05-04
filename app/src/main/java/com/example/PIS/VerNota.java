@@ -6,7 +6,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.CookieManager;
@@ -17,6 +20,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.w3c.dom.Text;
+
+import java.util.Locale;
 
 import io.github.inflationx.calligraphy3.CalligraphyConfig;
 import io.github.inflationx.calligraphy3.CalligraphyInterceptor;
@@ -44,6 +49,14 @@ public class VerNota extends AppCompatActivity {
             case 1: setTheme(R.style.FeedActivityThemeLight);
                 break;
             case 2: setTheme(R.style.FeedActivityThemeDark);
+                break;
+        }
+
+        int language = sharedPreferences.getInt("LANGUAGE", 1);
+        switch (language){
+            case 1: setAppLocale("esp");
+                break;
+            case 2: setAppLocale("en");
                 break;
         }
 
@@ -141,5 +154,13 @@ public class VerNota extends AppCompatActivity {
         DB = new AdaptadorBD(this);
         DB.deleteNota(title);
         actividad("delete");
+    }
+
+    private void setAppLocale(String localeCode) {
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.setLocale(new Locale(localeCode.toLowerCase()));
+        res.updateConfiguration(conf, dm);
     }
 }

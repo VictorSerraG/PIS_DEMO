@@ -55,7 +55,7 @@
         android:layout_below="@id/editText_Contenido"
         android:layout_centerHorizontal="true"
         android:background="#FFFFFF"
-        android:text="@string/button_Agregar"
+        android:text="@string/buttonAgregar"
         android:textColor="?attr/secondaryTextColor" />
 
 </RelativeLayout>

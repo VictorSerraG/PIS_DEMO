@@ -3,7 +3,11 @@ package com.example.PIS;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -21,6 +25,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Locale;
+
 import io.github.inflationx.calligraphy3.CalligraphyConfig;
 import io.github.inflationx.calligraphy3.CalligraphyInterceptor;
 import io.github.inflationx.viewpump.ViewPump;
@@ -34,13 +40,30 @@ public class Login extends Activity {
     private static final String TAG = "EmailPassword";
     // [START declare_auth]
     private FirebaseAuth mAuth;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-        setContentView(R.layout.login);
-        mAuth = FirebaseAuth.getInstance();
+
+        sharedPreferences = getSharedPreferences("VALUES", MODE_PRIVATE);
+
+        int theme = sharedPreferences.getInt("THEME", 1);
+        switch (theme){
+            case 1: setTheme(R.style.FeedActivityThemeLight);
+                break;
+            case 2: setTheme(R.style.FeedActivityThemeDark);
+                break;
+        }
+
+        int language = sharedPreferences.getInt("LANGUAGE", 1);
+        switch (language){
+            case 1: setAppLocale("esp");
+                break;
+            case 2: setAppLocale("en");
+                break;
+        }
+
         ViewPump.init(ViewPump.builder()
                 .addInterceptor(new CalligraphyInterceptor(
                         new CalligraphyConfig.Builder()
@@ -48,6 +71,12 @@ public class Login extends Activity {
                                 .setFontAttrId(R.attr.fontPath)
                                 .build()))
                 .build());
+
+        setContentView(R.layout.login);
+
+
+        mAuth = FirebaseAuth.getInstance();
+
 
         entrar = (Button) findViewById(R.id.buttonLogin);
         usuario = (EditText) findViewById(R.id.editTextUsernameLogin);
@@ -123,5 +152,12 @@ public class Login extends Activity {
         Intent intent = new Intent(Login.this, MainActivity.class);
         intent.putExtra("email",email);
         startActivity(intent);
+    }
+    private void setAppLocale(String localeCode) {
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.setLocale(new Locale(localeCode.toLowerCase()));
+        res.updateConfiguration(conf, dm);
     }
 }
