@@ -18,11 +18,11 @@
     <string name="action_settings">Ajustes</string>
     <string name="fab">fab</string>
     <string name="welcome"> <u>Bienvenido</u> </string>
-    <string name="username">Usuario</string>
+    <string name="username">Correo</string>
     <string name="password">Contraseña</string>
     <string name="login">Entrar</string>
     <string name="ToRegister">¿No tienes Cuenta? Registrate</string>
-    <string name="register">Registrate</string>
+    <string name="register"><u>Registrate</u></string>
     <string name="passwordSecure">Repite Contraseña</string>
     <string name="create">Crear</string>
     <string name="TermsOfUse">Acepto los términos de uso</string>
@@ -37,6 +37,19 @@
     <string name="buttonAplicar">Aplicar </string>
     <string name="textTitulo">Titulo </string>
     <string name="textContennido">Contenido </string>
+    <string name="errorUsuario">Introduzca un correo</string>
+    <string name="errorPassw">Introduzca una contraseña</string>
+    <string name="errorUsuarioPassw">Rellene los espacios</string>
+    <string name="errorLogin">Autentificación fallida</string>
+    <string name="errorTerms">Acepte los términos de uso</string>
+    <string name="errorPasswSecure">Repita la contraseña</string>
+    <string name="errorSamePassw">Las contraseñas no coinciden</string>
+    <string name="errorRegister">Register fallido</string>
+    <string name="errorEmail">Correo no válido</string>
+    <string name="errorUsoEmail">Correo ya existente</string>
+    <string name="errorDebil">Contraseña débil</string>
+    <string name="errorCorreoUnknown">Correo no registrado</string>
+    <string name="errorCredencialesInv">Credenciales inválidas</string>
 
     <string-array name="tamaño">
         <item>Muy pequeña</item>

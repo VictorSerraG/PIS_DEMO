@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?attr/backgroundCardColor">
 
     <LinearLayout
@@ -36,7 +37,8 @@
             android:background="@android:drawable/btn_dropdown"
             android:gravity="center|fill"
             android:spinnerMode="dropdown"
-            android:textColor="?attr/primaryTextColor" />
+            android:textColor="?attr/primaryTextColor"
+            android:entries="@array/tamaño"/>
 
         <TextView
             android:id="@+id/textView_Letra"
@@ -60,7 +62,8 @@
             android:background="@android:drawable/btn_dropdown"
             android:gravity="center|fill|fill_vertical"
             android:spinnerMode="dropdown"
-            android:textColor="?attr/primaryTextColor" />
+            android:textColor="?attr/primaryTextColor"
+            android:entries="@array/letra"/>
 
         <TextView
             android:id="@+id/textView_Estilo"
@@ -84,7 +87,8 @@
             android:background="@android:drawable/btn_dropdown"
             android:gravity="center|fill|fill_vertical"
             android:spinnerMode="dropdown"
-            android:textColor="?attr/primaryTextColor" />
+            android:textColor="?attr/primaryTextColor"
+            android:entries="@array/estilo"/>
 
         <TextView
             android:id="@+id/textView_Idioma"
@@ -108,7 +112,8 @@
             android:background="@android:drawable/btn_dropdown"
             android:gravity="center|fill|fill_vertical"
             android:spinnerMode="dropdown"
-            android:textColor="?attr/primaryTextColor" />
+            android:textColor="?attr/primaryTextColor"
+            android:entries="@array/idioma"/>
 
         <Button
             android:id="@+id/buttonAplicar"
@@ -119,7 +124,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginRight="30dp"
             android:layout_marginBottom="20dp"
-            android:background="#FFFFFF"
+            app:backgroundTint ="?attr/primaryTextColor"
             android:gravity="clip_horizontal|center|fill_vertical"
             android:hapticFeedbackEnabled="false"
             android:text="@string/buttonAplicar"

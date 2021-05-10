@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?attr/backgroundCardColor">
 
     <TextView
@@ -45,7 +46,7 @@
         android:autofillHints=""
         android:ems="10"
         android:importantForAutofill="yes"
-        android:inputType="textPersonName"
+        android:inputType="textMultiLine"
         android:textColor="?attr/primaryTextColor" />
 
     <Button
@@ -54,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/editText_Contenido"
         android:layout_centerHorizontal="true"
-        android:background="#FFFFFF"
+        app:backgroundTint ="?attr/primaryTextColor"
         android:text="@string/buttonAgregar"
         android:textColor="?attr/secondaryTextColor" />
 

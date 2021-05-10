@@ -21,8 +21,14 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Locale;
@@ -35,6 +41,7 @@ import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 public class Login extends Activity {
     Button entrar;
     EditText usuario, password;
+    TextInputLayout etUser, etPassw;
     TextView registrar;
     AdaptadorBD DB;
     private static final String TAG = "EmailPassword";
@@ -77,12 +84,12 @@ public class Login extends Activity {
 
         mAuth = FirebaseAuth.getInstance();
 
-
         entrar = (Button) findViewById(R.id.buttonLogin);
         usuario = (EditText) findViewById(R.id.editTextUsernameLogin);
         password = (EditText) findViewById(R.id.editTextPasswordLogin);
         registrar = (TextView) findViewById(R.id.textRegister);
-
+        etUser = (TextInputLayout) findViewById(R.id.etUserLayoutLogin);
+        etPassw = (TextInputLayout) findViewById(R.id.etPasswordLayoutLogin);
 
         registrar.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -96,6 +103,8 @@ public class Login extends Activity {
         entrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                etUser.setError(null);
+                etPassw.setError(null);
                 logearse();
             }
         });
@@ -111,12 +120,23 @@ public class Login extends Activity {
         String user, passw, msj;
         user = usuario.getText().toString();
         passw = password.getText().toString();
-        if(user.equals("") || passw.equals("")){
-            msj = "Introduzca un usuario y una contraseña";
+        if(user.equals("") && passw.equals("")){
+            msj = getResources().getString(R.string.errorUsuario);
             usuario.requestFocus();
+            etUser.setError(msj);
+            msj = getResources().getString(R.string.errorPassw);
+            etPassw.setError(msj);
+        }
+        else if(user.equals("")){
+            msj = getResources().getString(R.string.errorUsuario);
+            usuario.requestFocus();
+            etUser.setError(msj);
+        }else if(passw.equals("")){
+            msj = getResources().getString(R.string.errorPassw);
             password.requestFocus();
-            Mensaje(msj);
-        }else{
+            etPassw.setError(msj);
+        }
+        else {
             mAuth.signInWithEmailAndPassword(user, passw)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -130,9 +150,30 @@ public class Login extends Activity {
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.w(TAG, "signInWithEmail:failure", task.getException());
-                                Toast.makeText(Login.this, "Authentication failed.",
-                                        Toast.LENGTH_SHORT).show();
+                                Mensaje(getResources().getString(R.string.errorLogin));
                                 updateUI(null);
+                                try
+                                {
+                                    throw task.getException();
+                                }
+                                // ERROR_USER_DISABLED, ERROR_USER_NOT_FOUND, ERROR_USER_TOKEN_EXPIRED i ERROR_INVALID_USER_TOKEN
+                                catch (FirebaseAuthInvalidUserException invalidUserException)
+                                {
+                                    Log.d(TAG, "onComplete: invalidUser");
+                                    usuario.requestFocus();
+                                    etUser.setError(getResources().getString(R.string.errorCorreoUnknown));
+                                }
+                                // Thrown when one or more of the credentials passed to a method fail to identify
+                                catch (FirebaseAuthInvalidCredentialsException invalidCredentialsException)
+                                {
+                                    Log.d(TAG, "onComplete: malformed_email");
+                                    usuario.requestFocus();
+                                    etUser.setError(getResources().getString(R.string.errorCredencialesInv));
+                                }
+                                catch (Exception e)
+                                {
+                                    Log.d(TAG, "onComplete: " + e.getMessage());
+                                }
                             }
                         }
                     });
@@ -142,7 +183,7 @@ public class Login extends Activity {
 
     public void Mensaje(String msj){
         Toast toast = Toast.makeText(this, msj, Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+        toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, 32, 32);
         toast.show();
     }
     private void updateUI(FirebaseUser user) {

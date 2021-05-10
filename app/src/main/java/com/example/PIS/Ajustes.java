@@ -51,20 +51,9 @@ public class Ajustes extends AppCompatActivity {
         setContentView(R.layout.ajustes);
 
         tamaño = (Spinner) findViewById(R.id.tamaño);
-        ArrayAdapter<CharSequence> adapterTamaño = ArrayAdapter.createFromResource(this, R.array.tamaño, android.R.layout.simple_spinner_item);
-        tamaño.setAdapter(adapterTamaño);
-
         letra = (Spinner) findViewById(R.id.letra);
-        ArrayAdapter<CharSequence> adapterLetra = ArrayAdapter.createFromResource(this, R.array.letra, android.R.layout.simple_spinner_item);
-        letra.setAdapter(adapterLetra);
-
         estilo = (Spinner) findViewById(R.id.estilo);
-        ArrayAdapter<CharSequence> adapterEstilo = ArrayAdapter.createFromResource(this, R.array.estilo, android.R.layout.simple_spinner_item);
-        estilo.setAdapter(adapterEstilo);
-
         idioma = (Spinner) findViewById(R.id.idioma);
-        ArrayAdapter<CharSequence> adapterIdioma = ArrayAdapter.createFromResource(this, R.array.idioma, android.R.layout.simple_spinner_item);
-        idioma.setAdapter(adapterIdioma);
 
         aplicar = (Button) findViewById(R.id.buttonAplicar);
 
@@ -125,19 +114,16 @@ public class Ajustes extends AppCompatActivity {
         }
 
         // Idioma
-        switch (txtIdioma){
+        switch (txtIdioma) {
             case 0:
-                setAppLocale("esp");
-                sharedPreferences.edit().putInt("LANGUAGE",1).apply();
+                sharedPreferences.edit().putInt("LANGUAGE", 1).apply();
                 break;
             case 1:
-                setAppLocale("en");
-                sharedPreferences.edit().putInt("LANGUAGE",2).apply();
+                sharedPreferences.edit().putInt("LANGUAGE", 2).apply();
                 break;
             default:
                 break;
         }
-
 
         Intent intent = new Intent(Ajustes.this, Ajustes.class);
         startActivity(intent);

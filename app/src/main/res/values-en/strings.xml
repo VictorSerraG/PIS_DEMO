@@ -19,11 +19,11 @@
     <string name="action_settings">Settings</string>
     <string name="fab">fab</string>
     <string name="welcome"><u>Welcome</u></string>
-    <string name="username">User</string>
+    <string name="username">Email</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
     <string name="ToRegister">Don\'t have an account? Sign up</string>
-    <string name="register">Sign up</string>
+    <string name="register"><u>Sign up</u></string>
     <string name="passwordSecure">Repeat password</string>
     <string name="create">Create</string>
     <string name="TermsOfUse">I accept the terms of use</string>
@@ -32,15 +32,27 @@
     <string name="noteTitle">Note title</string>
     <string name="noteContent">Note content</string>
     <string name="tamaño"><u>Size:</u></string>
-    <string name="letra">" <u>Letter:</u>"</string>
+    <string name="letra"><u>Letter:</u></string>
     <string name="estilo"><u>Style:</u></string>
-    <string name="idioma">" <u>Language:</u>"</string>
+    <string name="idioma"><u>Language:</u></string>
     <string name="buttonAplicar">Apply</string>
     <string name="textTitulo">Title</string>
     <string name="textContennido">Content</string>
+    <string name="errorUsuario">Enter an email </string>
+    <string name="errorPassw">Enter a password </string>
+    <string name="errorUsuarioPassw">Fill in the blanks</string>
+    <string name="errorLogin">Authentication failed</string>
+    <string name="errorTerms">Accept the terms of use</string>
+    <string name="errorPasswSecure">Repeat the password</string>
+    <string name="errorSamePassw">Passwords do not match</string>
+    <string name="errorRegister">Register failed</string>
+    <string name="errorEmail">Email invalid</string>
+    <string name="errorUsoEmail">Email already in use</string>
+    <string name="errorDebil">Weak password</string>
+    <string name="errorCorreoUnknown">Unregistered email</string>
+    <string name="errorCredencialesInv">Invalid credentials</string>
 
     <string-array name="tamaño">
-
         <item>Very small</item>
         <item>Small</item>
         <item>Medium</item>

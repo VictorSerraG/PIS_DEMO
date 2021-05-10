@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <array name="reds">
         <item>@color/md_red_500</item>
         <item>@color/md_red_50</item>
@@ -675,6 +675,6 @@
     <color name="md_falcon_500_50">#80384e77</color>
     <color name="md_falcon_500_75">#c0384e77</color>
     <color name="md_falcon_A400_25">#40598bae</color>
-
     <color name="md_statusbar_translucent">#4000</color>
+    <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">@color/md_black_1000_25</color>
 </resources>
