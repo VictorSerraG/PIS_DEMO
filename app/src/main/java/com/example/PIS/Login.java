@@ -13,6 +13,7 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,7 +31,14 @@ import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
+import java.util.HashMap;
 import java.util.Locale;
 
 import io.github.inflationx.calligraphy3.CalligraphyConfig;
@@ -42,70 +50,227 @@ public class Login extends Activity {
     Button entrar;
     EditText usuario, password;
     TextInputLayout etUser, etPassw;
+    CheckBox recordarme;
     TextView registrar;
     AdaptadorBD DB;
     private static final String TAG = "EmailPassword";
     // [START declare_auth]
+    private FirebaseFirestore db;
     private FirebaseAuth mAuth;
-    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        sharedPreferences = getSharedPreferences("VALUES", MODE_PRIVATE);
-
-        int theme = sharedPreferences.getInt("THEME", 1);
-        switch (theme){
-            case 1: setTheme(R.style.FeedActivityThemeLight);
-                break;
-            case 2: setTheme(R.style.FeedActivityThemeDark);
-                break;
-        }
-
-        int language = sharedPreferences.getInt("LANGUAGE", 1);
-        switch (language){
-            case 1: setAppLocale("esp");
-                break;
-            case 2: setAppLocale("en");
-                break;
-        }
-
-        ViewPump.init(ViewPump.builder()
-                .addInterceptor(new CalligraphyInterceptor(
-                        new CalligraphyConfig.Builder()
-                                .setDefaultFontPath("fonts/Roboto-Bold.ttf")
-                                .setFontAttrId(R.attr.fontPath)
-                                .build()))
-                .build());
-
-        setContentView(R.layout.login);
-
-
+        db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
 
-        entrar = (Button) findViewById(R.id.buttonLogin);
-        usuario = (EditText) findViewById(R.id.editTextUsernameLogin);
-        password = (EditText) findViewById(R.id.editTextPasswordLogin);
-        registrar = (TextView) findViewById(R.id.textRegister);
-        etUser = (TextInputLayout) findViewById(R.id.etUserLayoutLogin);
-        etPassw = (TextInputLayout) findViewById(R.id.etPasswordLayoutLogin);
-
-        registrar.setOnTouchListener(new View.OnTouchListener() {
+        DocumentReference docRef = db.collection("users").document(mAuth.getCurrentUser().getEmail());
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                Intent intent = new Intent(Login.this, Register.class);
-                startActivity(intent);
-                return true;
-            }
-        });
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
 
-        entrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                etUser.setError(null);
-                etPassw.setError(null);
-                logearse();
+                        //Estilo
+                        int theme;
+                        try{
+                            theme = document.getLong("estilo").intValue();
+                        } catch (Exception e) {
+                            theme = 0;
+                        }
+
+                        switch (theme){
+                            case 0: setTheme(R.style.FeedActivityThemeLight);
+                                break;
+                            case 1: setTheme(R.style.FeedActivityThemeDark);
+                                break;
+                        }
+
+                        //Idioma
+                        int lang;
+                        try{
+                            lang = document.getLong("idioma").intValue();
+                        } catch (Exception e) {
+                            lang = 0;
+                        }
+
+                        switch (lang){
+                            case 0: setAppLocale("esp");
+                                break;
+                            case 1: setAppLocale("en");
+                                break;
+                        }
+
+                        // Letra
+                        String strletra = "";
+                        int fuente;
+                        try{
+                           fuente = document.getLong("letra").intValue();
+                        } catch (Exception e) {
+                            fuente = 0;
+                        }
+
+                        switch (fuente){
+                            case 0:
+                                strletra = "Roboto-Bold";
+                                break;
+                            case 1:
+                                strletra = "Roboto-Medium";
+                                break;
+                            case 2:
+                                strletra = "Roboto-Regular";
+                                break;
+                            case 3:
+                                strletra = "Roboto-Thin";
+                                break;
+                            default:
+                                break;
+                        }
+                        strletra = "fonts/" + strletra + ".ttf";
+                        ViewPump.init(ViewPump.builder()
+                                .addInterceptor(new CalligraphyInterceptor(
+                                        new CalligraphyConfig.Builder()
+                                                .setDefaultFontPath(strletra)
+                                                .setFontAttrId(R.attr.fontPath)
+                                                .build()))
+                                .build());
+
+                        //Tamaño
+                        int size;
+                        try{
+                            size = document.getLong("tamaño").intValue();
+                        } catch (Exception e) {
+                            size = 0;
+                        }
+
+                        setContentView(R.layout.login);
+
+                        boolean recordar;
+                        try{
+                            recordar = document.getBoolean("recordarLogin");
+                        } catch (Exception e) {
+                            recordar = false;
+                        }
+
+
+                        entrar = (Button) findViewById(R.id.buttonLogin);
+                        usuario = (EditText) findViewById(R.id.editTextUsernameLogin);
+                        password = (EditText) findViewById(R.id.editTextPasswordLogin);
+                        registrar = (TextView) findViewById(R.id.textRegister);
+                        etUser = (TextInputLayout) findViewById(R.id.etUserLayoutLogin);
+                        etPassw = (TextInputLayout) findViewById(R.id.etPasswordLayoutLogin);
+                        recordarme = (CheckBox) findViewById(R.id.remember);
+                        recordarme.setChecked(recordar);
+
+                        if(recordar){
+                            String user, passw;
+                            user = document.getString("user");
+                            passw = document.getString("password");
+                            usuario.setText(user);
+                            password.setText(passw);
+                        }
+
+                        registrar.setOnTouchListener(new View.OnTouchListener() {
+                            @Override
+                            public boolean onTouch(View v, MotionEvent event) {
+                                Intent intent = new Intent(Login.this, Register.class);
+                                startActivity(intent);
+                                return true;
+                            }
+                        });
+
+                        entrar.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                etUser.setError(null);
+                                etPassw.setError(null);
+                                logearse();
+                            }
+                        });
+                    } else {
+                        Log.d(TAG, "No such document");
+                        setContentView(R.layout.login);
+
+                        boolean recordar;
+                        try{
+                            recordar = document.getBoolean("recordarLogin");
+                        } catch (Exception e) {
+                            recordar = false;
+                        }
+
+
+                        entrar = (Button) findViewById(R.id.buttonLogin);
+                        usuario = (EditText) findViewById(R.id.editTextUsernameLogin);
+                        password = (EditText) findViewById(R.id.editTextPasswordLogin);
+                        registrar = (TextView) findViewById(R.id.textRegister);
+                        etUser = (TextInputLayout) findViewById(R.id.etUserLayoutLogin);
+                        etPassw = (TextInputLayout) findViewById(R.id.etPasswordLayoutLogin);
+                        recordarme = (CheckBox) findViewById(R.id.remember);
+                        recordarme.setChecked(recordar);
+
+                        if(recordar){
+                            String user, passw;
+                            user = document.getString("user");
+                            passw = document.getString("password");
+                            usuario.setText(user);
+                            password.setText(passw);
+                        }
+
+                        registrar.setOnTouchListener(new View.OnTouchListener() {
+                            @Override
+                            public boolean onTouch(View v, MotionEvent event) {
+                                Intent intent = new Intent(Login.this, Register.class);
+                                startActivity(intent);
+                                return true;
+                            }
+                        });
+
+                        entrar.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                etUser.setError(null);
+                                etPassw.setError(null);
+                                logearse();
+                            }
+                        });
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                    setContentView(R.layout.login);
+
+                    boolean recordar = false;
+
+
+                    entrar = (Button) findViewById(R.id.buttonLogin);
+                    usuario = (EditText) findViewById(R.id.editTextUsernameLogin);
+                    password = (EditText) findViewById(R.id.editTextPasswordLogin);
+                    registrar = (TextView) findViewById(R.id.textRegister);
+                    etUser = (TextInputLayout) findViewById(R.id.etUserLayoutLogin);
+                    etPassw = (TextInputLayout) findViewById(R.id.etPasswordLayoutLogin);
+                    recordarme = (CheckBox) findViewById(R.id.remember);
+                    recordarme.setChecked(recordar);
+
+                    registrar.setOnTouchListener(new View.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View v, MotionEvent event) {
+                            Intent intent = new Intent(Login.this, Register.class);
+                            startActivity(intent);
+                            return true;
+                        }
+                    });
+
+                    entrar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            etUser.setError(null);
+                            etPassw.setError(null);
+                            logearse();
+                        }
+                    });
+                }
             }
         });
     }
@@ -117,17 +282,19 @@ public class Login extends Activity {
 
     private void logearse(){
         DB = new AdaptadorBD(this);
-        String user, passw, msj;
-        user = usuario.getText().toString();
+        String email, passw, msj;
+        email = usuario.getText().toString();
         passw = password.getText().toString();
-        if(user.equals("") && passw.equals("")){
+        boolean check = recordarme.isChecked();
+
+        if(email.equals("") && passw.equals("")){
             msj = getResources().getString(R.string.errorUsuario);
             usuario.requestFocus();
             etUser.setError(msj);
             msj = getResources().getString(R.string.errorPassw);
             etPassw.setError(msj);
         }
-        else if(user.equals("")){
+        else if(email.equals("")){
             msj = getResources().getString(R.string.errorUsuario);
             usuario.requestFocus();
             etUser.setError(msj);
@@ -137,7 +304,7 @@ public class Login extends Activity {
             etPassw.setError(msj);
         }
         else {
-            mAuth.signInWithEmailAndPassword(user, passw)
+            mAuth.signInWithEmailAndPassword(email, passw)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -146,6 +313,13 @@ public class Login extends Activity {
                                 Log.d(TAG, "signInWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 updateUI(user);
+                                if(check){
+                                    saveUserPassw(email, passw);
+                                }else{
+                                    HashMap<String, Boolean> checked = new HashMap<String, Boolean>();
+                                    checked.put("recordarLogin", false);
+                                    db.collection("users").document(mAuth.getCurrentUser().getEmail()).set(checked, SetOptions.merge());
+                                }
                                 menuMain(task.getResult().getUser().getEmail());
                             } else {
                                 // If sign in fails, display a message to the user.
@@ -177,7 +351,6 @@ public class Login extends Activity {
                             }
                         }
                     });
-
         }
     }
 
@@ -186,14 +359,17 @@ public class Login extends Activity {
         toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, 32, 32);
         toast.show();
     }
+
     private void updateUI(FirebaseUser user) {
 
     }
+
     private void menuMain(String email){
         Intent intent = new Intent(Login.this, MainActivity.class);
         intent.putExtra("email",email);
         startActivity(intent);
     }
+
     private void setAppLocale(String localeCode) {
         Resources res = getResources();
         DisplayMetrics dm = res.getDisplayMetrics();
@@ -201,4 +377,15 @@ public class Login extends Activity {
         conf.setLocale(new Locale(localeCode.toLowerCase()));
         res.updateConfiguration(conf, dm);
     }
+
+    private void saveUserPassw(String user, String passw){
+        HashMap<String, String> login = new HashMap<String, String>();
+        login.put("user",  user);
+        login.put("password",  passw);
+        HashMap<String, Boolean> checked = new HashMap<String, Boolean>();
+        checked.put("recordarLogin", true);
+        db.collection("users").document(mAuth.getCurrentUser().getEmail()).set(login, SetOptions.merge());
+        db.collection("users").document(mAuth.getCurrentUser().getEmail()).set(checked, SetOptions.merge());
+    }
+
 }

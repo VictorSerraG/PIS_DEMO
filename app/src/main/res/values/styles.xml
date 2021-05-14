@@ -11,7 +11,7 @@
     <!-- Dark base activity theme -->
     <style name="ActivityTheme.Primary.Base.Dark"    parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <item name="primaryTextColor">@color/md_white_1000</item>
-        <item name="secondaryTextColor">@color/md_white_1000</item>
+        <item name="secondaryTextColor">@color/md_black_1000</item>
         <item name="backgroundCardColor">@color/md_grey_700</item>
         <item name="dividerColor">@color/md_black_1000</item>
         <item name="actionMenuTextColor">@color/md_black_1000_25</item>

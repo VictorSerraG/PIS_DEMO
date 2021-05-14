@@ -30,9 +30,17 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.SignInMethodQueryResult;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
+import java.util.HashMap;
 import java.util.Locale;
 
+import io.github.inflationx.calligraphy3.CalligraphyConfig;
+import io.github.inflationx.calligraphy3.CalligraphyInterceptor;
+import io.github.inflationx.viewpump.ViewPump;
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 public class Register extends AppCompatActivity {
@@ -41,49 +49,163 @@ public class Register extends AppCompatActivity {
     EditText email, password, password2;
     TextInputLayout etUser, etPassw, etPassw2;
     CheckBox terms;
+    private FirebaseFirestore db;
     private FirebaseAuth mAuth;
-    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        sharedPreferences = getSharedPreferences("VALUES", MODE_PRIVATE);
-
-        int theme = sharedPreferences.getInt("THEME", 1);
-        switch (theme){
-            case 1: setTheme(R.style.FeedActivityThemeLight);
-                break;
-            case 2: setTheme(R.style.FeedActivityThemeDark);
-                break;
-        }
-
-        int language = sharedPreferences.getInt("LANGUAGE", 1);
-        switch (language){
-            case 1: setAppLocale("esp");
-                break;
-            case 2: setAppLocale("en");
-                break;
-        }
-
-        setContentView(R.layout.register);
+        db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
-        crear = (Button) findViewById(R.id.buttonCrear);
-        email = (EditText) findViewById(R.id.editTextUsernameRegister);
-        password = (EditText) findViewById(R.id.editTextPasswordRegister);
-        password2 = (EditText) findViewById(R.id.editTextPasswordRegisterSecure);
-        terms = (CheckBox) findViewById(R.id.termsOfUse);
-        etUser = (TextInputLayout) findViewById(R.id.etUserLayoutRegister);
-        etPassw = (TextInputLayout) findViewById(R.id.etPasswordLayoutRegister);
-        etPassw2 = (TextInputLayout) findViewById(R.id.etPasswordLayoutRegisterSecure);
 
-        crear.setOnClickListener(new View.OnClickListener() {
+        DocumentReference docRef = db.collection("users").document(mAuth.getCurrentUser().getEmail());
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onClick(View v) {
-                etUser.setError(null);
-                etPassw.setError(null);
-                etPassw2.setError(null);
-                crear();
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+
+                        //Estilo
+                        int theme;
+                        try{
+                            theme = document.getLong("estilo").intValue();
+                        } catch (Exception e) {
+                            theme = 0;
+                        }
+
+                        switch (theme){
+                            case 0: setTheme(R.style.FeedActivityThemeLight);
+                                break;
+                            case 1: setTheme(R.style.FeedActivityThemeDark);
+                                break;
+                        }
+
+                        //Idioma
+                        int lang;
+                        try{
+                            lang = document.getLong("idioma").intValue();
+                        } catch (Exception e) {
+                            lang = 0;
+                        }
+
+                        switch (lang){
+                            case 0: setAppLocale("esp");
+                                break;
+                            case 1: setAppLocale("en");
+                                break;
+                        }
+
+                        // Letra
+                        String strletra = "";
+                        int fuente;
+                        try{
+                            fuente = document.getLong("letra").intValue();
+                        } catch (Exception e) {
+                            fuente = 0;
+                        }
+
+                        switch (fuente){
+                            case 0:
+                                strletra = "Roboto-Bold";
+                                break;
+                            case 1:
+                                strletra = "Roboto-Medium";
+                                break;
+                            case 2:
+                                strletra = "Roboto-Regular";
+                                break;
+                            case 3:
+                                strletra = "Roboto-Thin";
+                                break;
+                            default:
+                                break;
+                        }
+                        strletra = "fonts/" + strletra + ".ttf";
+                        ViewPump.init(ViewPump.builder()
+                                .addInterceptor(new CalligraphyInterceptor(
+                                        new CalligraphyConfig.Builder()
+                                                .setDefaultFontPath(strletra)
+                                                .setFontAttrId(R.attr.fontPath)
+                                                .build()))
+                                .build());
+
+                        //Tamaño
+                        int size;
+                        try{
+                            size = document.getLong("tamaño").intValue();
+                        } catch (Exception e) {
+                            size = 0;
+                        }
+
+                        setContentView(R.layout.register);
+
+                        crear = (Button) findViewById(R.id.buttonCrear);
+                        email = (EditText) findViewById(R.id.editTextUsernameRegister);
+                        password = (EditText) findViewById(R.id.editTextPasswordRegister);
+                        password2 = (EditText) findViewById(R.id.editTextPasswordRegisterSecure);
+                        terms = (CheckBox) findViewById(R.id.termsOfUse);
+                        etUser = (TextInputLayout) findViewById(R.id.etUserLayoutRegister);
+                        etPassw = (TextInputLayout) findViewById(R.id.etPasswordLayoutRegister);
+                        etPassw2 = (TextInputLayout) findViewById(R.id.etPasswordLayoutRegisterSecure);
+
+                        crear.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                etUser.setError(null);
+                                etPassw.setError(null);
+                                etPassw2.setError(null);
+                                crear();
+                            }
+                        });
+                    } else {
+                        Log.d(TAG, "No such document");
+                        setContentView(R.layout.register);
+
+                        crear = (Button) findViewById(R.id.buttonCrear);
+                        email = (EditText) findViewById(R.id.editTextUsernameRegister);
+                        password = (EditText) findViewById(R.id.editTextPasswordRegister);
+                        password2 = (EditText) findViewById(R.id.editTextPasswordRegisterSecure);
+                        terms = (CheckBox) findViewById(R.id.termsOfUse);
+                        etUser = (TextInputLayout) findViewById(R.id.etUserLayoutRegister);
+                        etPassw = (TextInputLayout) findViewById(R.id.etPasswordLayoutRegister);
+                        etPassw2 = (TextInputLayout) findViewById(R.id.etPasswordLayoutRegisterSecure);
+
+                        crear.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                etUser.setError(null);
+                                etPassw.setError(null);
+                                etPassw2.setError(null);
+                                crear();
+                            }
+                        });
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                    setContentView(R.layout.register);
+
+                    crear = (Button) findViewById(R.id.buttonCrear);
+                    email = (EditText) findViewById(R.id.editTextUsernameRegister);
+                    password = (EditText) findViewById(R.id.editTextPasswordRegister);
+                    password2 = (EditText) findViewById(R.id.editTextPasswordRegisterSecure);
+                    terms = (CheckBox) findViewById(R.id.termsOfUse);
+                    etUser = (TextInputLayout) findViewById(R.id.etUserLayoutRegister);
+                    etPassw = (TextInputLayout) findViewById(R.id.etPasswordLayoutRegister);
+                    etPassw2 = (TextInputLayout) findViewById(R.id.etPasswordLayoutRegisterSecure);
+
+                    crear.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            etUser.setError(null);
+                            etPassw.setError(null);
+                            etPassw2.setError(null);
+                            crear();
+                        }
+                    });
+                }
             }
         });
     }
@@ -153,6 +275,7 @@ public class Register extends AppCompatActivity {
                                 Log.d(TAG, "createUserWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 updateUI(user);
+                                createSettings();
                                 menuMain(task.getResult().getUser().getEmail());
                             } else {
                                 Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -205,7 +328,7 @@ public class Register extends AppCompatActivity {
 
     }
     private void menuMain(String email){
-        Intent intent = new Intent(Register.this, MainActivity.class);
+        Intent intent = new Intent(Register.this, Login.class);
         intent.putExtra("email",email);
         startActivity(intent);
     }
@@ -220,5 +343,14 @@ public class Register extends AppCompatActivity {
 
     public static boolean isValidEmail(CharSequence target) {
         return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
+    }
+
+    private void createSettings(){
+        HashMap<String, Integer> ajustes = new HashMap<String, Integer>();
+        ajustes.put("tamaño",  0);
+        ajustes.put("letra",  0);
+        ajustes.put("estilo",  0);
+        ajustes.put("idioma",  0);
+        db.collection("users").document(mAuth.getCurrentUser().getEmail()).set(ajustes, SetOptions.merge());
     }
 }

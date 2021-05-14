@@ -34,22 +34,20 @@
             android:layout_marginEnd="30dp"
             android:layout_marginBottom="10dp"
             android:hint="@string/username"
-            app:hintTextColor="?attr/primaryTextColor"
             app:boxBackgroundMode="outline"
             app:boxStrokeColor="@color/md_purple_900"
             app:errorEnabled="true"
-            >
+            app:hintTextColor="?attr/primaryTextColor">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextUsernameLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableStart="@android:drawable/sym_action_email"
-            android:ems="10"
-            android:inputType="textEmailAddress"
-            android:textSize="22sp"
-            android:textColor="?attr/primaryTextColor"
-            />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextUsernameLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@android:drawable/sym_action_email"
+                android:ems="10"
+                android:inputType="textEmailAddress"
+                android:textColor="?attr/primaryTextColor"
+                android:textSize="22sp" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -62,10 +60,10 @@
             android:layout_marginEnd="30dp"
             android:layout_marginBottom="10dp"
             android:hint="@string/password"
-            app:hintTextColor="?attr/primaryTextColor"
             app:boxBackgroundMode="outline"
             app:boxStrokeColor="@color/md_purple_900"
             app:errorEnabled="true"
+            app:hintTextColor="?attr/primaryTextColor"
             app:passwordToggleEnabled="true">
 
 
@@ -74,11 +72,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@android:drawable/ic_secure"
-                android:inputType="textPassword"
                 android:ems="10"
-                android:textSize="22sp"
-                android:textColor="?attr/primaryTextColor"/>
+                android:inputType="textPassword"
+                android:textColor="?attr/primaryTextColor"
+                android:textSize="22sp" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <CheckBox
+            android:id="@+id/remember"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="clip_horizontal|center|clip_vertical|center_horizontal|center_vertical"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center|start|center_vertical"
+            android:text="@string/checkRecordarme" />
 
         <Button
             android:id="@+id/buttonLogin"

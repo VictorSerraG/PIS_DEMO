@@ -50,6 +50,7 @@
     <string name="errorDebil">Contraseña débil</string>
     <string name="errorCorreoUnknown">Correo no registrado</string>
     <string name="errorCredencialesInv">Credenciales inválidas</string>
+    <string name="checkRecordarme">Recordarme</string>
 
     <string-array name="tamaño">
         <item>Muy pequeña</item>

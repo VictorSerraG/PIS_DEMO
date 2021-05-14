@@ -9,6 +9,7 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,6 +25,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 //import com.google.firebase.database.FirebaseDatabase;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.Locale;
 
 import io.github.inflationx.calligraphy3.CalligraphyConfig;
@@ -38,62 +46,188 @@ public class AgregarNota extends AppCompatActivity {
     String type, getTitle;
     private static final int SALIR = Menu.FIRST;
     AdaptadorBD DB;
-    //FirebaseDatabase basef;
-    SharedPreferences sharedPreferences;
+    private static final String TAG = "AddNote";
+    private FirebaseFirestore db;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
-
-        sharedPreferences = getSharedPreferences("VALUES", MODE_PRIVATE);
-        int theme = sharedPreferences.getInt("THEME", 1);
-
-        switch (theme){
-            case 1: setTheme(R.style.FeedActivityThemeLight);
-                break;
-            case 2: setTheme(R.style.FeedActivityThemeDark);
-                break;
-        }
-
-        int language = sharedPreferences.getInt("LANGUAGE", 1);
-        switch (language){
-            case 1: setAppLocale("esp");
-                break;
-            case 2: setAppLocale("en");
-                break;
-        }
-
-        setContentView(R.layout.agregar_nota);
-
-        Add = (Button) findViewById(R.id.button_Agregar);
-        TITLE = (EditText) findViewById(R.id.editText_Titulo);
-        CONTENT = (EditText) findViewById(R.id.editText_Contenido);
-        Bundle bundle = this.getIntent().getExtras();
-
-        String content;
-        getTitle = bundle.getString("title");
-        content = bundle.getString("content");
-        type = bundle.getString("type");
-        Add.setOnClickListener(new View.OnClickListener() {
+        DocumentReference docRef = db.collection("users").document(mAuth.getCurrentUser().getEmail());
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onClick(View v) {
-                addUpdateNotes();
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+
+                        //Estilo
+                        int theme;
+                        try{
+                            theme = document.getLong("estilo").intValue();
+                        } catch (Exception e) {
+                            theme = 0;
+                        }
+
+                        switch (theme){
+                            case 0: setTheme(R.style.FeedActivityThemeLight);
+                                break;
+                            case 1: setTheme(R.style.FeedActivityThemeDark);
+                                break;
+                        }
+
+                        //Idioma
+                        int lang;
+                        try{
+                            lang = document.getLong("idioma").intValue();
+                        } catch (Exception e) {
+                            lang = 0;
+                        }
+                        switch (lang){
+                            case 0: setAppLocale("esp");
+                                break;
+                            case 1: setAppLocale("en");
+                                break;
+                        }
+
+                        // Letra
+                        String strletra = "";
+                        int fuente;
+                        try{
+                            fuente = document.getLong("letra").intValue();
+                        } catch (Exception e) {
+                            fuente = 0;
+                        }
+                        switch (fuente){
+                            case 0:
+                                strletra = "Roboto-Bold";
+                                break;
+                            case 1:
+                                strletra = "Roboto-Medium";
+                                break;
+                            case 2:
+                                strletra = "Roboto-Regular";
+                                break;
+                            case 3:
+                                strletra = "Roboto-Thin";
+                                break;
+                            default:
+                                break;
+                        }
+                        strletra = "fonts/" + strletra + ".ttf";
+                        ViewPump.init(ViewPump.builder()
+                                .addInterceptor(new CalligraphyInterceptor(
+                                        new CalligraphyConfig.Builder()
+                                                .setDefaultFontPath(strletra)
+                                                .setFontAttrId(R.attr.fontPath)
+                                                .build()))
+                                .build());
+
+                        //Tamaño
+                        int size;
+                        try{
+                            size = document.getLong("tamaño").intValue();
+                        } catch (Exception e) {
+                            size = 0;
+                        }
+
+                        setContentView(R.layout.agregar_nota);
+
+                        Add = (Button) findViewById(R.id.button_Agregar);
+                        TITLE = (EditText) findViewById(R.id.editText_Titulo);
+                        CONTENT = (EditText) findViewById(R.id.editText_Contenido);
+                        Bundle bundle = getIntent().getExtras();
+
+                        String content;
+                        getTitle = bundle.getString("title");
+                        content = bundle.getString("content");
+                        type = bundle.getString("type");
+                        Add.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                addUpdateNotes();
+                            }
+                        });
+
+                        if (type.equals(("add"))) {
+                            Add.setText("Afegir nota");
+
+                        } else {
+                            if (type.equals("edit")) {
+                                TITLE.setText(getTitle);
+                                CONTENT.setText(content);
+                                Add.setText("Actualitzar nota");
+                            }
+                        }
+                    } else {
+                        Log.d(TAG, "No such document");
+                        setContentView(R.layout.agregar_nota);
+
+                        Add = (Button) findViewById(R.id.button_Agregar);
+                        TITLE = (EditText) findViewById(R.id.editText_Titulo);
+                        CONTENT = (EditText) findViewById(R.id.editText_Contenido);
+                        Bundle bundle = getIntent().getExtras();
+
+                        String content;
+                        getTitle = bundle.getString("title");
+                        content = bundle.getString("content");
+                        type = bundle.getString("type");
+                        Add.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                addUpdateNotes();
+                            }
+                        });
+
+                        if (type.equals(("add"))) {
+                            Add.setText("Afegir nota");
+
+                        } else {
+                            if (type.equals("edit")) {
+                                TITLE.setText(getTitle);
+                                CONTENT.setText(content);
+                                Add.setText("Actualitzar nota");
+                            }
+                        }
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                    setContentView(R.layout.agregar_nota);
+
+                    Add = (Button) findViewById(R.id.button_Agregar);
+                    TITLE = (EditText) findViewById(R.id.editText_Titulo);
+                    CONTENT = (EditText) findViewById(R.id.editText_Contenido);
+                    Bundle bundle = getIntent().getExtras();
+
+                    String content;
+                    getTitle = bundle.getString("title");
+                    content = bundle.getString("content");
+                    type = bundle.getString("type");
+                    Add.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            addUpdateNotes();
+                        }
+                    });
+
+                    if (type.equals(("add"))) {
+                        Add.setText("Afegir nota");
+
+                    } else {
+                        if (type.equals("edit")) {
+                            TITLE.setText(getTitle);
+                            CONTENT.setText(content);
+                            Add.setText("Actualitzar nota");
+                        }
+                    }
+                }
             }
         });
-
-        if (type.equals(("add"))) {
-            Add.setText("Afegir nota");
-
-        } else {
-            if (type.equals("edit")) {
-                TITLE.setText(getTitle);
-                CONTENT.setText(content);
-                Add.setText("Actualitzar nota");
-            }
-        }
-
     }
 
     @Override
@@ -101,57 +235,56 @@ public class AgregarNota extends AppCompatActivity {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
 
-    private void addUpdateNotes(){
+    private void addUpdateNotes() {
         //basef = FirebaseDatabase.getInstance();
         DB = new AdaptadorBD(this);
-        String title,content,msj;
+        String title, content, msj;
         title = TITLE.getText().toString();
         content = CONTENT.getText().toString();
-        if ( type.equals("add")){
-            if(title.equals("")){
+        if (type.equals("add")) {
+            if (title.equals("")) {
                 msj = "Ingrese un titulo";
                 TITLE.requestFocus();
                 Mensaje(msj);
-            }else{
-                if(content.equals("")){
+            } else {
+                if (content.equals("")) {
                     msj = "Añade contenido a la nota";
                     CONTENT.requestFocus();
                     Mensaje(msj);
-                }else{
+                } else {
                     Cursor c = DB.getNote(title);
                     String gettitle = "";
-                    if(c.moveToFirst()){
+                    if (c.moveToFirst()) {
                         do {
                             gettitle = c.getString(1);
-                        }while(c.moveToNext());
+                        } while (c.moveToNext());
                     }
-                    if(gettitle.equals(title)){
+                    if (gettitle.equals(title)) {
                         TITLE.requestFocus();
                         msj = "El titulo de esta nota ya existe";
                         Mensaje(msj);
-                    }else{
-                        DB.addNote(title,content);
-                        actividad(title,content);
+                    } else {
+                        DB.addNote(title, content);
+                        actividad(title, content);
                     }
                 }
 
             }
-        }else{
-            if(type.equals("edit")){
+        } else {
+            if (type.equals("edit")) {
                 Add.setText("Update nota");
-                if (title.equals("")){
+                if (title.equals("")) {
                     msj = "Añade una nota";
                     TITLE.requestFocus();
                     Mensaje(msj);
-                }else{
-                    if (content.equals("")){
+                } else {
+                    if (content.equals("")) {
                         msj = "Añade contenido a la nota";
                         CONTENT.requestFocus();
                         Mensaje(msj);
-                    }
-                    else {
-                        DB.updateNota(title,content,getTitle);
-                        actividad(title,content);
+                    } else {
+                        DB.updateNota(title, content, getTitle);
+                        actividad(title, content);
                     }
                 }
             }
@@ -159,15 +292,16 @@ public class AgregarNota extends AppCompatActivity {
     }
 
 
-    public void Mensaje(String msj){
+    public void Mensaje(String msj) {
         Toast toast = Toast.makeText(this, msj, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
         toast.show();
     }
-    public void actividad(String title,String content){
-        Intent intent = new Intent(AgregarNota.this,VerNota.class);
-        intent.putExtra("title",title);
-        intent.putExtra("content",content);
+
+    public void actividad(String title, String content) {
+        Intent intent = new Intent(AgregarNota.this, VerNota.class);
+        intent.putExtra("title", title);
+        intent.putExtra("content", content);
         startActivity(intent);
 
     }
@@ -179,4 +313,5 @@ public class AgregarNota extends AppCompatActivity {
         conf.setLocale(new Locale(localeCode.toLowerCase()));
         res.updateConfiguration(conf, dm);
     }
+
 }

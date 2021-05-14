@@ -10,6 +10,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.CookieManager;
@@ -18,6 +19,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.w3c.dom.Text;
 
@@ -36,41 +44,139 @@ public class VerNota extends AppCompatActivity {
     String title,content;
     TextView TITLE,CONTENT;
     AdaptadorBD DB;
-    SharedPreferences sharedPreferences;
+    private static final String TAG = "SeeNote";
+    private FirebaseFirestore db;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        sharedPreferences = getSharedPreferences("VALUES", MODE_PRIVATE);
-        int theme = sharedPreferences.getInt("THEME", 1);
+        db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
-        switch (theme){
-            case 1: setTheme(R.style.FeedActivityThemeLight);
-                break;
-            case 2: setTheme(R.style.FeedActivityThemeDark);
-                break;
-        }
+        DocumentReference docRef = db.collection("users").document(mAuth.getCurrentUser().getEmail());
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
 
-        int language = sharedPreferences.getInt("LANGUAGE", 1);
-        switch (language){
-            case 1: setAppLocale("esp");
-                break;
-            case 2: setAppLocale("en");
-                break;
-        }
+                        //Estilo
+                        int theme;
+                        try{
+                            theme = document.getLong("estilo").intValue();
+                        } catch (Exception e) {
+                            theme = 0;
+                        }
 
-        setContentView(R.layout.ver_nota);
+                        switch (theme){
+                            case 0: setTheme(R.style.FeedActivityThemeLight);
+                                break;
+                            case 1: setTheme(R.style.FeedActivityThemeDark);
+                                break;
+                        }
 
-        Bundle bundle = this.getIntent().getExtras();
+                        //Idioma
+                        int lang;
+                        try{
+                            lang = document.getLong("idioma").intValue();
+                        } catch (Exception e) {
+                            lang = 0;
+                        }
 
-        title = bundle.getString("title");
-        content = bundle.getString("content");
+                        switch (lang){
+                            case 0: setAppLocale("esp");
+                                break;
+                            case 1: setAppLocale("en");
+                                break;
+                        }
 
-        TITLE = (TextView)findViewById(R.id.textView_Titulo);
-        CONTENT = (TextView)findViewById(R.id.textView_Content);
-        TITLE.setText(title);
-        CONTENT.setText(content);
+                        // Letra
+                        String strletra = "";
+                        int fuente;
+                        try{
+                            fuente = document.getLong("letra").intValue();
+                        } catch (Exception e) {
+                            fuente = 0;
+                        }
+
+                        switch (fuente){
+                            case 0:
+                                strletra = "Roboto-Bold";
+                                break;
+                            case 1:
+                                strletra = "Roboto-Medium";
+                                break;
+                            case 2:
+                                strletra = "Roboto-Regular";
+                                break;
+                            case 3:
+                                strletra = "Roboto-Thin";
+                                break;
+                            default:
+                                break;
+                        }
+                        strletra = "fonts/" + strletra + ".ttf";
+                        ViewPump.init(ViewPump.builder()
+                                .addInterceptor(new CalligraphyInterceptor(
+                                        new CalligraphyConfig.Builder()
+                                                .setDefaultFontPath(strletra)
+                                                .setFontAttrId(R.attr.fontPath)
+                                                .build()))
+                                .build());
+
+                        //Tamaño
+                        int size;
+                        try{
+                            size = document.getLong("tamaño").intValue();
+                        } catch (Exception e) {
+                            size = 0;
+                        }
+
+                        setContentView(R.layout.ver_nota);
+
+                        Bundle bundle = getIntent().getExtras();
+
+                        title = bundle.getString("title");
+                        content = bundle.getString("content");
+
+                        TITLE = (TextView)findViewById(R.id.textView_Titulo);
+                        CONTENT = (TextView)findViewById(R.id.textView_Content);
+                        TITLE.setText(title);
+                        CONTENT.setText(content);
+                    } else {
+                        Log.d(TAG, "No such document");
+                        setContentView(R.layout.ver_nota);
+
+                        Bundle bundle = getIntent().getExtras();
+
+                        title = bundle.getString("title");
+                        content = bundle.getString("content");
+
+                        TITLE = (TextView)findViewById(R.id.textView_Titulo);
+                        CONTENT = (TextView)findViewById(R.id.textView_Content);
+                        TITLE.setText(title);
+                        CONTENT.setText(content);
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                    setContentView(R.layout.ver_nota);
+
+                    Bundle bundle = getIntent().getExtras();
+
+                    title = bundle.getString("title");
+                    content = bundle.getString("content");
+
+                    TITLE = (TextView)findViewById(R.id.textView_Titulo);
+                    CONTENT = (TextView)findViewById(R.id.textView_Content);
+                    TITLE.setText(title);
+                    CONTENT.setText(content);
+                }
+            }
+        });
     }
 
     @Override
@@ -162,5 +268,74 @@ public class VerNota extends AppCompatActivity {
         Configuration conf = res.getConfiguration();
         conf.setLocale(new Locale(localeCode.toLowerCase()));
         res.updateConfiguration(conf, dm);
+    }
+
+    private void initSettings(DocumentReference docRef){
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        //ajustes[0] = document.getData();
+
+                        //Estilo
+                        int theme = document.getLong("estilo").intValue();
+                        switch (theme){
+                            case 0: setTheme(R.style.FeedActivityThemeLight);
+                                break;
+                            case 1: setTheme(R.style.FeedActivityThemeDark);
+                                break;
+                        }
+
+                        //Idioma
+                        int lang = document.getLong("idioma").intValue();
+                        switch (lang){
+                            case 0: setAppLocale("esp");
+                                break;
+                            case 1: setAppLocale("en");
+                                break;
+                        }
+
+                        // Letra
+                        String strletra = "";
+                        int fuente = document.getLong("letra").intValue();
+                        switch (fuente){
+                            case 0:
+                                strletra = "Roboto-Bold";
+                                break;
+                            case 1:
+                                strletra = "Roboto-Medium";
+                                break;
+                            case 2:
+                                strletra = "Roboto-Regular";
+                                break;
+                            case 3:
+                                strletra = "Roboto-Thin";
+                                break;
+                            default:
+                                break;
+                        }
+                        strletra = "fonts/" + strletra + ".ttf";
+                        ViewPump.init(ViewPump.builder()
+                                .addInterceptor(new CalligraphyInterceptor(
+                                        new CalligraphyConfig.Builder()
+                                                .setDefaultFontPath(strletra)
+                                                .setFontAttrId(R.attr.fontPath)
+                                                .build()))
+                                .build());
+
+                        //Tamaño
+                        int size = document.getLong("tamaño").intValue();
+
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
     }
 }

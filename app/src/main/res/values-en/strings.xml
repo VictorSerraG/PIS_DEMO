@@ -51,6 +51,7 @@
     <string name="errorDebil">Weak password</string>
     <string name="errorCorreoUnknown">Unregistered email</string>
     <string name="errorCredencialesInv">Invalid credentials</string>
+    <string name="checkRecordarme">Remind me</string>
 
     <string-array name="tamaño">
         <item>Very small</item>

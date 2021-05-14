@@ -12,6 +12,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,8 +20,18 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -44,51 +55,167 @@ public class MainActivity extends AppCompatActivity {
     AdaptadorBD DB;
     List<String> item = null;
     String getTitle;
-    SharedPreferences sharedPreferences;
+    private FirebaseFirestore db;
+    private FirebaseAuth mAuth;
+    private static final String TAG = "MAIN";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        sharedPreferences = getSharedPreferences("VALUES", MODE_PRIVATE);
-        int theme = sharedPreferences.getInt("THEME", 1);
+        db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
-        switch (theme){
-            case 1: setTheme(R.style.FeedActivityThemeLight);
-                break;
-            case 2: setTheme(R.style.FeedActivityThemeDark);
-                break;
-        }
-
-        int language = sharedPreferences.getInt("LANGUAGE", 1);
-        switch (language){
-            case 1: setAppLocale("esp");
-                break;
-            case 2: setAppLocale("en");
-                break;
-        }
-
-        //Bundle bundle = this.getIntent().getExtras();
-        //String email = bundle.getString("email");
-        //setUp(email);
-        setContentView(R.layout.activity_main);
-
-        textLista = (TextView)findViewById(R.id.textView_Lista);
-        lista = (ListView)findViewById(R.id.listView_Lista);
-        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        DocumentReference docRef = db.collection("users").document(mAuth.getCurrentUser().getEmail());
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                getTitle = (String) lista.getItemAtPosition(position);
-                alert("list");
-            }
-        });
-        add = (FloatingActionButton) findViewById(R.id.fabAdd);
-        showNotes();
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
 
-        add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                actividad("add");
+                        //Estilo
+                        int theme;
+                        try{
+                            theme = document.getLong("estilo").intValue();
+                        } catch (Exception e) {
+                            theme = 0;
+                        }
+
+                        switch (theme){
+                            case 0: setTheme(R.style.FeedActivityThemeLight);
+                                break;
+                            case 1: setTheme(R.style.FeedActivityThemeDark);
+                                break;
+                        }
+
+                        //Idioma
+                        int lang;
+                        try{
+                            lang = document.getLong("idioma").intValue();
+                        } catch (Exception e) {
+                            lang = 0;
+                        }
+
+                        switch (lang){
+                            case 0: setAppLocale("esp");
+                                break;
+                            case 1: setAppLocale("en");
+                                break;
+                        }
+
+                        // Letra
+                        String strletra = "";
+                        int fuente;
+                        try{
+                            fuente = document.getLong("letra").intValue();
+                        } catch (Exception e) {
+                            fuente = 0;
+                        }
+
+                        switch (fuente){
+                            case 0:
+                                strletra = "Roboto-Bold";
+                                break;
+                            case 1:
+                                strletra = "Roboto-Medium";
+                                break;
+                            case 2:
+                                strletra = "Roboto-Regular";
+                                break;
+                            case 3:
+                                strletra = "Roboto-Thin";
+                                break;
+                            default:
+                                break;
+                        }
+                        strletra = "fonts/" + strletra + ".ttf";
+                        ViewPump.init(ViewPump.builder()
+                                .addInterceptor(new CalligraphyInterceptor(
+                                        new CalligraphyConfig.Builder()
+                                                .setDefaultFontPath(strletra)
+                                                .setFontAttrId(R.attr.fontPath)
+                                                .build()))
+                                .build());
+
+                        //Tamaño
+                        int size;
+                        try{
+                            size = document.getLong("tamaño").intValue();
+                        } catch (Exception e) {
+                            size = 0;
+                        }
+
+                        //Bundle bundle = this.getIntent().getExtras();
+                        //String email = bundle.getString("email");
+                        //setUp(email);
+                        setContentView(R.layout.activity_main);
+
+                        textLista = (TextView)findViewById(R.id.textView_Lista);
+                        lista = (ListView)findViewById(R.id.listView_Lista);
+                        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                getTitle = (String) lista.getItemAtPosition(position);
+                                alert("list");
+                            }
+                        });
+                        add = (FloatingActionButton) findViewById(R.id.fabAdd);
+                        showNotes();
+
+                        add.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                actividad("add");
+                            }
+                        });
+                    } else {
+                        Log.d(TAG, "No such document");
+                        setContentView(R.layout.activity_main);
+
+                        textLista = (TextView)findViewById(R.id.textView_Lista);
+                        lista = (ListView)findViewById(R.id.listView_Lista);
+                        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                getTitle = (String) lista.getItemAtPosition(position);
+                                alert("list");
+                            }
+                        });
+                        add = (FloatingActionButton) findViewById(R.id.fabAdd);
+                        showNotes();
+
+                        add.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                actividad("add");
+                            }
+                        });
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                    setContentView(R.layout.activity_main);
+
+                    textLista = (TextView)findViewById(R.id.textView_Lista);
+                    lista = (ListView)findViewById(R.id.listView_Lista);
+                    lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            getTitle = (String) lista.getItemAtPosition(position);
+                            alert("list");
+                        }
+                    });
+                    add = (FloatingActionButton) findViewById(R.id.fabAdd);
+                    showNotes();
+
+                    add.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            actividad("add");
+                        }
+                    });
+                }
             }
         });
 
