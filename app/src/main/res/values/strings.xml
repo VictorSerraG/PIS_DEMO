@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">BLOC DE NOTAS</string>
-    <string name="textView_Titulo">Titulo de la nota</string>
+    <string name="textView_Titulo">Título de la nota</string>
     <string name="textView_Lista">Lista de Notas</string>
     <string name="listView_Lista">Lista de Notas</string>
-    <string name="editText_Titulo">Titulo</string>
+    <string name="editText_Titulo">Título</string>
     <string name="buttonAgregar">Agregar Nota</string>
     <string name="add_Nota">Añadir/Editar nota</string>
     <string name="ver_nota">Visualización de la nota</string>
@@ -28,29 +28,35 @@
     <string name="TermsOfUse">Acepto los términos de uso</string>
     <string name="buttonNote">Boton flotante para añadir notas</string>
     <string name="NoteListU"><u>Lista de Notas</u> </string>
-    <string name="noteTitle">Titulo de la nota </string>
-    <string name="noteContent">Contenido de la nota </string>
-    <string name="tamaño"><u>Tamaño:</u> </string>
-    <string name="letra"><u>Letra:</u> </string>
-    <string name="estilo"><u>Estilo:</u> </string>
-    <string name="idioma"><u>Idioma:</u> </string>
-    <string name="buttonAplicar">Aplicar </string>
-    <string name="textTitulo">Titulo </string>
-    <string name="textContennido">Contenido </string>
+    <string name="noteTitle">Título de la nota</string>
+    <string name="noteContent">Contenido de la nota</string>
+    <string name="tamaño"><u>Tamaño:</u></string>
+    <string name="letra"><u>Letra:</u></string>
+    <string name="estilo"><u>Estilo:</u></string>
+    <string name="idioma"><u>Idioma:</u></string>
+    <string name="buttonAplicar">Aplicar</string>
+    <string name="textTitulo">Título</string>
+    <string name="textContennido">Contenido</string>
     <string name="errorUsuario">Introduzca un correo</string>
     <string name="errorPassw">Introduzca una contraseña</string>
     <string name="errorUsuarioPassw">Rellene los espacios</string>
-    <string name="errorLogin">Autentificación fallida</string>
+    <string name="errorLogin">Autenticación fallida</string>
     <string name="errorTerms">Acepte los términos de uso</string>
     <string name="errorPasswSecure">Repita la contraseña</string>
     <string name="errorSamePassw">Las contraseñas no coinciden</string>
-    <string name="errorRegister">Register fallido</string>
+    <string name="errorRegister">Registro fallido</string>
     <string name="errorEmail">Correo no válido</string>
     <string name="errorUsoEmail">Correo ya existente</string>
     <string name="errorDebil">Contraseña débil</string>
     <string name="errorCorreoUnknown">Correo no registrado</string>
     <string name="errorCredencialesInv">Credenciales inválidas</string>
     <string name="checkRecordarme">Recordarme</string>
+    <string name="olvidarPassw">Has olvidado la contraseña?</string>
+    <string name="resetPassw">Cambiar Contraseña?</string>
+    <string name="resetPasswtext">Introduce tu email</string>
+    <string name="enviar">ENVIAR</string>
+    <string name="msjEmailT">Revisa tu correo</string>
+    <string name="msjEmailF">No existe el correo</string>
 
     <string-array name="tamaño">
         <item>Muy pequeña</item>
@@ -66,11 +72,12 @@
         <item>Fino</item>
     </string-array>
     <string-array name="estilo">
-        <item>Dia</item>
+        <item>Día</item>
         <item>Noche</item>
     </string-array>
     <string-array name="idioma">
         <item>Castellano</item>
-        <item>Ingles</item>
+        <item>Inglés</item>
+        <item>Catalán</item>
     </string-array>
 </resources>

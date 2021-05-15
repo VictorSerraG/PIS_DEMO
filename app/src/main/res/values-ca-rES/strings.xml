@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BLOC DE NOTAS</string>
+    <string name="textView_Titulo">Títol de la nota</string>
+    <string name="textView_Lista">Llista de Notes</string>
+    <string name="listView_Lista">Llista de Notes</string>
+    <string name="editText_Titulo">Títol</string>
+    <string name="buttonAgregar">Afegir Nota</string>
+    <string name="add_Nota">Afegir/Editar nota</string>
+    <string name="ver_nota">Visualització de la nota</string>
+    <string name="menu_crear">Crear Nota</string>
+    <string name="menu_editar">Editar Nota</string>
+    <string name="menu_eliminar">Eliminar Nota</string>
+    <string name="menu_settings">Configuració</string>
+    <string name="menu_ordenar">Ordenar</string>
+    <string name="menu_salir">Sortir</string>
+    <string name="menu_cerrar">Tancar compte</string>
+    <string name="menu_borrar">Borrar tots</string>
+    <string name="action_settings">Configuració</string>
+    <string name="fab">fab</string>
+    <string name="welcome">"<u>Benvingut</u> "</string>
+    <string name="username">Correu</string>
+    <string name="password">Contrasenya</string>
+    <string name="login">Entrar</string>
+    <string name="ToRegister">No tens compte? Registra\'t</string>
+    <string name="register"><u>Registra\'t</u></string>
+    <string name="passwordSecure">Repeteix Contrasenya</string>
+    <string name="create">Crear</string>
+    <string name="TermsOfUse">Estic d\'acord amb els termes d\'ús</string>
+    <string name="buttonNote">Boto flotant per afegir notes</string>
+    <string name="NoteListU">"<u>Llista de Notes</u> "</string>
+    <string name="noteTitle">Títol de la nota</string>
+    <string name="noteContent">Contingut de la nota</string>
+    <string name="tamaño"><u>Tamany:</u></string>
+    <string name="letra">"<u>Lletra:</u> "</string>
+    <string name="estilo"><u>Estil:</u></string>
+    <string name="idioma">"<u>Idioma:</u> "</string>
+    <string name="buttonAplicar">Aplicar</string>
+    <string name="textTitulo">Títol</string>
+    <string name="textContennido">Contingut</string>
+    <string name="errorUsuario">Introduïu un correu</string>
+    <string name="errorPassw">Introdueix una contrasenya</string>
+    <string name="errorUsuarioPassw">Ompli els espais</string>
+    <string name="errorLogin">Autenticació fallida</string>
+    <string name="errorTerms">Accepteu els termes d\'ús</string>
+    <string name="errorPasswSecure">Repetiu la contrasenya</string>
+    <string name="errorSamePassw">Les contrasenyes no coincideixen</string>
+    <string name="errorRegister">Registre fallit</string>
+    <string name="errorEmail">Correu invàlid</string>
+    <string name="errorUsoEmail">" Correu ja existent"</string>
+    <string name="errorDebil">Contrasenya feble</string>
+    <string name="errorCorreoUnknown">Correu no registrat</string>
+    <string name="errorCredencialesInv">Credencials invàlides</string>
+    <string name="checkRecordarme">Recordar-me</string>
+    <string name="olvidarPassw">Has oblidat la contrasenya?</string>
+    <string name="resetPassw">Canviar Contrasenya?</string>
+    <string name="resetPasswtext">Introdueix el teu email</string>
+    <string name="enviar">ENVIAR</string>
+    <string name="msjEmailT">Revisa el teu correu</string>
+    <string name="msjEmailF">No existeix el correu</string>
+
+    <string-array name="tamaño">
+        <item>Molt petita</item>
+        <item>Petita</item>
+        <item>Mitjana</item>
+        <item>Gran</item>
+        <item>Molt gran</item>
+    </string-array>
+    <string-array name="letra">
+        <item>Negreta</item>
+        <item>Negreta-Normal</item>
+        <item>Normal</item>
+        <item>Fi</item>
+    </string-array>
+    <string-array name="estilo">
+        <item>Dia</item>
+        <item>Nit</item>
+    </string-array>
+    <string-array name="idioma">
+        <item>Castellà</item>
+        <item>Anglès</item>
+        <item>Català</item>
+    </string-array>
+</resources>

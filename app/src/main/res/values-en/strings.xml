@@ -51,7 +51,13 @@
     <string name="errorDebil">Weak password</string>
     <string name="errorCorreoUnknown">Unregistered email</string>
     <string name="errorCredencialesInv">Invalid credentials</string>
-    <string name="checkRecordarme">Remind me</string>
+    <string name="checkRecordarme">Remember me</string>
+    <string name="olvidarPassw">Forgot password?</string>
+    <string name="resetPassw">Reset Password?</string>
+    <string name="resetPasswtext">Enter your email</string>
+    <string name="enviar">SEND</string>
+    <string name="msjEmailT">Reset link sent to your email</string>
+    <string name="msjEmailF">Email does not exist</string>
 
     <string-array name="tamaño">
         <item>Very small</item>
@@ -73,5 +79,6 @@
     <string-array name="idioma">
         <item>Spanish</item>
         <item>English</item>
+        <item>Catalan</item>
     </string-array>
 </resources>

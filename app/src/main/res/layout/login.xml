@@ -111,6 +111,7 @@
             android:layout_gravity="center|center_horizontal|center_vertical"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
             android:clickable="true"
             android:focusable="true"
             android:gravity="center|fill_vertical"
@@ -119,6 +120,22 @@
             android:textColor="?attr/primaryTextColor"
             android:textSize="18sp" />
 
+        <TextView
+            android:id="@+id/textOlvidoPassw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|center_horizontal|center_vertical"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center|fill_vertical"
+            android:onClick="onClick"
+            android:text="@string/olvidarPassw"
+            android:textColor="?attr/primaryTextColor"
+            android:textSize="18sp" />
+
     </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

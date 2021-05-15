@@ -103,6 +103,8 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             case 1: setAppLocale("en");
                                 break;
+                            case 2: setAppLocale("ca");
+                                break;
                         }
 
                         // Letra

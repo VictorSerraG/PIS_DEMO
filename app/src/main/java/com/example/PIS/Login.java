@@ -1,12 +1,15 @@
 package com.example.PIS;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -21,8 +24,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
@@ -51,7 +57,7 @@ public class Login extends Activity {
     EditText usuario, password;
     TextInputLayout etUser, etPassw;
     CheckBox recordarme;
-    TextView registrar;
+    TextView registrar, retrievePassw;
     AdaptadorBD DB;
     private static final String TAG = "EmailPassword";
     // [START declare_auth]
@@ -99,8 +105,13 @@ public class Login extends Activity {
 
                         switch (lang){
                             case 0: setAppLocale("esp");
+                                mAuth.setLanguageCode("es");
                                 break;
                             case 1: setAppLocale("en");
+                                mAuth.setLanguageCode("en");
+                                break;
+                            case 2: setAppLocale("ca");
+                                mAuth.setLanguageCode("ca");
                                 break;
                         }
 
@@ -160,6 +171,7 @@ public class Login extends Activity {
                         usuario = (EditText) findViewById(R.id.editTextUsernameLogin);
                         password = (EditText) findViewById(R.id.editTextPasswordLogin);
                         registrar = (TextView) findViewById(R.id.textRegister);
+                        retrievePassw = (TextView) findViewById(R.id.textOlvidoPassw);
                         etUser = (TextInputLayout) findViewById(R.id.etUserLayoutLogin);
                         etPassw = (TextInputLayout) findViewById(R.id.etPasswordLayoutLogin);
                         recordarme = (CheckBox) findViewById(R.id.remember);
@@ -173,12 +185,42 @@ public class Login extends Activity {
                             password.setText(passw);
                         }
 
-                        registrar.setOnTouchListener(new View.OnTouchListener() {
+                        registrar.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public boolean onTouch(View v, MotionEvent event) {
+                            public void onClick(View v) {
                                 Intent intent = new Intent(Login.this, Register.class);
                                 startActivity(intent);
-                                return true;
+                            }
+                        });
+
+                        retrievePassw.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                EditText resetMail = new EditText(v.getContext());
+                                resetMail.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+                                AlertDialog.Builder passwordResetDialog = new AlertDialog.Builder(v.getContext());
+                                passwordResetDialog.setTitle(getResources().getString(R.string.resetPassw));
+                                passwordResetDialog.setMessage(getResources().getString(R.string.resetPasswtext));
+                                passwordResetDialog.setView(resetMail);
+
+                                passwordResetDialog.setPositiveButton(getResources().getString(R.string.enviar), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        String mail = resetMail.getText().toString();
+                                        mAuth.sendPasswordResetEmail(mail).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Mensaje(getResources().getString(R.string.msjEmailT));
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Mensaje(getResources().getString(R.string.msjEmailF));
+                                            }
+                                        });
+                                    }
+                                });
+                                passwordResetDialog.create().show();
                             }
                         });
 
@@ -206,6 +248,7 @@ public class Login extends Activity {
                         usuario = (EditText) findViewById(R.id.editTextUsernameLogin);
                         password = (EditText) findViewById(R.id.editTextPasswordLogin);
                         registrar = (TextView) findViewById(R.id.textRegister);
+                        retrievePassw = (TextView) findViewById(R.id.textOlvidoPassw);
                         etUser = (TextInputLayout) findViewById(R.id.etUserLayoutLogin);
                         etPassw = (TextInputLayout) findViewById(R.id.etPasswordLayoutLogin);
                         recordarme = (CheckBox) findViewById(R.id.remember);
@@ -219,12 +262,42 @@ public class Login extends Activity {
                             password.setText(passw);
                         }
 
-                        registrar.setOnTouchListener(new View.OnTouchListener() {
+                        registrar.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public boolean onTouch(View v, MotionEvent event) {
+                            public void onClick(View v) {
                                 Intent intent = new Intent(Login.this, Register.class);
                                 startActivity(intent);
-                                return true;
+                            }
+                        });
+
+                        retrievePassw.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                EditText resetMail = new EditText(v.getContext());
+                                resetMail.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+                                AlertDialog.Builder passwordResetDialog = new AlertDialog.Builder(v.getContext());
+                                passwordResetDialog.setTitle(getResources().getString(R.string.resetPassw));
+                                passwordResetDialog.setMessage(getResources().getString(R.string.resetPasswtext));
+                                passwordResetDialog.setView(resetMail);
+
+                                passwordResetDialog.setPositiveButton(getResources().getString(R.string.enviar), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        String mail = resetMail.getText().toString();
+                                        mAuth.sendPasswordResetEmail(mail).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Mensaje(getResources().getString(R.string.msjEmailT));
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Mensaje(getResources().getString(R.string.msjEmailF));
+                                            }
+                                        });
+                                    }
+                                });
+                                passwordResetDialog.create().show();
                             }
                         });
 
@@ -243,22 +316,52 @@ public class Login extends Activity {
 
                     boolean recordar = false;
 
-
                     entrar = (Button) findViewById(R.id.buttonLogin);
                     usuario = (EditText) findViewById(R.id.editTextUsernameLogin);
                     password = (EditText) findViewById(R.id.editTextPasswordLogin);
                     registrar = (TextView) findViewById(R.id.textRegister);
+                    retrievePassw = (TextView) findViewById(R.id.textOlvidoPassw);
                     etUser = (TextInputLayout) findViewById(R.id.etUserLayoutLogin);
                     etPassw = (TextInputLayout) findViewById(R.id.etPasswordLayoutLogin);
                     recordarme = (CheckBox) findViewById(R.id.remember);
                     recordarme.setChecked(recordar);
 
-                    registrar.setOnTouchListener(new View.OnTouchListener() {
+                    registrar.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public boolean onTouch(View v, MotionEvent event) {
+                        public void onClick(View v) {
                             Intent intent = new Intent(Login.this, Register.class);
                             startActivity(intent);
-                            return true;
+                        }
+                    });
+
+                    retrievePassw.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            EditText resetMail = new EditText(v.getContext());
+                            resetMail.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+                            AlertDialog.Builder passwordResetDialog = new AlertDialog.Builder(v.getContext());
+                            passwordResetDialog.setTitle(getResources().getString(R.string.resetPassw));
+                            passwordResetDialog.setMessage(getResources().getString(R.string.resetPasswtext));
+                            passwordResetDialog.setView(resetMail);
+
+                            passwordResetDialog.setPositiveButton(getResources().getString(R.string.enviar), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    String mail = resetMail.getText().toString();
+                                    mAuth.sendPasswordResetEmail(mail).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Mensaje(getResources().getString(R.string.msjEmailT));
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Mensaje(getResources().getString(R.string.msjEmailF));
+                                        }
+                                    });
+                                }
+                            });
+                            passwordResetDialog.create().show();
                         }
                     });
 

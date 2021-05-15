@@ -81,8 +81,13 @@ public class Ajustes extends AppCompatActivity {
 
                         switch (lang){
                             case 0: setAppLocale("esp");
+                                mAuth.setLanguageCode("es");
                                 break;
                             case 1: setAppLocale("en");
+                                mAuth.setLanguageCode("en");
+                                break;
+                            case 2: setAppLocale("ca");
+                                mAuth.setLanguageCode("ca");
                                 break;
                         }
 
