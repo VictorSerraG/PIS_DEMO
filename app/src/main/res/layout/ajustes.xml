@@ -20,11 +20,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center|center_horizontal|fill|fill_horizontal|center_vertical|fill_vertical"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:layout_marginBottom="10dp"
             android:text="@string/tamaño"
             android:textColor="?attr/primaryTextColor"
-            android:textSize="18sp" />
+            android:textSize="@dimen/text" />
 
         <Spinner
             android:id="@+id/tamaño"
@@ -45,11 +45,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center|center_horizontal|fill|fill_horizontal|fill_vertical"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:layout_marginBottom="10dp"
             android:text="@string/letra"
             android:textColor="?attr/primaryTextColor"
-            android:textSize="18sp" />
+            android:textSize="@dimen/text" />
 
         <Spinner
             android:id="@+id/letra"
@@ -70,11 +70,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center|center_horizontal|fill|fill_horizontal|center_vertical|fill_vertical"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:layout_marginBottom="10dp"
             android:text="@string/estilo"
             android:textColor="?attr/primaryTextColor"
-            android:textSize="18sp" />
+            android:textSize="@dimen/text" />
 
         <Spinner
             android:id="@+id/estilo"
@@ -95,11 +95,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center|center_horizontal|fill|fill_horizontal|center_vertical|fill_vertical"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:layout_marginBottom="10dp"
             android:text="@string/idioma"
             android:textColor="?attr/primaryTextColor"
-            android:textSize="18sp" />
+            android:textSize="@dimen/text" />
 
         <Spinner
             android:id="@+id/idioma"
@@ -124,13 +124,13 @@
             android:layout_marginTop="10dp"
             android:layout_marginRight="30dp"
             android:layout_marginBottom="20dp"
-            app:backgroundTint ="?attr/primaryTextColor"
             android:gravity="clip_horizontal|center|fill_vertical"
             android:hapticFeedbackEnabled="false"
             android:text="@string/buttonAplicar"
             android:textAllCaps="false"
             android:textColor="?attr/secondaryTextColor"
-            android:textSize="15sp" />
+            android:textSize="@dimen/button"
+            app:backgroundTint="?attr/primaryTextColor" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

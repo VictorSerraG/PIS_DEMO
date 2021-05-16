@@ -10,10 +10,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerInParent="true"
-        android:layout_centerVertical="true"
         android:gravity="center"
         android:text="@string/noteTitle"
-        android:textColor="?attr/primaryTextColor" />
+        android:textColor="?attr/primaryTextColor"
+        android:textSize="@dimen/text" />
 
     <TextView
         android:id="@+id/textView_Titulo"
@@ -21,12 +21,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/textTitulo"
         android:layout_centerInParent="true"
-        android:layout_centerVertical="true"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:gravity="clip_horizontal|center"
         android:text="@string/textTitulo"
-        android:textColor="?attr/primaryTextColor" />
+        android:textColor="?attr/primaryTextColor"
+        android:textSize="@dimen/text2" />
 
     <TextView
         android:id="@+id/textContenido"
@@ -34,10 +34,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/textView_Titulo"
         android:layout_centerInParent="true"
-        android:layout_centerHorizontal="true"
         android:gravity="center_horizontal"
         android:text="@string/noteContent"
-        android:textColor="?attr/primaryTextColor" />
+        android:textColor="?attr/primaryTextColor"
+        android:textSize="@dimen/text" />
 
     <TextView
         android:id="@+id/textView_Content"
@@ -45,11 +45,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/textContenido"
         android:layout_centerInParent="true"
-        android:layout_centerHorizontal="true"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:gravity="center_horizontal"
         android:text="@string/textContennido"
-        android:textColor="?attr/primaryTextColor" />
+        android:textColor="?attr/primaryTextColor"
+        android:textSize="@dimen/text2" />
 
 </RelativeLayout>

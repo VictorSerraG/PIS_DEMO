@@ -133,6 +133,8 @@ public class Ajustes extends AppCompatActivity {
                             size = 0;
                         }
 
+                        
+
                         setContentView(R.layout.ajustes);
 
                         //Spinners

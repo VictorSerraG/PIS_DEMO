@@ -23,7 +23,7 @@
             android:text="@string/welcome"
             android:textAllCaps="false"
             android:textColor="?attr/primaryTextColor"
-            android:textSize="30sp" />
+            android:textSize="@dimen/titulo" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/etUserLayoutLogin"
@@ -47,7 +47,7 @@
                 android:ems="10"
                 android:inputType="textEmailAddress"
                 android:textColor="?attr/primaryTextColor"
-                android:textSize="22sp" />
+                android:textSize="@dimen/text" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -75,7 +75,7 @@
                 android:ems="10"
                 android:inputType="textPassword"
                 android:textColor="?attr/primaryTextColor"
-                android:textSize="22sp" />
+                android:textSize="@dimen/text" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <CheckBox
@@ -87,7 +87,8 @@
             android:layout_marginEnd="30dp"
             android:layout_marginBottom="10dp"
             android:gravity="center|start|center_vertical"
-            android:text="@string/checkRecordarme" />
+            android:text="@string/checkRecordarme"
+            android:textSize="@dimen/check" />
 
         <Button
             android:id="@+id/buttonLogin"
@@ -102,7 +103,7 @@
             android:text="@string/login"
             android:textAllCaps="false"
             android:textColor="?attr/secondaryTextColor"
-            android:textSize="20sp" />
+            android:textSize="@dimen/button" />
 
         <TextView
             android:id="@+id/textRegister"
@@ -118,7 +119,7 @@
             android:onClick="onClick"
             android:text="@string/ToRegister"
             android:textColor="?attr/primaryTextColor"
-            android:textSize="18sp" />
+            android:textSize="@dimen/text" />
 
         <TextView
             android:id="@+id/textOlvidoPassw"
@@ -133,7 +134,7 @@
             android:onClick="onClick"
             android:text="@string/olvidarPassw"
             android:textColor="?attr/primaryTextColor"
-            android:textSize="18sp" />
+            android:textSize="@dimen/text" />
 
     </LinearLayout>
 

@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="false"
         android:text="@string/noteTitle"
-        android:textColor="?attr/primaryTextColor" />
+        android:textColor="?attr/primaryTextColor"
+        android:textSize="@dimen/text" />
 
     <EditText
         android:id="@+id/editText_Titulo"
@@ -19,12 +20,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/textView"
         android:layout_centerInParent="true"
-        android:layout_centerHorizontal="true"
         android:autofillHints=""
         android:ems="10"
         android:importantForAutofill="yes"
         android:inputType="textPersonName"
-        android:textColor="?attr/primaryTextColor" />
+        android:textColor="?attr/primaryTextColor"
+        android:textSize="@dimen/text" />
 
     <TextView
         android:id="@+id/textView_Contenido"
@@ -32,9 +33,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/editText_Titulo"
         android:layout_centerInParent="true"
-        android:layout_centerHorizontal="true"
         android:text="@string/noteContent"
-        android:textColor="?attr/primaryTextColor" />
+        android:textColor="?attr/primaryTextColor"
+        android:textSize="@dimen/text" />
 
     <EditText
         android:id="@+id/editText_Contenido"
@@ -42,12 +43,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/textView_Contenido"
         android:layout_centerInParent="true"
-        android:layout_centerVertical="true"
         android:autofillHints=""
         android:ems="10"
         android:importantForAutofill="yes"
         android:inputType="textMultiLine"
-        android:textColor="?attr/primaryTextColor" />
+        android:textColor="?attr/primaryTextColor"
+        android:textSize="@dimen/text" />
 
     <Button
         android:id="@+id/button_Agregar"
@@ -55,8 +56,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/editText_Contenido"
         android:layout_centerHorizontal="true"
-        app:backgroundTint ="?attr/primaryTextColor"
         android:text="@string/buttonAgregar"
-        android:textColor="?attr/secondaryTextColor" />
+        android:textColor="?attr/secondaryTextColor"
+        android:textSize="@dimen/button"
+        app:backgroundTint="?attr/primaryTextColor" />
 
 </RelativeLayout>

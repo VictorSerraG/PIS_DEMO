@@ -57,6 +57,8 @@
     <string name="enviar">ENVIAR</string>
     <string name="msjEmailT">Revisa tu correo</string>
     <string name="msjEmailF">No existe el correo</string>
+    <string name="VerificacionEmail">Se ha enviado un email de verificiación</string>
+    <string name="VerificacionEmailFailed">No has verificado el email</string>
 
     <string-array name="tamaño">
         <item>Muy pequeña</item>

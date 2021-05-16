@@ -21,6 +21,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
@@ -56,114 +58,144 @@ public class Register extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        boolean flag = false;
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
 
-        DocumentReference docRef = db.collection("users").document(mAuth.getCurrentUser().getEmail());
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+        try{
+            DocumentReference docRef = db.collection("users").document(mAuth.getCurrentUser().getEmail());
+        } catch (Exception e) {
+            flag = true;
+        }
+        if(!flag){
+            DocumentReference docRef = db.collection("users").document(mAuth.getCurrentUser().getEmail());
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
 
-                        //Estilo
-                        int theme;
-                        try{
-                            theme = document.getLong("estilo").intValue();
-                        } catch (Exception e) {
-                            theme = 0;
-                        }
-
-                        switch (theme){
-                            case 0: setTheme(R.style.FeedActivityThemeLight);
-                                break;
-                            case 1: setTheme(R.style.FeedActivityThemeDark);
-                                break;
-                        }
-
-                        //Idioma
-                        int lang;
-                        try{
-                            lang = document.getLong("idioma").intValue();
-                        } catch (Exception e) {
-                            lang = 0;
-                        }
-
-                        switch (lang){
-                            case 0: setAppLocale("esp");
-                                break;
-                            case 1: setAppLocale("en");
-                                break;
-                            case 2: setAppLocale("ca");
-                                break;
-                        }
-
-                        // Letra
-                        String strletra = "";
-                        int fuente;
-                        try{
-                            fuente = document.getLong("letra").intValue();
-                        } catch (Exception e) {
-                            fuente = 0;
-                        }
-
-                        switch (fuente){
-                            case 0:
-                                strletra = "Roboto-Bold";
-                                break;
-                            case 1:
-                                strletra = "Roboto-Medium";
-                                break;
-                            case 2:
-                                strletra = "Roboto-Regular";
-                                break;
-                            case 3:
-                                strletra = "Roboto-Thin";
-                                break;
-                            default:
-                                break;
-                        }
-                        strletra = "fonts/" + strletra + ".ttf";
-                        ViewPump.init(ViewPump.builder()
-                                .addInterceptor(new CalligraphyInterceptor(
-                                        new CalligraphyConfig.Builder()
-                                                .setDefaultFontPath(strletra)
-                                                .setFontAttrId(R.attr.fontPath)
-                                                .build()))
-                                .build());
-
-                        //Tamaño
-                        int size;
-                        try{
-                            size = document.getLong("tamaño").intValue();
-                        } catch (Exception e) {
-                            size = 0;
-                        }
-
-                        setContentView(R.layout.register);
-
-                        crear = (Button) findViewById(R.id.buttonCrear);
-                        email = (EditText) findViewById(R.id.editTextUsernameRegister);
-                        password = (EditText) findViewById(R.id.editTextPasswordRegister);
-                        password2 = (EditText) findViewById(R.id.editTextPasswordRegisterSecure);
-                        terms = (CheckBox) findViewById(R.id.termsOfUse);
-                        etUser = (TextInputLayout) findViewById(R.id.etUserLayoutRegister);
-                        etPassw = (TextInputLayout) findViewById(R.id.etPasswordLayoutRegister);
-                        etPassw2 = (TextInputLayout) findViewById(R.id.etPasswordLayoutRegisterSecure);
-
-                        crear.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                etUser.setError(null);
-                                etPassw.setError(null);
-                                etPassw2.setError(null);
-                                crear();
+                            //Estilo
+                            int theme;
+                            try{
+                                theme = document.getLong("estilo").intValue();
+                            } catch (Exception e) {
+                                theme = 0;
                             }
-                        });
+
+                            switch (theme){
+                                case 0: setTheme(R.style.FeedActivityThemeLight);
+                                    break;
+                                case 1: setTheme(R.style.FeedActivityThemeDark);
+                                    break;
+                            }
+
+                            //Idioma
+                            int lang;
+                            try{
+                                lang = document.getLong("idioma").intValue();
+                            } catch (Exception e) {
+                                lang = 0;
+                            }
+
+                            switch (lang){
+                                case 0: setAppLocale("esp");
+                                    break;
+                                case 1: setAppLocale("en");
+                                    break;
+                                case 2: setAppLocale("ca");
+                                    break;
+                            }
+
+                            // Letra
+                            String strletra = "";
+                            int fuente;
+                            try{
+                                fuente = document.getLong("letra").intValue();
+                            } catch (Exception e) {
+                                fuente = 0;
+                            }
+
+                            switch (fuente){
+                                case 0:
+                                    strletra = "Roboto-Bold";
+                                    break;
+                                case 1:
+                                    strletra = "Roboto-Medium";
+                                    break;
+                                case 2:
+                                    strletra = "Roboto-Regular";
+                                    break;
+                                case 3:
+                                    strletra = "Roboto-Thin";
+                                    break;
+                                default:
+                                    break;
+                            }
+                            strletra = "fonts/" + strletra + ".ttf";
+                            ViewPump.init(ViewPump.builder()
+                                    .addInterceptor(new CalligraphyInterceptor(
+                                            new CalligraphyConfig.Builder()
+                                                    .setDefaultFontPath(strletra)
+                                                    .setFontAttrId(R.attr.fontPath)
+                                                    .build()))
+                                    .build());
+
+                            //Tamaño
+                            int size;
+                            try{
+                                size = document.getLong("tamaño").intValue();
+                            } catch (Exception e) {
+                                size = 0;
+                            }
+
+                            setContentView(R.layout.register);
+
+                            crear = (Button) findViewById(R.id.buttonCrear);
+                            email = (EditText) findViewById(R.id.editTextUsernameRegister);
+                            password = (EditText) findViewById(R.id.editTextPasswordRegister);
+                            password2 = (EditText) findViewById(R.id.editTextPasswordRegisterSecure);
+                            terms = (CheckBox) findViewById(R.id.termsOfUse);
+                            etUser = (TextInputLayout) findViewById(R.id.etUserLayoutRegister);
+                            etPassw = (TextInputLayout) findViewById(R.id.etPasswordLayoutRegister);
+                            etPassw2 = (TextInputLayout) findViewById(R.id.etPasswordLayoutRegisterSecure);
+
+                            crear.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    etUser.setError(null);
+                                    etPassw.setError(null);
+                                    etPassw2.setError(null);
+                                    crear();
+                                }
+                            });
+                        } else {
+                            Log.d(TAG, "No such document");
+                            setContentView(R.layout.register);
+
+                            crear = (Button) findViewById(R.id.buttonCrear);
+                            email = (EditText) findViewById(R.id.editTextUsernameRegister);
+                            password = (EditText) findViewById(R.id.editTextPasswordRegister);
+                            password2 = (EditText) findViewById(R.id.editTextPasswordRegisterSecure);
+                            terms = (CheckBox) findViewById(R.id.termsOfUse);
+                            etUser = (TextInputLayout) findViewById(R.id.etUserLayoutRegister);
+                            etPassw = (TextInputLayout) findViewById(R.id.etPasswordLayoutRegister);
+                            etPassw2 = (TextInputLayout) findViewById(R.id.etPasswordLayoutRegisterSecure);
+
+                            crear.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    etUser.setError(null);
+                                    etPassw.setError(null);
+                                    etPassw2.setError(null);
+                                    crear();
+                                }
+                            });
+                        }
                     } else {
-                        Log.d(TAG, "No such document");
+                        Log.d(TAG, "get failed with ", task.getException());
                         setContentView(R.layout.register);
 
                         crear = (Button) findViewById(R.id.buttonCrear);
@@ -185,31 +217,30 @@ public class Register extends AppCompatActivity {
                             }
                         });
                     }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                    setContentView(R.layout.register);
-
-                    crear = (Button) findViewById(R.id.buttonCrear);
-                    email = (EditText) findViewById(R.id.editTextUsernameRegister);
-                    password = (EditText) findViewById(R.id.editTextPasswordRegister);
-                    password2 = (EditText) findViewById(R.id.editTextPasswordRegisterSecure);
-                    terms = (CheckBox) findViewById(R.id.termsOfUse);
-                    etUser = (TextInputLayout) findViewById(R.id.etUserLayoutRegister);
-                    etPassw = (TextInputLayout) findViewById(R.id.etPasswordLayoutRegister);
-                    etPassw2 = (TextInputLayout) findViewById(R.id.etPasswordLayoutRegisterSecure);
-
-                    crear.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            etUser.setError(null);
-                            etPassw.setError(null);
-                            etPassw2.setError(null);
-                            crear();
-                        }
-                    });
                 }
-            }
-        });
+            });
+        }else{
+            setContentView(R.layout.register);
+
+            crear = (Button) findViewById(R.id.buttonCrear);
+            email = (EditText) findViewById(R.id.editTextUsernameRegister);
+            password = (EditText) findViewById(R.id.editTextPasswordRegister);
+            password2 = (EditText) findViewById(R.id.editTextPasswordRegisterSecure);
+            terms = (CheckBox) findViewById(R.id.termsOfUse);
+            etUser = (TextInputLayout) findViewById(R.id.etUserLayoutRegister);
+            etPassw = (TextInputLayout) findViewById(R.id.etPasswordLayoutRegister);
+            etPassw2 = (TextInputLayout) findViewById(R.id.etPasswordLayoutRegisterSecure);
+
+            crear.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    etUser.setError(null);
+                    etPassw.setError(null);
+                    etPassw2.setError(null);
+                    crear();
+                }
+            });
+        }
     }
 
     @Override
@@ -276,6 +307,17 @@ public class Register extends AppCompatActivity {
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d(TAG, "createUserWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
+                                user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Mensaje(getResources().getString(R.string.VerificacionEmail));
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.d(TAG, "onFailure: Email not sent " + e.getMessage());
+                                    }
+                                });
                                 updateUI(user);
                                 createSettings();
                                 menuMain(task.getResult().getUser().getEmail());

@@ -58,6 +58,8 @@
     <string name="enviar">SEND</string>
     <string name="msjEmailT">Reset link sent to your email</string>
     <string name="msjEmailF">Email does not exist</string>
+    <string name="VerificacionEmail">Verification email has been sent</string>
+    <string name="VerificacionEmailFailed">Please verify your email address</string>
 
     <string-array name="tamaño">
         <item>Very small</item>

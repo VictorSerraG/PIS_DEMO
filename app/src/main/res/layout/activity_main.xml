@@ -18,7 +18,8 @@
             android:layout_height="wrap_content"
             android:gravity="fill|fill_horizontal"
             android:text="@string/NoteListU"
-            android:textColor="?attr/primaryTextColor" />
+            android:textColor="?attr/primaryTextColor"
+            android:textSize="@dimen/text" />
 
         <ListView
             android:id="@+id/listView_Lista"
