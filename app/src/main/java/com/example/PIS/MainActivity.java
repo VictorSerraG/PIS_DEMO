@@ -30,6 +30,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -61,8 +63,9 @@ public class MainActivity extends AppCompatActivity {
 
     TextView textLista;
     FloatingActionButton add;
-    AdaptadorBD DB;
-    String getTitle;
+
+    Nota notaAct;
+
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
     private ArrayAdapter<Nota> notaAdaptador;
@@ -181,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
                         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                getTitle = (String) lista.getItemAtPosition(position);
+                                notaAct = (Nota) lista.getItemAtPosition(position);
                                 alert("list");
                             }
                         });
@@ -205,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
                         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                getTitle = (String) lista.getItemAtPosition(position);
+                                notaAct = (Nota) lista.getItemAtPosition(position);
                                 alert("list");
                             }
                         });
@@ -230,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
                     lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            getTitle = (String) lista.getItemAtPosition(position);
+                            notaAct = (Nota) lista.getItemAtPosition(position);
                             alert("list");
                         }
                     });
@@ -312,22 +315,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public String getNote(){
-    //    Query query = db.collection("users").document(mAuth.getCurrentUser().getEmail()).collection("notes").orderBy("titol" ,Query.Direction.DESCENDING);
-      //  query.g
-        String content= "";
-
-
-        DB = new AdaptadorBD(this);
-        Cursor c = DB.getNote(getTitle);
-        if(c.moveToFirst()) {
-
-            do {
-                content = c.getString(2);
-            } while (c.moveToNext());
-        }
-        return content;
-    }
 
     public void actividad(String act){
         String type ="",content="";
@@ -339,18 +326,18 @@ public class MainActivity extends AppCompatActivity {
         }else{
             if(act.equals("edit")) {
                 type = "edit";
-                content = getNote();
+
                 Intent intent = new Intent(MainActivity.this, AgregarNota.class);
                 intent.putExtra("type", type);
-                intent.putExtra("title", getTitle);
-                intent.putExtra("content", content);
+                intent.putExtra("title", notaAct.getTitol());
+                intent.putExtra("content", notaAct.getContingut());
                 startActivity(intent);
             }else {
                 if (act.equals("see")){
-                    content = getNote();
+
                     Intent intent = new Intent(MainActivity.this, VerNota.class);
-                    intent.putExtra("title", getTitle);
-                    intent.putExtra("content", content);
+                    intent.putExtra("title", notaAct.getTitol());
+                    intent.putExtra("content", notaAct.getContingut());
                     startActivity(intent);
                 }
             }
@@ -361,7 +348,7 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog alerta;
         alerta = new android.app.AlertDialog.Builder(this).create();
         if(f.equals("list")){
-            alerta.setTitle("The title of the note: " +getTitle);
+            alerta.setTitle("The title of the note: " + notaAct.getTitol());
             alerta.setMessage("Quina acció vol realitzar?");
             alerta.setButton("Veure Nota", new DialogInterface.OnClickListener() {
                 @Override
@@ -409,16 +396,26 @@ public class MainActivity extends AppCompatActivity {
         }
         alerta.show();
     }
-
+//fix
     private void delete(String f){
-        DB = new AdaptadorBD(this);
-        if (f.equals("delete")){
-            DB.deleteNota(getTitle);
-        }else {
-            if(f.equals("deletes")){
-                DB.deleteNotes();
-            }
-        }
+        DocumentReference docRef = db.collection("users").document(mAuth.getCurrentUser().getEmail()).collection("notes").document(notaAct.getTitol());
+
+
+        docRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error deleting document", e);
+                        }
+                    });
+
+
+
     }
     private void setUp(String email){
 
@@ -431,17 +428,5 @@ public class MainActivity extends AppCompatActivity {
         conf.setLocale(new Locale(localeCode.toLowerCase()));
         res.updateConfiguration(conf, dm);
     }
-    public class NotaViewHolder extends RecyclerView.ViewHolder{
-        TextView titol,contingut;
-        View view;
-        ListView lista;
-
-
-        public NotaViewHolder(@NonNull View itemView) {
-            super(itemView);
-            titol = itemView.findViewById(R.id.listView_Lista);
-            contingut = itemView.findViewById(R.id.listView_Lista);
-            view = itemView;
-        }
-    }
+    
 }

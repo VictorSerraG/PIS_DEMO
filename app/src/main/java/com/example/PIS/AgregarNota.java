@@ -30,6 +30,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -49,7 +50,7 @@ public class AgregarNota extends AppCompatActivity {
     EditText TITLE, CONTENT;
     String type, getTitle;
     private static final int SALIR = Menu.FIRST;
-    AdaptadorBD DB;
+
     private static final String TAG = "AddNote";
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
@@ -243,7 +244,7 @@ public class AgregarNota extends AppCompatActivity {
 
     private void addUpdateNotes() {
         //basef = FirebaseDatabase.getInstance();
-        DB = new AdaptadorBD(this);
+
         String nTitle, nContent, msj;
         nTitle = TITLE.getText().toString();
         nContent = CONTENT.getText().toString();
@@ -293,8 +294,40 @@ public class AgregarNota extends AppCompatActivity {
                         CONTENT.requestFocus();
                         Mensaje(msj);
                     } else {
-                        DB.updateNota(nTitle, nContent, getTitle);
-                        actividad(nTitle, nContent);
+                        CollectionReference collRef = db.collection("users").document(mAuth.getCurrentUser().getEmail()).collection("notes");
+                        collRef.document(getTitle)
+                                .delete()
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error deleting document", e);
+                                    }
+                                });
+
+                        Map<String,Object> note = new HashMap<>();
+                        note.put("titol",nTitle);
+                        note.put("content",nContent);
+                                collRef.document(nTitle).set(note).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(AgregarNota.this,"Nota Cambiada",Toast.LENGTH_SHORT).show();
+
+                            }
+
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(AgregarNota.this,"Error tornaho a intentar",Toast.LENGTH_SHORT).show();
+
+                            }
+                        });
+
                     }
                 }
             }
