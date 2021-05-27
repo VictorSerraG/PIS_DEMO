@@ -13,9 +13,11 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -23,14 +25,23 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,22 +60,33 @@ public class MainActivity extends AppCompatActivity {
     private static final int ARCHIVADOS = Menu.FIRST + 2;
     private static final int EXIST = Menu.FIRST + 3;
     private static final int DELETE = Menu.FIRST + 4;
-    ListView lista;
+
     TextView textLista;
     FloatingActionButton add;
-    AdaptadorBD DB;
-    List<String> item = null;
-    String getTitle;
+
+    Nota notaAct;
+
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
+    private ArrayAdapter<Nota> notaAdaptador;
     private static final String TAG = "MAIN";
-
+    List<String> item = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+
+
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
+
+
+        notaAdaptador = new ArrayAdapter<Nota>(MainActivity.this,android.R.layout.simple_list_item_1) ;
+
+        List<String> titols = new ArrayList<>();
+        List<String> continguts = new ArrayList<>();
+
 
         DocumentReference docRef = db.collection("users").document(mAuth.getCurrentUser().getEmail());
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -78,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
                         //Estilo
                         int theme;
                         try{
+
                             theme = document.getLong("estilo").intValue();
                         } catch (Exception e) {
                             theme = 0;
@@ -155,11 +178,13 @@ public class MainActivity extends AppCompatActivity {
                         setContentView(R.layout.activity_main);
 
                         textLista = (TextView)findViewById(R.id.textView_Lista);
-                        lista = (ListView)findViewById(R.id.listView_Lista);
+                        ListView lista = findViewById(R.id.listView_Lista);
+
+                        lista.setAdapter(notaAdaptador);
                         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                getTitle = (String) lista.getItemAtPosition(position);
+                                notaAct = (Nota) lista.getItemAtPosition(position);
                                 alert("list");
                             }
                         });
@@ -177,11 +202,13 @@ public class MainActivity extends AppCompatActivity {
                         setContentView(R.layout.activity_main);
 
                         textLista = (TextView)findViewById(R.id.textView_Lista);
-                        lista = (ListView)findViewById(R.id.listView_Lista);
+                        ListView lista = findViewById(R.id.listView_Lista);
+
+                        lista.setAdapter(notaAdaptador);
                         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                getTitle = (String) lista.getItemAtPosition(position);
+                                notaAct = (Nota) lista.getItemAtPosition(position);
                                 alert("list");
                             }
                         });
@@ -200,11 +227,13 @@ public class MainActivity extends AppCompatActivity {
                     setContentView(R.layout.activity_main);
 
                     textLista = (TextView)findViewById(R.id.textView_Lista);
-                    lista = (ListView)findViewById(R.id.listView_Lista);
+                    ListView lista = findViewById(R.id.listView_Lista);
+
+                    lista.setAdapter(notaAdaptador);
                     lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            getTitle = (String) lista.getItemAtPosition(position);
+                            notaAct = (Nota) lista.getItemAtPosition(position);
                             alert("list");
                         }
                     });
@@ -264,36 +293,28 @@ public class MainActivity extends AppCompatActivity {
     }
     
     private void showNotes(){
-        DB = new AdaptadorBD(this);
-        Cursor c = DB.getNotes();
-        item = new ArrayList<String>();
-        String title = "";
-        if(c.moveToFirst() == false){
-            textLista.setText(("No hi ha notes"));
-        }else{
-            do{
-                title = c.getString(1);
-                item.add(title);
-            }while (c.moveToNext());
-        }
+        item =  new ArrayList<String>();
+        db.collection("users").document(mAuth.getCurrentUser().getEmail()).collection("notes").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    ArrayList<Nota> notas = new ArrayList<>();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Nota n = document.toObject(Nota.class);
+                        notas.add(n);
+                        Log.d(TAG, document.getString("titol"));
+                    }
+                    notaAdaptador.addAll(notas);
 
-        ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,item);
-        lista.setAdapter(adaptador);
+                } else {
+                    textLista.setText("No hi ha notes");
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+
     }
 
-    public String getNote(){
-        String type ="",content= "";
-
-        DB = new AdaptadorBD(this);
-        Cursor c = DB.getNote(getTitle);
-        if(c.moveToFirst()) {
-
-            do {
-                content = c.getString(2);
-            } while (c.moveToNext());
-        }
-        return content;
-    }
 
     public void actividad(String act){
         String type ="",content="";
@@ -305,18 +326,18 @@ public class MainActivity extends AppCompatActivity {
         }else{
             if(act.equals("edit")) {
                 type = "edit";
-                content = getNote();
+
                 Intent intent = new Intent(MainActivity.this, AgregarNota.class);
                 intent.putExtra("type", type);
-                intent.putExtra("title", getTitle);
-                intent.putExtra("content", content);
+                intent.putExtra("title", notaAct.getTitol());
+                intent.putExtra("content", notaAct.getContingut());
                 startActivity(intent);
             }else {
                 if (act.equals("see")){
-                    content = getNote();
+
                     Intent intent = new Intent(MainActivity.this, VerNota.class);
-                    intent.putExtra("title", getTitle);
-                    intent.putExtra("content", content);
+                    intent.putExtra("title", notaAct.getTitol());
+                    intent.putExtra("content", notaAct.getContingut());
                     startActivity(intent);
                 }
             }
@@ -327,7 +348,7 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog alerta;
         alerta = new android.app.AlertDialog.Builder(this).create();
         if(f.equals("list")){
-            alerta.setTitle("The title of the note: " +getTitle);
+            alerta.setTitle("The title of the note: " + notaAct.getTitol());
             alerta.setMessage("Quina acció vol realitzar?");
             alerta.setButton("Veure Nota", new DialogInterface.OnClickListener() {
                 @Override
@@ -375,16 +396,26 @@ public class MainActivity extends AppCompatActivity {
         }
         alerta.show();
     }
-
+//fix
     private void delete(String f){
-        DB = new AdaptadorBD(this);
-        if (f.equals("delete")){
-            DB.deleteNota(getTitle);
-        }else {
-            if(f.equals("deletes")){
-                DB.deleteNotes();
-            }
-        }
+        DocumentReference docRef = db.collection("users").document(mAuth.getCurrentUser().getEmail()).collection("notes").document(notaAct.getTitol());
+
+
+        docRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error deleting document", e);
+                        }
+                    });
+
+
+
     }
     private void setUp(String email){
 
@@ -397,4 +428,5 @@ public class MainActivity extends AppCompatActivity {
         conf.setLocale(new Locale(localeCode.toLowerCase()));
         res.updateConfiguration(conf, dm);
     }
+    
 }

@@ -26,13 +26,18 @@ import androidx.appcompat.app.AppCompatActivity;
 //import com.google.firebase.database.FirebaseDatabase;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import io.github.inflationx.calligraphy3.CalligraphyConfig;
 import io.github.inflationx.calligraphy3.CalligraphyInterceptor;
@@ -45,7 +50,7 @@ public class AgregarNota extends AppCompatActivity {
     EditText TITLE, CONTENT;
     String type, getTitle;
     private static final int SALIR = Menu.FIRST;
-    AdaptadorBD DB;
+
     private static final String TAG = "AddNote";
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
@@ -239,54 +244,90 @@ public class AgregarNota extends AppCompatActivity {
 
     private void addUpdateNotes() {
         //basef = FirebaseDatabase.getInstance();
-        DB = new AdaptadorBD(this);
-        String title, content, msj;
-        title = TITLE.getText().toString();
-        content = CONTENT.getText().toString();
+
+        String nTitle, nContent, msj;
+        nTitle = TITLE.getText().toString();
+        nContent = CONTENT.getText().toString();
         if (type.equals("add")) {
-            if (title.equals("")) {
+            if (nTitle.equals("")) {
                 msj = "Ingrese un titulo";
                 TITLE.requestFocus();
                 Mensaje(msj);
             } else {
-                if (content.equals("")) {
+                if (nContent.equals("")) {
                     msj = "Añade contenido a la nota";
                     CONTENT.requestFocus();
                     Mensaje(msj);
                 } else {
-                    Cursor c = DB.getNote(title);
-                    String gettitle = "";
-                    if (c.moveToFirst()) {
-                        do {
-                            gettitle = c.getString(1);
-                        } while (c.moveToNext());
-                    }
-                    if (gettitle.equals(title)) {
-                        TITLE.requestFocus();
-                        msj = "El titulo de esta nota ya existe";
-                        Mensaje(msj);
-                    } else {
-                        DB.addNote(title, content);
-                        actividad(title, content);
-                    }
+
+                    DocumentReference docRef = db.collection("users").document(mAuth.getCurrentUser().getEmail()).collection("notes").document(nTitle);
+                    Map<String,Object> note = new HashMap<>();
+                    note.put("titol",nTitle);
+                    note.put("content",nContent);
+                    docRef.set(note).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(AgregarNota.this,"Nota Afegida",Toast.LENGTH_SHORT).show();
+                            onBackPressed();
+                        }
+
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(AgregarNota.this,"Error tornaho a intentar",Toast.LENGTH_SHORT).show();
+                            onBackPressed();
+                        }
+                    });
                 }
 
             }
         } else {
             if (type.equals("edit")) {
                 Add.setText("Update nota");
-                if (title.equals("")) {
+                if (nTitle.equals("")) {
                     msj = "Añade una nota";
                     TITLE.requestFocus();
                     Mensaje(msj);
                 } else {
-                    if (content.equals("")) {
+                    if (nContent.equals("")) {
                         msj = "Añade contenido a la nota";
                         CONTENT.requestFocus();
                         Mensaje(msj);
                     } else {
-                        DB.updateNota(title, content, getTitle);
-                        actividad(title, content);
+                        CollectionReference collRef = db.collection("users").document(mAuth.getCurrentUser().getEmail()).collection("notes");
+                        collRef.document(getTitle)
+                                .delete()
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error deleting document", e);
+                                    }
+                                });
+
+                        Map<String,Object> note = new HashMap<>();
+                        note.put("titol",nTitle);
+                        note.put("content",nContent);
+                                collRef.document(nTitle).set(note).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(AgregarNota.this,"Nota Cambiada",Toast.LENGTH_SHORT).show();
+
+                            }
+
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(AgregarNota.this,"Error tornaho a intentar",Toast.LENGTH_SHORT).show();
+
+                            }
+                        });
+
                     }
                 }
             }
