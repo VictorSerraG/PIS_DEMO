@@ -12,7 +12,8 @@
         android:layout_centerInParent="false"
         android:text="@string/noteTitle"
         android:textColor="?attr/primaryTextColor"
-        android:textSize="@dimen/text" />
+        android:textSize="@dimen/text"
+        app:autoSizeTextType="uniform"/>
 
     <EditText
         android:id="@+id/editText_Titulo"
@@ -25,7 +26,8 @@
         android:importantForAutofill="yes"
         android:inputType="textPersonName"
         android:textColor="?attr/primaryTextColor"
-        android:textSize="@dimen/text" />
+        android:textSize="@dimen/text"
+        app:autoSizeTextType="uniform"/>
 
     <TextView
         android:id="@+id/textView_Contenido"
@@ -35,7 +37,8 @@
         android:layout_centerInParent="true"
         android:text="@string/noteContent"
         android:textColor="?attr/primaryTextColor"
-        android:textSize="@dimen/text" />
+        android:textSize="@dimen/text"
+        app:autoSizeTextType="uniform"/>
 
     <EditText
         android:id="@+id/editText_Contenido"
@@ -48,7 +51,8 @@
         android:importantForAutofill="yes"
         android:inputType="textMultiLine"
         android:textColor="?attr/primaryTextColor"
-        android:textSize="@dimen/text" />
+        android:textSize="@dimen/text"
+        app:autoSizeTextType="uniform"/>
 
     <Button
         android:id="@+id/button_Agregar"
@@ -59,6 +63,7 @@
         android:text="@string/buttonAgregar"
         android:textColor="?attr/secondaryTextColor"
         android:textSize="@dimen/button"
-        app:backgroundTint="?attr/primaryTextColor" />
+        app:backgroundTint="?attr/primaryTextColor"
+        app:autoSizeTextType="uniform"/>
 
 </RelativeLayout>

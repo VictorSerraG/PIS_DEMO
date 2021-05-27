@@ -24,7 +24,8 @@
             android:layout_marginBottom="10dp"
             android:text="@string/tamaño"
             android:textColor="?attr/primaryTextColor"
-            android:textSize="@dimen/text" />
+            android:textSize="@dimen/text"
+            app:autoSizeTextType="uniform"/>
 
         <Spinner
             android:id="@+id/tamaño"
@@ -38,7 +39,8 @@
             android:gravity="center|fill"
             android:spinnerMode="dropdown"
             android:textColor="?attr/primaryTextColor"
-            android:entries="@array/tamaño"/>
+            android:entries="@array/tamaño"
+            app:autoSizeTextType="uniform"/>
 
         <TextView
             android:id="@+id/textView_Letra"
@@ -49,7 +51,8 @@
             android:layout_marginBottom="10dp"
             android:text="@string/letra"
             android:textColor="?attr/primaryTextColor"
-            android:textSize="@dimen/text" />
+            android:textSize="@dimen/text"
+            app:autoSizeTextType="uniform"/>
 
         <Spinner
             android:id="@+id/letra"
@@ -63,7 +66,8 @@
             android:gravity="center|fill|fill_vertical"
             android:spinnerMode="dropdown"
             android:textColor="?attr/primaryTextColor"
-            android:entries="@array/letra"/>
+            android:entries="@array/letra"
+            app:autoSizeTextType="uniform"/>
 
         <TextView
             android:id="@+id/textView_Estilo"
@@ -74,7 +78,8 @@
             android:layout_marginBottom="10dp"
             android:text="@string/estilo"
             android:textColor="?attr/primaryTextColor"
-            android:textSize="@dimen/text" />
+            android:textSize="@dimen/text"
+            app:autoSizeTextType="uniform"/>
 
         <Spinner
             android:id="@+id/estilo"
@@ -88,7 +93,8 @@
             android:gravity="center|fill|fill_vertical"
             android:spinnerMode="dropdown"
             android:textColor="?attr/primaryTextColor"
-            android:entries="@array/estilo"/>
+            android:entries="@array/estilo"
+            app:autoSizeTextType="uniform"/>
 
         <TextView
             android:id="@+id/textView_Idioma"
@@ -99,7 +105,8 @@
             android:layout_marginBottom="10dp"
             android:text="@string/idioma"
             android:textColor="?attr/primaryTextColor"
-            android:textSize="@dimen/text" />
+            android:textSize="@dimen/text"
+            app:autoSizeTextType="uniform"/>
 
         <Spinner
             android:id="@+id/idioma"
@@ -113,7 +120,8 @@
             android:gravity="center|fill|fill_vertical"
             android:spinnerMode="dropdown"
             android:textColor="?attr/primaryTextColor"
-            android:entries="@array/idioma"/>
+            android:entries="@array/idioma"
+            app:autoSizeTextType="uniform"/>
 
         <Button
             android:id="@+id/buttonAplicar"
@@ -130,7 +138,8 @@
             android:textAllCaps="false"
             android:textColor="?attr/secondaryTextColor"
             android:textSize="@dimen/button"
-            app:backgroundTint="?attr/primaryTextColor" />
+            app:backgroundTint="?attr/primaryTextColor"
+            app:autoSizeTextType="uniform"/>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

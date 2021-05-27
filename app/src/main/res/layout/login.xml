@@ -23,7 +23,8 @@
             android:text="@string/welcome"
             android:textAllCaps="false"
             android:textColor="?attr/primaryTextColor"
-            android:textSize="@dimen/titulo" />
+            android:textSize="@dimen/titulo"
+            app:autoSizeTextType="uniform"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/etUserLayoutLogin"
@@ -37,7 +38,8 @@
             app:boxBackgroundMode="outline"
             app:boxStrokeColor="@color/md_purple_900"
             app:errorEnabled="true"
-            app:hintTextColor="?attr/primaryTextColor">
+            app:hintTextColor="?attr/primaryTextColor"
+            app:autoSizeTextType="uniform">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextUsernameLogin"
@@ -47,7 +49,8 @@
                 android:ems="10"
                 android:inputType="textEmailAddress"
                 android:textColor="?attr/primaryTextColor"
-                android:textSize="@dimen/text" />
+                android:textSize="@dimen/text"
+                app:autoSizeTextType="uniform"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -64,7 +67,8 @@
             app:boxStrokeColor="@color/md_purple_900"
             app:errorEnabled="true"
             app:hintTextColor="?attr/primaryTextColor"
-            app:passwordToggleEnabled="true">
+            app:passwordToggleEnabled="true"
+            app:autoSizeTextType="uniform">
 
 
             <com.google.android.material.textfield.TextInputEditText
@@ -75,7 +79,8 @@
                 android:ems="10"
                 android:inputType="textPassword"
                 android:textColor="?attr/primaryTextColor"
-                android:textSize="@dimen/text" />
+                android:textSize="@dimen/text"
+                app:autoSizeTextType="uniform"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <CheckBox
@@ -88,7 +93,8 @@
             android:layout_marginBottom="10dp"
             android:gravity="center|start|center_vertical"
             android:text="@string/checkRecordarme"
-            android:textSize="@dimen/check" />
+            android:textSize="@dimen/check"
+            app:autoSizeTextType="uniform"/>
 
         <Button
             android:id="@+id/buttonLogin"
@@ -103,7 +109,8 @@
             android:text="@string/login"
             android:textAllCaps="false"
             android:textColor="?attr/secondaryTextColor"
-            android:textSize="@dimen/button" />
+            android:textSize="@dimen/button"
+            app:autoSizeTextType="uniform"/>
 
         <TextView
             android:id="@+id/textRegister"
@@ -119,7 +126,8 @@
             android:onClick="onClick"
             android:text="@string/ToRegister"
             android:textColor="?attr/primaryTextColor"
-            android:textSize="@dimen/text" />
+            android:textSize="@dimen/text"
+            app:autoSizeTextType="uniform"/>
 
         <TextView
             android:id="@+id/textOlvidoPassw"
@@ -134,7 +142,8 @@
             android:onClick="onClick"
             android:text="@string/olvidarPassw"
             android:textColor="?attr/primaryTextColor"
-            android:textSize="@dimen/text" />
+            android:textSize="@dimen/text"
+            app:autoSizeTextType="uniform"/>
 
     </LinearLayout>
 

@@ -20,7 +20,8 @@
             android:text="@string/register"
             android:textAllCaps="false"
             android:textColor="?attr/primaryTextColor"
-            android:textSize="@dimen/titulo" />
+            android:textSize="@dimen/titulo"
+            app:autoSizeTextType="uniform"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/etUserLayoutRegister"
@@ -35,6 +36,7 @@
             app:boxBackgroundMode="outline"
             app:boxStrokeColor="@color/md_purple_900"
             app:errorEnabled="true"
+            app:autoSizeTextType="uniform"
             >
 
             <com.google.android.material.textfield.TextInputEditText
@@ -45,7 +47,8 @@
                 android:ems="10"
                 android:inputType="textEmailAddress"
                 android:textColor="?attr/primaryTextColor"
-                android:textSize="@dimen/text" />
+                android:textSize="@dimen/text"
+                app:autoSizeTextType="uniform"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -62,7 +65,8 @@
             app:boxBackgroundMode="outline"
             app:boxStrokeColor="@color/md_purple_900"
             app:errorEnabled="true"
-            app:passwordToggleEnabled="true">
+            app:passwordToggleEnabled="true"
+            app:autoSizeTextType="uniform">
 
 
             <com.google.android.material.textfield.TextInputEditText
@@ -73,7 +77,8 @@
                 android:inputType="textPassword"
                 android:ems="10"
                 android:textSize="@dimen/text"
-                android:textColor="?attr/primaryTextColor"/>
+                android:textColor="?attr/primaryTextColor"
+                app:autoSizeTextType="uniform"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -89,7 +94,8 @@
             app:boxBackgroundMode="outline"
             app:boxStrokeColor="@color/md_purple_900"
             app:errorEnabled="true"
-            app:passwordToggleEnabled="true">
+            app:passwordToggleEnabled="true"
+            app:autoSizeTextType="uniform">
 
 
             <com.google.android.material.textfield.TextInputEditText
@@ -100,7 +106,8 @@
                 android:inputType="textPassword"
                 android:ems="10"
                 android:textSize="@dimen/text"
-                android:textColor="?attr/primaryTextColor"/>
+                android:textColor="?attr/primaryTextColor"
+                app:autoSizeTextType="uniform"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <CheckBox
@@ -112,7 +119,8 @@
             android:layout_marginBottom="10dp"
             android:gravity="center_vertical"
             android:text="@string/TermsOfUse"
-            android:textSize="@dimen/check" />
+            android:textSize="@dimen/check"
+            app:autoSizeTextType="uniform"/>
 
         <Button
             android:id="@+id/buttonCrear"
@@ -126,7 +134,8 @@
             android:text="@string/create"
             android:textAllCaps="false"
             android:textColor="?attr/secondaryTextColor"
-            android:textSize="@dimen/button" />
+            android:textSize="@dimen/button"
+            app:autoSizeTextType="uniform"/>
 
 
     </LinearLayout>

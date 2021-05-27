@@ -19,7 +19,8 @@
             android:gravity="fill|fill_horizontal"
             android:text="@string/NoteListU"
             android:textColor="?attr/primaryTextColor"
-            android:textSize="@dimen/text" />
+            android:textSize="@dimen/text"
+            app:autoSizeTextType="uniform"/>
 
         <ListView
             android:id="@+id/listView_Lista"
