@@ -223,13 +223,13 @@ public class AgregarNota extends AppCompatActivity {
                     });
 
                     if (type.equals(("add"))) {
-                        Add.setText("Afegir nota");
+                        Add.setText(getResources().getString(R.string.afegir_note_b));
 
                     } else {
                         if (type.equals("edit")) {
                             TITLE.setText(getTitle);
                             CONTENT.setText(content);
-                            Add.setText("Actualitzar nota");
+                            Add.setText(getResources().getString(R.string.update_note_b));
                         }
                     }
                 }
@@ -250,12 +250,12 @@ public class AgregarNota extends AppCompatActivity {
         nContent = CONTENT.getText().toString();
         if (type.equals("add")) {
             if (nTitle.equals("")) {
-                msj = "Ingrese un titulo";
+                msj = getResources().getString(R.string.afegir_titol);
                 TITLE.requestFocus();
                 Mensaje(msj);
             } else {
                 if (nContent.equals("")) {
-                    msj = "Añade contenido a la nota";
+                    msj = getResources().getString(R.string.afegir_contingut);
                     CONTENT.requestFocus();
                     Mensaje(msj);
                 } else {
@@ -267,14 +267,15 @@ public class AgregarNota extends AppCompatActivity {
                     docRef.set(note).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            Toast.makeText(AgregarNota.this,"Nota Afegida",Toast.LENGTH_SHORT).show();
-                            onBackPressed();
+                            Toast.makeText(AgregarNota.this,getResources().getString(R.string.afegida_note),Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(AgregarNota.this, MainActivity.class);
+                            startActivity(intent);
                         }
 
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(AgregarNota.this,"Error tornaho a intentar",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AgregarNota.this,getResources().getString(R.string.no_afegida_note),Toast.LENGTH_SHORT).show();
                             onBackPressed();
                         }
                     });
@@ -283,14 +284,14 @@ public class AgregarNota extends AppCompatActivity {
             }
         } else {
             if (type.equals("edit")) {
-                Add.setText("Update nota");
+                Add.setText(getResources().getString(R.string.update_note_b));
                 if (nTitle.equals("")) {
-                    msj = "Añade una nota";
+                    msj = getResources().getString(R.string.afegir_titol);
                     TITLE.requestFocus();
                     Mensaje(msj);
                 } else {
                     if (nContent.equals("")) {
-                        msj = "Añade contenido a la nota";
+                        msj = getResources().getString(R.string.afegir_contingut);
                         CONTENT.requestFocus();
                         Mensaje(msj);
                     } else {
@@ -316,14 +317,15 @@ public class AgregarNota extends AppCompatActivity {
                                 collRef.document(nTitle).set(note).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Toast.makeText(AgregarNota.this,"Nota Cambiada",Toast.LENGTH_SHORT).show();
-
+                                Toast.makeText(AgregarNota.this,getResources().getString(R.string.updated_note),Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(AgregarNota.this, MainActivity.class);
+                                startActivity(intent);
                             }
 
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(AgregarNota.this,"Error tornaho a intentar",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AgregarNota.this,getResources().getString(R.string.no_afegida_note),Toast.LENGTH_SHORT).show();
 
                             }
                         });

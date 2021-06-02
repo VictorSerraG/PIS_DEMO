@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Notepad</string>
     <string name="textView_Titulo">Note title</string>
     <string name="textView_Lista">Notes List</string>
@@ -60,6 +60,13 @@
     <string name="msjEmailF">Email does not exist</string>
     <string name="VerificacionEmail">Verification email has been sent</string>
     <string name="VerificacionEmailFailed">Please verify your email address</string>
+    <string name="update_note_b">Update Note</string>
+    <string name="afegir_note_b">Add Nota</string>
+    <string name="afegir_titol">Add a title to the note</string>
+    <string name="afegir_contingut">Add content to the note</string>
+    <string name="updated_note">Note updated</string>
+    <string name="afegida_note">Note added</string>
+    <string name="no_afegida_note">Error please try again </string>
 
     <string-array name="tamaño">
         <item>Very small</item>

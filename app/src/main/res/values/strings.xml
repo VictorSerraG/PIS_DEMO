@@ -59,6 +59,13 @@
     <string name="msjEmailF">No existe el correo</string>
     <string name="VerificacionEmail">Se ha enviado un email de verificiación</string>
     <string name="VerificacionEmailFailed">No has verificado el email</string>
+    <string name="update_note_b">Actualitzar Nota</string>
+    <string name="afegir_note_b">Añadir Nota</string>
+    <string name="afegir_titol">Añada un titulo a la nota</string>
+    <string name="afegir_contingut">Añada contenido a la nota</string>
+    <string name="updated_note">Nota actualizada</string>
+    <string name="afegida_note">Nota añadida</string>
+    <string name="no_afegida_note">Error, vuelvalo a intentar</string>
 
     <string-array name="tamaño">
         <item>Muy pequeña</item>

@@ -4,15 +4,13 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,12 +18,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.Toolbar;
+import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -34,6 +44,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -54,7 +65,7 @@ import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private static final int SETTINGS = Menu.FIRST;
     private static final int ORDENAR = Menu.FIRST + 1;
     private static final int ARCHIVADOS = Menu.FIRST + 2;
@@ -63,30 +74,143 @@ public class MainActivity extends AppCompatActivity {
 
     TextView textLista;
     FloatingActionButton add;
+    DrawerLayout drawerLayout;
+    ActionBarDrawerToggle toggle;
+    NavigationView nav_view;
+    RecyclerView noteLists;
 
     Nota notaAct;
 
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
-    private ArrayAdapter<Nota> notaAdaptador;
+    FirestoreRecyclerAdapter<Nota,NotaViewHolder> notaAdaptador;
     private static final String TAG = "MAIN";
     List<String> item = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.main_activity);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
 
 
 
 
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
+        noteLists = findViewById(R.id.notelist);
+        drawerLayout = findViewById(R.id.drawer);
+        nav_view = findViewById(R.id.nav_view);
+        nav_view.setNavigationItemSelectedListener(this);
+
+        toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.resetPassw,R.string.noteContent);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.setDrawerIndicatorEnabled(true);
+        toggle.syncState();
 
 
-        notaAdaptador = new ArrayAdapter<Nota>(MainActivity.this,android.R.layout.simple_list_item_1) ;
 
-        List<String> titols = new ArrayList<>();
-        List<String> continguts = new ArrayList<>();
 
+
+
+
+        Query query = db.collection("users").document(mAuth.getCurrentUser().getEmail()).collection("notes").orderBy("content",Query.Direction.DESCENDING);
+
+
+        FirestoreRecyclerOptions<Nota> allNotes = new FirestoreRecyclerOptions.Builder<Nota>()
+                .setQuery(query,Nota.class)
+                .build();
+        notaAdaptador = new FirestoreRecyclerAdapter<Nota, NotaViewHolder>(allNotes) {
+            @Override
+            protected void onBindViewHolder(@NonNull NotaViewHolder holder, int position, @NonNull final Nota nota) {
+                holder.noteTitle.setText(nota.getTitol());
+                holder.noteContent.setText(nota.getContent());
+
+
+
+                holder.view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(v.getContext(), VerNota.class);
+                        i.putExtra("titol",nota.getTitol());
+                        i.putExtra("content",nota.getContent());
+
+                        v.getContext().startActivity(i);
+                    }
+                });
+
+                ImageView menuIcon = holder.view.findViewById(R.id.menuIcon);
+                menuIcon.setOnClickListener(new View.OnClickListener(){
+
+                    @RequiresApi(api = Build.VERSION_CODES.M)
+                    @Override
+                    public void onClick(final View v) {
+                        final String docId = notaAdaptador.getSnapshots().getSnapshot(position).getId();
+                        PopupMenu menu = new PopupMenu(v.getContext(),v);
+                        menu.setGravity(Gravity.END);
+                        menu.getMenu().add("Edit").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem item) {
+                                String type = "edit";
+                                Intent i = new Intent(v.getContext(), AgregarNota.class);
+                                i.putExtra("type", type);
+                                i.putExtra("title", nota.getTitol());
+                                i.putExtra("content", nota.getContent());
+                                startActivity(i);
+                                
+                                return false;
+                            }
+                        });
+
+                        menu.getMenu().add("Delete").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem item) {
+                                DocumentReference docRef = db.collection("users").document(mAuth.getCurrentUser().getEmail()).collection("notes").document(nota.getTitol());
+
+
+                                docRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                                    }
+                                })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.w(TAG, "Error deleting document", e);
+                                            }
+                                        });
+                                return false;
+                            }
+                        });
+
+                        menu.show();
+                    }
+                });
+
+
+
+
+
+            }
+
+            @NonNull
+            @Override
+            public NotaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.nota_view_layout,parent,false);
+                return new NotaViewHolder(view);
+            }
+        };
+
+
+        noteLists.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
+        noteLists.setAdapter(notaAdaptador);
+
+        View headerView = nav_view.getHeaderView(0);
+        TextView userEmail = headerView.findViewById(R.id.userDisplayEmail);
+
+        userEmail.setText(mAuth.getCurrentUser().getEmail());
 
         DocumentReference docRef = db.collection("users").document(mAuth.getCurrentUser().getEmail());
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -175,21 +299,10 @@ public class MainActivity extends AppCompatActivity {
                         //Bundle bundle = this.getIntent().getExtras();
                         //String email = bundle.getString("email");
                         //setUp(email);
-                        setContentView(R.layout.activity_main);
 
-                        textLista = (TextView)findViewById(R.id.textView_Lista);
-                        ListView lista = findViewById(R.id.listView_Lista);
 
-                        lista.setAdapter(notaAdaptador);
-                        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                notaAct = (Nota) lista.getItemAtPosition(position);
-                                alert("list");
-                            }
-                        });
                         add = (FloatingActionButton) findViewById(R.id.fabAdd);
-                        showNotes();
+
 
                         add.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -197,23 +310,16 @@ public class MainActivity extends AppCompatActivity {
                                 actividad("add");
                             }
                         });
+
+
+
                     } else {
                         Log.d(TAG, "No such document");
-                        setContentView(R.layout.activity_main);
 
-                        textLista = (TextView)findViewById(R.id.textView_Lista);
-                        ListView lista = findViewById(R.id.listView_Lista);
 
-                        lista.setAdapter(notaAdaptador);
-                        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                notaAct = (Nota) lista.getItemAtPosition(position);
-                                alert("list");
-                            }
-                        });
+
                         add = (FloatingActionButton) findViewById(R.id.fabAdd);
-                        showNotes();
+
 
                         add.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -221,24 +327,21 @@ public class MainActivity extends AppCompatActivity {
                                 actividad("add");
                             }
                         });
+                        noteLists.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
+                        noteLists.setAdapter(notaAdaptador);
+
+                        View headerView = nav_view.getHeaderView(0);
+                        TextView userEmail = headerView.findViewById(R.id.userDisplayEmail);
+
+                        userEmail.setText(mAuth.getCurrentUser().getEmail());
                     }
                 } else {
                     Log.d(TAG, "get failed with ", task.getException());
-                    setContentView(R.layout.activity_main);
 
-                    textLista = (TextView)findViewById(R.id.textView_Lista);
-                    ListView lista = findViewById(R.id.listView_Lista);
 
-                    lista.setAdapter(notaAdaptador);
-                    lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            notaAct = (Nota) lista.getItemAtPosition(position);
-                            alert("list");
-                        }
-                    });
+
                     add = (FloatingActionButton) findViewById(R.id.fabAdd);
-                    showNotes();
+
 
                     add.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -246,6 +349,14 @@ public class MainActivity extends AppCompatActivity {
                             actividad("add");
                         }
                     });
+                    noteLists.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
+                    noteLists.setAdapter(notaAdaptador);
+
+                    View headerView = nav_view.getHeaderView(0);
+                    TextView userEmail = headerView.findViewById(R.id.userDisplayEmail);
+
+                    userEmail.setText(mAuth.getCurrentUser().getEmail());
+
                 }
             }
         });
@@ -262,7 +373,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreateOptionsMenu(menu);
         return true;
     }
-    
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -291,29 +402,7 @@ public class MainActivity extends AppCompatActivity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
-    
-    private void showNotes(){
-        item =  new ArrayList<String>();
-        db.collection("users").document(mAuth.getCurrentUser().getEmail()).collection("notes").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    ArrayList<Nota> notas = new ArrayList<>();
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Nota n = document.toObject(Nota.class);
-                        notas.add(n);
-                        Log.d(TAG, document.getString("titol"));
-                    }
-                    notaAdaptador.addAll(notas);
 
-                } else {
-                    textLista.setText("No hi ha notes");
-                    Log.d(TAG, "Error getting documents: ", task.getException());
-                }
-            }
-        });
-
-    }
 
 
     public void actividad(String act){
@@ -330,14 +419,14 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, AgregarNota.class);
                 intent.putExtra("type", type);
                 intent.putExtra("title", notaAct.getTitol());
-                intent.putExtra("content", notaAct.getContingut());
+                intent.putExtra("content", notaAct.getContent());
                 startActivity(intent);
             }else {
                 if (act.equals("see")){
 
                     Intent intent = new Intent(MainActivity.this, VerNota.class);
                     intent.putExtra("title", notaAct.getTitol());
-                    intent.putExtra("content", notaAct.getContingut());
+                    intent.putExtra("content", notaAct.getContent());
                     startActivity(intent);
                 }
             }
@@ -428,5 +517,44 @@ public class MainActivity extends AppCompatActivity {
         conf.setLocale(new Locale(localeCode.toLowerCase()));
         res.updateConfiguration(conf, dm);
     }
-    
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()){
+            default:
+                Toast.makeText(this,"ComingSoon",Toast.LENGTH_SHORT);
+        }
+        return false;
+    }
+
+    public class NotaViewHolder extends RecyclerView.ViewHolder{
+
+        TextView noteTitle,noteContent;
+        View view;
+        CardView mCardView;
+
+        public NotaViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            noteTitle = itemView.findViewById(R.id.titles12);
+            noteContent = itemView.findViewById(R.id.content1);
+            mCardView = itemView.findViewById(R.id.noteCard);
+            view = itemView;
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        notaAdaptador.startListening();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(notaAdaptador != null) {
+            notaAdaptador.stopListening();
+        }
+    }
 }

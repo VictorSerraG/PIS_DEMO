@@ -144,7 +144,7 @@ public class VerNota extends AppCompatActivity {
 
                         Bundle bundle = getIntent().getExtras();
 
-                        title = bundle.getString("title");
+                        title = bundle.getString("titol");
                         content = bundle.getString("content");
 
                         TITLE = (TextView)findViewById(R.id.textView_Titulo);
@@ -157,7 +157,7 @@ public class VerNota extends AppCompatActivity {
 
                         Bundle bundle = getIntent().getExtras();
 
-                        title = bundle.getString("title");
+                        title = bundle.getString("titol");
                         content = bundle.getString("content");
 
                         TITLE = (TextView)findViewById(R.id.textView_Titulo);
@@ -171,7 +171,7 @@ public class VerNota extends AppCompatActivity {
 
                     Bundle bundle = getIntent().getExtras();
 
-                    title = bundle.getString("title");
+                    title = bundle.getString("titol");
                     content = bundle.getString("content");
 
                     TITLE = (TextView)findViewById(R.id.textView_Titulo);
