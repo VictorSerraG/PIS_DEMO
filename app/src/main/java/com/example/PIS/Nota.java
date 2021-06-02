@@ -4,13 +4,13 @@ import androidx.annotation.NonNull;
 
 public class Nota {
     private String titol;
-    private String contingut;
+    private String content;
 
     public Nota(){}
 
-    public Nota(String title, String content){
-        this.titol = title;
-        this.contingut = content;
+    public Nota(String titol, String content){
+        this.titol = titol;
+        this.content = content;
     }
 
     public String getTitol() {
@@ -21,20 +21,12 @@ public class Nota {
         this.titol = titol;
     }
 
-    public String getContingut() {
-        return contingut;
+    public String getContent() {
+        return content;
     }
 
-    public void setContingut(String contingut) {
-        this.contingut = contingut;
-    }
-
-
-    @NonNull
-    @Override
-    public String toString() {
-        return this.titol;
-        
+    public void setContent(String contingut) {
+        this.content = contingut;
     }
 
 
