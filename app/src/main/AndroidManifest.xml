@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.PIS">
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/icono"
@@ -16,6 +16,16 @@
 
         <activity
             android:name=".AgregarNota"
+            android:parentActivityName="com.example.PIS.MainActivity">
+        </activity>
+
+        <activity
+            android:name=".AgregarImatge"
+            android:parentActivityName="com.example.PIS.MainActivity">
+        </activity>
+
+        <activity
+            android:name=".Main_activity_img" android:theme="@style/ActivityTheme.NoActionBar"
             android:parentActivityName="com.example.PIS.MainActivity">
         </activity>
 

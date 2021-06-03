@@ -16,10 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +29,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 
 import androidx.cardview.widget.CardView;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -46,15 +42,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -86,6 +81,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FirestoreRecyclerAdapter<Nota,NotaViewHolder> notaAdaptador;
     private static final String TAG = "MAIN";
     List<String> item = null;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-        Query query = db.collection("users").document(mAuth.getCurrentUser().getEmail()).collection("notes").orderBy("content",Query.Direction.DESCENDING);
+        Query query = db.collection("users").document(mAuth.getCurrentUser().getEmail()).collection("notes").orderBy("titol",Query.Direction.DESCENDING);
 
 
         FirestoreRecyclerOptions<Nota> allNotes = new FirestoreRecyclerOptions.Builder<Nota>()
@@ -140,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                 });
 
-                ImageView menuIcon = holder.view.findViewById(R.id.menuIcon);
+                ImageView menuIcon = holder.view.findViewById(R.id.menuIcon_img);
                 menuIcon.setOnClickListener(new View.OnClickListener(){
 
                     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -522,6 +521,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()){
+
+            case R.id.notes_lay:
+
+                startActivity(new Intent(this,MainActivity.class));
+                break;
+            case R.id.Imatges_lay:
+
+                startActivity(new Intent(this,Main_activity_img.class));
+
+                break;
             default:
                 Toast.makeText(this,"ComingSoon",Toast.LENGTH_SHORT);
         }
@@ -537,9 +546,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         public NotaViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            noteTitle = itemView.findViewById(R.id.titles12);
+            noteTitle = itemView.findViewById(R.id.titles_img);
             noteContent = itemView.findViewById(R.id.content1);
-            mCardView = itemView.findViewById(R.id.noteCard);
+            mCardView = itemView.findViewById(R.id.noteCard_img);
             view = itemView;
         }
     }

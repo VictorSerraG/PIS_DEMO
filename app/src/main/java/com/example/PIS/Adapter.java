@@ -11,10 +11,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     List<String> titles;
@@ -65,9 +62,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            noteTitle = itemView.findViewById(R.id.titles12);
+            noteTitle = itemView.findViewById(R.id.titles_img);
             noteContent = itemView.findViewById(R.id.content1);
-            mCardView = itemView.findViewById(R.id.noteCard);
+            mCardView = itemView.findViewById(R.id.noteCard_img);
             view = itemView;
         }
     }
