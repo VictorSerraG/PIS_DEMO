@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+tools:context=".VerImatge"
+>
+
+<ImageView
+    android:layout_width="match_parent"
+    android:layout_height="250dp"
+    android:src="@color/cardview_light_background"
+    android:scaleType="fitXY"
+    android:layout_margin="20dp"
+    android:id="@+id/imageView_preview"
+    />
+<TextView
+    android:id="@+id/textView_img"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="My car"
+    android:textSize="25dp"
+    android:textColor="@color/md_deep_orange_300"
+    android:textStyle="bold"
+    android:gravity="center"
+    android:layout_marginTop="220dp"
+    />
+
+
+
+</RelativeLayout>

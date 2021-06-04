@@ -21,7 +21,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -55,7 +57,7 @@ public class AgregarImatge extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         user_id = mAuth.getCurrentUser().getUid();
-        storageReference = FirebaseStorage.getInstance().getReference().child("Imatges");
+        storageReference = FirebaseStorage.getInstance().getReference().child(user_id);
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,26 +85,26 @@ public class AgregarImatge extends AppCompatActivity {
     }
 
     private void pujarImatge(String titolImatge) {
-        CollectionReference collRef = db.collection("users").document(mAuth.getCurrentUser().getEmail()).collection("imatges");
+        DocumentReference docRef = db.collection("users").document(mAuth.getCurrentUser().getEmail()).collection("imatges").document(titolImatge);
 
-        storageReference.child(user_id+".jpg").putFile(imatgeUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        storageReference.child(titolImatge).child(titolImatge+".jpg").putFile(imatgeUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                storageReference.child(user_id + ".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                storageReference.child(titolImatge).child(titolImatge+".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
                         HashMap hashMap = new HashMap();
                         hashMap.put("titol",titolImatge);
                         hashMap.put("imatge",uri.toString());
-                        collRef.document(titolImatge).set(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        docRef.set(hashMap, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if(task.isSuccessful()) {
+                            public void onSuccess(Void aVoid) {
+
                                     Toast.makeText(AgregarImatge.this, "Data Successfully Uploaded!", Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(getApplicationContext(), Main_activity_img.class));
-                                }else{
-                                    Toast.makeText(AgregarImatge.this, "Data Not Uploaded!", Toast.LENGTH_SHORT).show();
-                                }
+
+
+
                             }
                         });
                     }

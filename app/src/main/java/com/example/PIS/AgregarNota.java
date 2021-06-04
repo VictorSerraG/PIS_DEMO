@@ -34,6 +34,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -264,7 +265,7 @@ public class AgregarNota extends AppCompatActivity {
                     Map<String,Object> note = new HashMap<>();
                     note.put("titol",nTitle);
                     note.put("content",nContent);
-                    docRef.set(note).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    docRef.set(note, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
                             Toast.makeText(AgregarNota.this,getResources().getString(R.string.afegida_note),Toast.LENGTH_SHORT).show();
