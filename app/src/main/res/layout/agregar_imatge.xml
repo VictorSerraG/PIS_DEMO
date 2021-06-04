@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Main_activity_img">
+    tools:context=".Main_activity_img"
+    android:background="?attr/backgroundCardColor">
 
     <ImageView
         android:layout_width="match_parent"
@@ -16,11 +17,15 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter Image Name..."
+        android:hint="@string/NombreImagen"
         android:id="@+id/titol_Imatge"
         android:layout_below="@+id/imatgeAgregar"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
+        android:textColor="?attr/primaryTextColor"
+        android:textSize="@dimen/text"
+        app:autoSizeTextType="uniform"
+        android:textColorHint="?attr/primaryTextColor"
         />
 
     <Button
@@ -30,7 +35,13 @@
         android:layout_below="@id/titol_Imatge"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:text="Upload" />
+        android:text="@string/Upload"
+        android:textAllCaps="false"
+        android:textSize="@dimen/button"
+        app:backgroundTint="@color/md_black_1000"
+        android:textColor="@color/md_white_1000"
+        app:autoSizeTextType="uniform"/>
+
 
 
 </RelativeLayout>

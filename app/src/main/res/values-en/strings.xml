@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">Notepad</string>
+    <string name="app_name">Amity</string>
     <string name="textView_Titulo">Note title</string>
     <string name="textView_Lista">Notes List</string>
     <string name="listView_Lista">Notes List</string>
@@ -38,8 +38,9 @@
     <string name="buttonAplicar">Apply</string>
     <string name="textTitulo">Title</string>
     <string name="textContennido">Content</string>
-    <string name="errorUsuario">Enter an email </string>
-    <string name="errorPassw">Enter a password </string>
+    <string name="errorUsuario">Enter an username</string>
+    <string name="errorCorreo">Enter an email</string>
+    <string name="errorPassw">Enter a password</string>
     <string name="errorUsuarioPassw">Fill in the blanks</string>
     <string name="errorLogin">Authentication failed</string>
     <string name="errorTerms">Accept the terms of use</string>
@@ -67,14 +68,25 @@
     <string name="updated_note">Note updated</string>
     <string name="afegida_note">Note added</string>
     <string name="no_afegida_note">Error please try again </string>
+    <string name="user">Username</string>
+    <string name="errorPasswPequeña">Password must be longer than 7 characters</string>
+    <string name="msgConfirmació">Confirmation message</string>
+    <string name="msgDeleteNote">Do you want to delete the note?</string>
+    <string name="msgBorrar">Delete note</string>
+    <string name="msgCancelar">Cancel</string>
+    <string name="General">General</string>
+    <string name="Notas">Notes</string>
+    <string name="Imagenes">Images</string>
+    <string name="Logout">Logout</string>
+    <string name="Eslogan">Let go of your imagination</string>
+    <string name="NombreImagen">Image title</string>
+    <string name="Upload">Save</string>
+    <string name="ImageSuccess">Image saved</string>
+    <string name="afegir_titolIMG">Add a title to the image</string>
+    <string name="afegir_contingutIMG">Add and image</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
 
-    <string-array name="tamaño">
-        <item>Very small</item>
-        <item>Small</item>
-        <item>Medium</item>
-        <item>Great</item>
-        <item>Very big</item>
-    </string-array>
     <string-array name="letra">
         <item>Bold</item>
         <item>Bold-Normal</item>

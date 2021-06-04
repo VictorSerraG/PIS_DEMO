@@ -24,7 +24,7 @@
             app:autoSizeTextType="uniform"/>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/etUserLayoutRegister"
+            android:id="@+id/etCorreoLayoutRegister"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
             >
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextUsernameRegister"
+                android:id="@+id/editTextCorreoRegister"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@android:drawable/sym_action_email"
@@ -120,6 +120,7 @@
             android:gravity="center_vertical"
             android:text="@string/TermsOfUse"
             android:textSize="@dimen/check"
+            android:textColor="?attr/primaryTextColor"
             app:autoSizeTextType="uniform"/>
 
         <Button
@@ -133,10 +134,11 @@
             android:hapticFeedbackEnabled="false"
             android:text="@string/create"
             android:textAllCaps="false"
-            android:textColor="?attr/secondaryTextColor"
+            app:backgroundTint="@color/md_black_1000"
+            android:textColor="@color/md_white_1000"
             android:textSize="@dimen/button"
-            app:autoSizeTextType="uniform"/>
-
+            app:autoSizeTextType="uniform"
+            />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

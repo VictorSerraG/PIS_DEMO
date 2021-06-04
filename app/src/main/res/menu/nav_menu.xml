@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:title="General">
+    <item android:title="@string/General">
         <menu>
             <item
                 android:id="@+id/notes_lay"
                 android:icon="@drawable/ic_event_note_black_24dp"
-                android:title="Notes_lay" />
+                android:title="@string/Notas" />
             <item
                 android:id="@+id/Imatges_lay"
                 android:icon="@android:drawable/ic_menu_camera"
-                android:title="Imatges" />
+                android:title="@string/Imagenes" />
         </menu>
     </item>
-    <item android:title="Logout">
+    <item android:title="@string/Logout">
         <menu>
             <item
                 android:id="@+id/logout"
                 android:icon="@drawable/ic_vpn_key_black_24dp"
-                android:title="Logout" />
+                android:title="@string/Logout" />
         </menu>
     </item>
 

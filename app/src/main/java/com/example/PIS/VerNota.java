@@ -45,7 +45,6 @@ public class VerNota extends AppCompatActivity {
     private static final int SALIR = Menu.FIRST + 2;
     String title,content;
     TextView TITLE,CONTENT;
-    AdaptadorBD DB;
     private static final String TAG = "SeeNote";
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
@@ -132,16 +131,7 @@ public class VerNota extends AppCompatActivity {
                                                 .build()))
                                 .build());
 
-                        //Tamaño
-                        int size;
-                        try{
-                            size = document.getLong("tamaño").intValue();
-                        } catch (Exception e) {
-                            size = 0;
-                        }
-
                         setContentView(R.layout.ver_nota);
-
                         Bundle bundle = getIntent().getExtras();
 
                         title = bundle.getString("titol");
@@ -240,10 +230,10 @@ public class VerNota extends AppCompatActivity {
     private void alert(){
         AlertDialog alerta;
         alerta = new AlertDialog.Builder(this).create();
-        alerta.setTitle("Mensaje de confirmación");
-        alerta.setMessage("¿Quiere eliminar la nota?");
+        alerta.setTitle(getResources().getString(R.string.msgConfirmació));
+        alerta.setMessage(getResources().getString(R.string.msgDeleteNote));
 
-        alerta.setButton("Borrar nota", new DialogInterface.OnClickListener() {
+        alerta.setButton(getResources().getString(R.string.msgBorrar), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 delete();
@@ -251,7 +241,7 @@ public class VerNota extends AppCompatActivity {
             }
         });
 
-        alerta.setButton2("Cancelar", new DialogInterface.OnClickListener() {
+        alerta.setButton2(getResources().getString(R.string.msgCancelar), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 return;
@@ -261,9 +251,8 @@ public class VerNota extends AppCompatActivity {
     }
 
     private void delete(){
+
         DocumentReference docRef = db.collection("users").document(mAuth.getCurrentUser().getEmail()).collection("notes").document(title);
-
-
         docRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -276,7 +265,6 @@ public class VerNota extends AppCompatActivity {
                         Log.w(TAG, "Error deleting document", e);
                     }
                 });
-
         actividad("delete");
     }
 
@@ -286,74 +274,5 @@ public class VerNota extends AppCompatActivity {
         Configuration conf = res.getConfiguration();
         conf.setLocale(new Locale(localeCode.toLowerCase()));
         res.updateConfiguration(conf, dm);
-    }
-
-    private void initSettings(DocumentReference docRef){
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                        //ajustes[0] = document.getData();
-
-                        //Estilo
-                        int theme = document.getLong("estilo").intValue();
-                        switch (theme){
-                            case 0: setTheme(R.style.FeedActivityThemeLight);
-                                break;
-                            case 1: setTheme(R.style.FeedActivityThemeDark);
-                                break;
-                        }
-
-                        //Idioma
-                        int lang = document.getLong("idioma").intValue();
-                        switch (lang){
-                            case 0: setAppLocale("esp");
-                                break;
-                            case 1: setAppLocale("en");
-                                break;
-                        }
-
-                        // Letra
-                        String strletra = "";
-                        int fuente = document.getLong("letra").intValue();
-                        switch (fuente){
-                            case 0:
-                                strletra = "Roboto-Bold";
-                                break;
-                            case 1:
-                                strletra = "Roboto-Medium";
-                                break;
-                            case 2:
-                                strletra = "Roboto-Regular";
-                                break;
-                            case 3:
-                                strletra = "Roboto-Thin";
-                                break;
-                            default:
-                                break;
-                        }
-                        strletra = "fonts/" + strletra + ".ttf";
-                        ViewPump.init(ViewPump.builder()
-                                .addInterceptor(new CalligraphyInterceptor(
-                                        new CalligraphyConfig.Builder()
-                                                .setDefaultFontPath(strletra)
-                                                .setFontAttrId(R.attr.fontPath)
-                                                .build()))
-                                .build());
-
-                        //Tamaño
-                        int size = document.getLong("tamaño").intValue();
-
-                    } else {
-                        Log.d(TAG, "No such document");
-                    }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
-            }
-        });
     }
 }

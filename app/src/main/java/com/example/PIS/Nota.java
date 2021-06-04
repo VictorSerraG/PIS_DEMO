@@ -1,7 +1,5 @@
 package com.example.PIS;
 
-import androidx.annotation.NonNull;
-
 public class Nota {
     private String titol;
     private String content;

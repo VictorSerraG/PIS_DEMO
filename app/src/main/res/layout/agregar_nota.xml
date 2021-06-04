@@ -13,7 +13,8 @@
         android:text="@string/noteTitle"
         android:textColor="?attr/primaryTextColor"
         android:textSize="@dimen/text"
-        app:autoSizeTextType="uniform"/>
+        app:autoSizeTextType="uniform"
+        />
 
     <EditText
         android:id="@+id/editText_Titulo"
@@ -61,9 +62,10 @@
         android:layout_below="@id/editText_Contenido"
         android:layout_centerHorizontal="true"
         android:text="@string/buttonAgregar"
-        android:textColor="?attr/secondaryTextColor"
+        android:textAllCaps="false"
         android:textSize="@dimen/button"
-        app:backgroundTint="?attr/primaryTextColor"
+        app:backgroundTint="@color/md_black_1000"
+        android:textColor="@color/md_white_1000"
         app:autoSizeTextType="uniform"/>
 
 </RelativeLayout>

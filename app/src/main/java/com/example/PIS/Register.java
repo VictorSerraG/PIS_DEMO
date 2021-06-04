@@ -49,7 +49,7 @@ public class Register extends AppCompatActivity {
     private static final String TAG = "EmailPassword";
     Button crear;
     EditText email, password, password2;
-    TextInputLayout etUser, etPassw, etPassw2;
+    TextInputLayout etCorreo, etPassw, etPassw2;
     CheckBox terms;
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
@@ -143,29 +143,21 @@ public class Register extends AppCompatActivity {
                                                     .build()))
                                     .build());
 
-                            //Tamaño
-                            int size;
-                            try{
-                                size = document.getLong("tamaño").intValue();
-                            } catch (Exception e) {
-                                size = 0;
-                            }
-
                             setContentView(R.layout.register);
 
                             crear = (Button) findViewById(R.id.buttonCrear);
-                            email = (EditText) findViewById(R.id.editTextUsernameRegister);
+                            email = (EditText) findViewById(R.id.editTextCorreoRegister);
                             password = (EditText) findViewById(R.id.editTextPasswordRegister);
                             password2 = (EditText) findViewById(R.id.editTextPasswordRegisterSecure);
                             terms = (CheckBox) findViewById(R.id.termsOfUse);
-                            etUser = (TextInputLayout) findViewById(R.id.etUserLayoutRegister);
+                            etCorreo = (TextInputLayout) findViewById(R.id.etCorreoLayoutRegister);
                             etPassw = (TextInputLayout) findViewById(R.id.etPasswordLayoutRegister);
                             etPassw2 = (TextInputLayout) findViewById(R.id.etPasswordLayoutRegisterSecure);
 
                             crear.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    etUser.setError(null);
+                                    etCorreo.setError(null);
                                     etPassw.setError(null);
                                     etPassw2.setError(null);
                                     crear();
@@ -176,18 +168,18 @@ public class Register extends AppCompatActivity {
                             setContentView(R.layout.register);
 
                             crear = (Button) findViewById(R.id.buttonCrear);
-                            email = (EditText) findViewById(R.id.editTextUsernameRegister);
+                            email = (EditText) findViewById(R.id.editTextCorreoRegister);
                             password = (EditText) findViewById(R.id.editTextPasswordRegister);
                             password2 = (EditText) findViewById(R.id.editTextPasswordRegisterSecure);
                             terms = (CheckBox) findViewById(R.id.termsOfUse);
-                            etUser = (TextInputLayout) findViewById(R.id.etUserLayoutRegister);
+                            etCorreo = (TextInputLayout) findViewById(R.id.etCorreoLayoutRegister);
                             etPassw = (TextInputLayout) findViewById(R.id.etPasswordLayoutRegister);
                             etPassw2 = (TextInputLayout) findViewById(R.id.etPasswordLayoutRegisterSecure);
 
                             crear.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    etUser.setError(null);
+                                    etCorreo.setError(null);
                                     etPassw.setError(null);
                                     etPassw2.setError(null);
                                     crear();
@@ -199,18 +191,18 @@ public class Register extends AppCompatActivity {
                         setContentView(R.layout.register);
 
                         crear = (Button) findViewById(R.id.buttonCrear);
-                        email = (EditText) findViewById(R.id.editTextUsernameRegister);
+                        email = (EditText) findViewById(R.id.editTextCorreoRegister);
                         password = (EditText) findViewById(R.id.editTextPasswordRegister);
                         password2 = (EditText) findViewById(R.id.editTextPasswordRegisterSecure);
                         terms = (CheckBox) findViewById(R.id.termsOfUse);
-                        etUser = (TextInputLayout) findViewById(R.id.etUserLayoutRegister);
+                        etCorreo = (TextInputLayout) findViewById(R.id.etCorreoLayoutRegister);
                         etPassw = (TextInputLayout) findViewById(R.id.etPasswordLayoutRegister);
                         etPassw2 = (TextInputLayout) findViewById(R.id.etPasswordLayoutRegisterSecure);
 
                         crear.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                etUser.setError(null);
+                                etCorreo.setError(null);
                                 etPassw.setError(null);
                                 etPassw2.setError(null);
                                 crear();
@@ -223,18 +215,18 @@ public class Register extends AppCompatActivity {
             setContentView(R.layout.register);
 
             crear = (Button) findViewById(R.id.buttonCrear);
-            email = (EditText) findViewById(R.id.editTextUsernameRegister);
+            email = (EditText) findViewById(R.id.editTextCorreoRegister);
             password = (EditText) findViewById(R.id.editTextPasswordRegister);
             password2 = (EditText) findViewById(R.id.editTextPasswordRegisterSecure);
             terms = (CheckBox) findViewById(R.id.termsOfUse);
-            etUser = (TextInputLayout) findViewById(R.id.etUserLayoutRegister);
+            etCorreo = (TextInputLayout) findViewById(R.id.etCorreoLayoutRegister);
             etPassw = (TextInputLayout) findViewById(R.id.etPasswordLayoutRegister);
             etPassw2 = (TextInputLayout) findViewById(R.id.etPasswordLayoutRegisterSecure);
 
             crear.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    etUser.setError(null);
+                    etCorreo.setError(null);
                     etPassw.setError(null);
                     etPassw2.setError(null);
                     crear();
@@ -249,34 +241,34 @@ public class Register extends AppCompatActivity {
     }
 
     private void crear(){
-        String user, passw, passw2, msj;
+        String passw, passw2, msj, correo;
         boolean check;
-        user = email.getText().toString();
+        correo = email.getText().toString();
         passw = password.getText().toString();
         passw2 = password2.getText().toString();
         check = terms.isChecked();
-        if(user.equals("") && passw.equals("") && passw2.equals("") && !check){
+        if(passw.equals("") && passw2.equals("") && correo.equals("") && !check){
             email.requestFocus();
             Mensaje(getResources().getString(R.string.errorUsuarioPassw));
         }
-        else if(user.equals("") && passw.equals("") && passw2.equals("")){
-            msj = getResources().getString(R.string.errorUsuario);
+        else if(passw.equals("") && passw2.equals("") && correo.equals("")){
             email.requestFocus();
-            etUser.setError(msj);
             msj = getResources().getString(R.string.errorPassw);
             etPassw.setError(msj);
             msj = getResources().getString(R.string.errorPasswSecure);
             etPassw2.setError(msj);
+            msj = getResources().getString(R.string.errorCorreo);
+            etCorreo.setError(msj);
         }
-        else if(user.equals("")) {
-            msj = getResources().getString(R.string.errorUsuario);
+        else if(correo.equals("")) {
+            msj = getResources().getString(R.string.errorCorreo);
             email.requestFocus();
-            etUser.setError(msj);
+            etCorreo.setError(msj);
         }
-        else if(!isValidEmail(user)){
+        else if(!isValidEmail(correo)){
             msj = getResources().getString(R.string.errorEmail);
             email.requestFocus();
-            etUser.setError(msj);
+            etCorreo.setError(msj);
         }
         else if(passw.equals("")){
             msj = getResources().getString(R.string.errorPassw);
@@ -297,9 +289,13 @@ public class Register extends AppCompatActivity {
             msj = getResources().getString(R.string.errorSamePassw);
             password.requestFocus();
             Mensaje(msj);
+        }else if(passw.length() < 7){
+            msj = getResources().getString(R.string.errorPasswPequeña);
+            password.requestFocus();
+            Mensaje(msj);
         }
         else{
-            mAuth.createUserWithEmailAndPassword(user, passw)
+            mAuth.createUserWithEmailAndPassword(correo, passw)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -342,14 +338,14 @@ public class Register extends AppCompatActivity {
                                 {
                                     Log.d(TAG, "onComplete: malformed_email");
                                     email.requestFocus();
-                                    etUser.setError(getResources().getString(R.string.errorEmail));
+                                    etCorreo.setError(getResources().getString(R.string.errorEmail));
                                 }
                                 //if the email is already in use by a different account.
                                 catch (FirebaseAuthUserCollisionException existEmail)
                                 {
                                     Log.d(TAG, "onComplete: exist_email");
                                     email.requestFocus();
-                                    etUser.setError(getResources().getString(R.string.errorUsoEmail));
+                                    etCorreo.setError(getResources().getString(R.string.errorUsoEmail));
                                 }
                                 catch (Exception e)
                                 {
@@ -358,8 +354,6 @@ public class Register extends AppCompatActivity {
                             }
                         }
                     });
-
-
         }
     }
 
@@ -391,7 +385,6 @@ public class Register extends AppCompatActivity {
 
     private void createSettings(){
         HashMap<String, Integer> ajustes = new HashMap<String, Integer>();
-        ajustes.put("tamaño",  0);
         ajustes.put("letra",  0);
         ajustes.put("estilo",  0);
         ajustes.put("idioma",  0);

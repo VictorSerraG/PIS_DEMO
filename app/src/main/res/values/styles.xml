@@ -2,32 +2,31 @@
     <!-- Light base activity theme -->
 
     <style name="ActivityTheme.Primary.Base.Light" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <item name="primaryTextColor">@color/md_grey_900</item>
+        <item name="primaryTextColor">@color/md_black_1000</item>
         <item name="secondaryTextColor">@color/md_white_1000</item>
-        <item name="backgroundCardColor">@color/md_white_1000</item>
-        <item name="dividerColor">@color/md_black_1000</item>
+        <item name="backgroundCardColor">@drawable/dia_style</item>
+        <item name="dividerColor">@color/md_purple_500_50</item>
         <item name="actionMenuTextColor">@color/md_white_1000</item>
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
 
     </style>
     <!-- Dark base activity theme -->
-    <style name="ActivityTheme.Primary.Base.Dark"    parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="ActivityTheme.Primary.Base.Dark"  parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <item name="primaryTextColor">@color/md_white_1000</item>
-        <item name="secondaryTextColor">@color/md_black_1000</item>
-        <item name="backgroundCardColor">@color/md_grey_700</item>
-        <item name="dividerColor">@color/md_black_1000</item>
+        <item name="secondaryTextColor">@color/md_white_1000</item>
+        <item name="backgroundCardColor">@drawable/noche_style</item>
+        <item name="dividerColor">@color/md_orange_700</item>
         <item name="actionMenuTextColor">@color/md_black_1000_25</item>
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
 
     </style>
-    <style name="ActivityTheme.NoActionBar"    parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="primaryTextColor">@color/md_white_1000</item>
-        <item name="secondaryTextColor">@color/md_black_1000</item>
-        <item name="backgroundCardColor">@color/md_grey_700</item>
+    <style name="ActivityTheme.NoActionBar"  parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="primaryTextColor">@color/md_black_1000</item>
+        <item name="secondaryTextColor">@color/md_white_1000</item>
+        <item name="backgroundCardColor">@color/md_yellow_300</item>
         <item name="dividerColor">@color/md_black_1000</item>
-        <item name="actionMenuTextColor">@color/md_black_1000_25</item>
+        <item name="actionMenuTextColor">@color/md_white_1000</item>
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -13,40 +12,29 @@ import android.text.InputType;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
-import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException;
-import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
-
 import java.util.HashMap;
 import java.util.Locale;
-
 import io.github.inflationx.calligraphy3.CalligraphyConfig;
 import io.github.inflationx.calligraphy3.CalligraphyInterceptor;
 import io.github.inflationx.viewpump.ViewPump;
@@ -58,7 +46,6 @@ public class Login extends Activity {
     TextInputLayout etUser, etPassw;
     CheckBox recordarme;
     TextView registrar, retrievePassw;
-    AdaptadorBD DB;
     private static final String TAG = "EmailPassword";
     // [START declare_auth]
     private FirebaseFirestore db;
@@ -157,16 +144,6 @@ public class Login extends Activity {
                                                     .build()))
                                     .build());
 
-                            //Tamaño
-                            int size;
-                            try{
-                                size = document.getLong("tamaño").intValue();
-                            } catch (Exception e) {
-                                size = 0;
-                            }
-
-                            //getResources().getXml(R.xml.)
-
                             setContentView(R.layout.login);
 
                             boolean recordar;
@@ -176,9 +153,7 @@ public class Login extends Activity {
                                 recordar = false;
                             }
 
-
                             entrar = (Button) findViewById(R.id.buttonLogin);
-                            //entrar.setTextSize();
                             usuario = (EditText) findViewById(R.id.editTextUsernameLogin);
                             password = (EditText) findViewById(R.id.editTextPasswordLogin);
                             registrar = (TextView) findViewById(R.id.textRegister);
@@ -245,6 +220,7 @@ public class Login extends Activity {
                             });
                         } else {
                             Log.d(TAG, "No such document");
+                            setTheme(R.style.FeedActivityThemeLight);
                             setContentView(R.layout.login);
 
                             boolean recordar;
@@ -253,7 +229,6 @@ public class Login extends Activity {
                             } catch (Exception e) {
                                 recordar = false;
                             }
-
 
                             entrar = (Button) findViewById(R.id.buttonLogin);
                             usuario = (EditText) findViewById(R.id.editTextUsernameLogin);
@@ -323,6 +298,8 @@ public class Login extends Activity {
                         }
                     } else {
                         Log.d(TAG, "get failed with ", task.getException());
+                        setTheme(R.style.FeedActivityThemeLight);
+
                         setContentView(R.layout.login);
 
                         boolean recordar = false;
@@ -388,6 +365,7 @@ public class Login extends Activity {
                 }
             });
         }else{
+            setTheme(R.style.FeedActivityThemeLight);
             setContentView(R.layout.login);
 
             boolean recordar = false;
@@ -458,7 +436,6 @@ public class Login extends Activity {
     }
 
     private void logearse(){
-        DB = new AdaptadorBD(this);
         String email, passw, msj;
         email = usuario.getText().toString();
         passw = password.getText().toString();
@@ -490,7 +467,6 @@ public class Login extends Activity {
                                 if(mAuth.getCurrentUser().isEmailVerified()){
                                     Log.d(TAG, "signInWithEmail:success");
                                     FirebaseUser user = mAuth.getCurrentUser();
-                                    updateUI(user);
                                     if(check){
                                         saveUserPassw(email, passw);
                                     }else{
@@ -513,12 +489,10 @@ public class Login extends Activity {
                                         }
                                     });
                                 }
-
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.w(TAG, "signInWithEmail:failure", task.getException());
                                 Mensaje(getResources().getString(R.string.errorLogin));
-                                updateUI(null);
                                 try
                                 {
                                     throw task.getException();
@@ -551,10 +525,6 @@ public class Login extends Activity {
         Toast toast = Toast.makeText(this, msj, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, 32, 32);
         toast.show();
-    }
-
-    private void updateUI(FirebaseUser user) {
-
     }
 
     private void menuMain(String email){

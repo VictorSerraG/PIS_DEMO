@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BLOC DE NOTAS</string>
+    <string name="app_name">Amity</string>
     <string name="textView_Titulo">Título de la nota</string>
     <string name="textView_Lista">Lista de Notas</string>
     <string name="listView_Lista">Lista de Notas</string>
@@ -19,6 +19,7 @@
     <string name="fab">fab</string>
     <string name="welcome"> <u>Bienvenido</u> </string>
     <string name="username">Correo</string>
+    <string name="user">Usuario</string>
     <string name="password">Contraseña</string>
     <string name="login">Entrar</string>
     <string name="ToRegister">¿No tienes Cuenta? Registrate</string>
@@ -37,7 +38,8 @@
     <string name="buttonAplicar">Aplicar</string>
     <string name="textTitulo">Título</string>
     <string name="textContennido">Contenido</string>
-    <string name="errorUsuario">Introduzca un correo</string>
+    <string name="errorUsuario">Introduzca un usuario</string>
+    <string name="errorCorreo">Introduzca un correo</string>
     <string name="errorPassw">Introduzca una contraseña</string>
     <string name="errorUsuarioPassw">Rellene los espacios</string>
     <string name="errorLogin">Autenticación fallida</string>
@@ -51,8 +53,8 @@
     <string name="errorCorreoUnknown">Correo no registrado</string>
     <string name="errorCredencialesInv">Credenciales inválidas</string>
     <string name="checkRecordarme">Recordarme</string>
-    <string name="olvidarPassw">Has olvidado la contraseña?</string>
-    <string name="resetPassw">Cambiar Contraseña?</string>
+    <string name="olvidarPassw">¿Has olvidado la contraseña?</string>
+    <string name="resetPassw">¿Cambiar Contraseña?</string>
     <string name="resetPasswtext">Introduce tu email</string>
     <string name="enviar">ENVIAR</string>
     <string name="msjEmailT">Revisa tu correo</string>
@@ -66,14 +68,24 @@
     <string name="updated_note">Nota actualizada</string>
     <string name="afegida_note">Nota añadida</string>
     <string name="no_afegida_note">Error, vuelvalo a intentar</string>
+    <string name="errorPasswPequeña">La contraseña ha de tener más de 7 carácteres</string>
+    <string name="msgConfirmació">Mensaje de confirmación</string>
+    <string name="msgDeleteNote">¿Quiere eliminar la nota?</string>
+    <string name="msgBorrar">Borrar nota</string>
+    <string name="msgCancelar">Cancelar</string>
+    <string name="General">General</string>
+    <string name="Notas">Notas</string>
+    <string name="Imagenes">Imagenes</string>
+    <string name="Logout">Cerrar sesión</string>
+    <string name="Eslogan">Suelta tu imaginación</string>
+    <string name="NombreImagen">Título imagen</string>
+    <string name="Upload">Guardar</string>
+    <string name="ImageSuccess">Imagen guardada</string>
+    <string name="afegir_titolIMG">Añada un título a la imagen</string>
+    <string name="afegir_contingutIMG">Añada una imagen</string>
+    <string name="delete">Borrar</string>
+    <string name="edit">Editar</string>
 
-    <string-array name="tamaño">
-        <item>Muy pequeña</item>
-        <item>Pequeña</item>
-        <item>Mediana</item>
-        <item>Grande</item>
-        <item>Muy grande</item>
-    </string-array>
     <string-array name="letra">
         <item>Negrita</item>
         <item>Negrita-Normal</item>

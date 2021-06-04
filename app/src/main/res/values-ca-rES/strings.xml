@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">BLOC DE NOTAS</string>
+    <string name="app_name">Amity</string>
     <string name="textView_Titulo">Títol de la nota</string>
     <string name="textView_Lista">Llista de Notes</string>
     <string name="listView_Lista">Llista de Notes</string>
@@ -38,7 +38,8 @@
     <string name="buttonAplicar">Aplicar</string>
     <string name="textTitulo">Títol</string>
     <string name="textContennido">Contingut</string>
-    <string name="errorUsuario">Introduïu un correu</string>
+    <string name="errorUsuario">Introdueix un usuari</string>
+    <string name="errorCorreo">Introduïu un correu</string>
     <string name="errorPassw">Introdueix una contrasenya</string>
     <string name="errorUsuarioPassw">Ompli els espais</string>
     <string name="errorLogin">Autenticació fallida</string>
@@ -67,15 +68,25 @@
     <string name="updated_note">Nota actualitzada</string>
     <string name="afegida_note">Nota afegida</string>
     <string name="no_afegida_note">Error, torna-ho a intentar</string>
+    <string name="user">Usuari</string>
+    <string name="errorPasswPequeña">La contrasenya ha de tenir més de 7 caràcteres</string>
+    <string name="msgConfirmació">Missatge de confirmació</string>
+    <string name="msgDeleteNote">Vols borrar la nota?</string>
+    <string name="msgBorrar">Borrar nota</string>
+    <string name="msgCancelar">Cancel·lar</string>
+    <string name="General">General</string>
+    <string name="Notas">Notes</string>
+    <string name="Imagenes">Imatges</string>
+    <string name="Logout">Tancar sesió</string>
+    <string name="Eslogan">Deixa anar la teva imaginació</string>
+    <string name="NombreImagen">Titol imatge</string>
+    <string name="Upload">Guardar</string>
+    <string name="ImageSuccess">Imatge guardada</string>
+    <string name="afegir_titolIMG">Afegeix un titol a la imatge</string>
+    <string name="afegir_contingutIMG">Afegeix una imatge</string>
+    <string name="delete">Esborrar</string>
+    <string name="edit">Editar</string>
 
-
-    <string-array name="tamaño">
-        <item>Molt petita</item>
-        <item>Petita</item>
-        <item>Mitjana</item>
-        <item>Gran</item>
-        <item>Molt gran</item>
-    </string-array>
     <string-array name="letra">
         <item>Negreta</item>
         <item>Negreta-Normal</item>

@@ -20,19 +20,15 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-
 import androidx.cardview.widget.CardView;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -48,75 +44,47 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-
-
 import java.util.List;
 import java.util.Locale;
-
 import io.github.inflationx.calligraphy3.CalligraphyConfig;
 import io.github.inflationx.calligraphy3.CalligraphyInterceptor;
 import io.github.inflationx.viewpump.ViewPump;
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
-
-
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private static final int SETTINGS = Menu.FIRST;
-    private static final int ORDENAR = Menu.FIRST + 1;
-    private static final int ARCHIVADOS = Menu.FIRST + 2;
-    private static final int EXIST = Menu.FIRST + 3;
-    private static final int DELETE = Menu.FIRST + 4;
 
-    TextView textLista;
     FloatingActionButton add;
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle toggle;
     NavigationView nav_view;
     RecyclerView noteLists;
-
     Nota notaAct;
-
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
     FirestoreRecyclerAdapter<Nota,NotaViewHolder> notaAdaptador;
     private static final String TAG = "MAIN";
-    List<String> item = null;
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.main_activity);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
-
-
-
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
         noteLists = findViewById(R.id.notelist);
         drawerLayout = findViewById(R.id.drawer);
         nav_view = findViewById(R.id.nav_view);
         nav_view.setNavigationItemSelectedListener(this);
-
         toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.resetPassw,R.string.noteContent);
         drawerLayout.addDrawerListener(toggle);
         toggle.setDrawerIndicatorEnabled(true);
         toggle.syncState();
 
-
-
-
-
-
-
         Query query = db.collection("users").document(mAuth.getCurrentUser().getEmail()).collection("notes").orderBy("titol",Query.Direction.DESCENDING);
-
-
         FirestoreRecyclerOptions<Nota> allNotes = new FirestoreRecyclerOptions.Builder<Nota>()
                 .setQuery(query,Nota.class)
                 .build();
@@ -125,23 +93,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             protected void onBindViewHolder(@NonNull NotaViewHolder holder, int position, @NonNull final Nota nota) {
                 holder.noteTitle.setText(nota.getTitol());
                 holder.noteContent.setText(nota.getContent());
-
-
-
                 holder.view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent i = new Intent(v.getContext(), VerNota.class);
                         i.putExtra("titol",nota.getTitol());
                         i.putExtra("content",nota.getContent());
-
                         v.getContext().startActivity(i);
                     }
                 });
 
                 ImageView menuIcon = holder.view.findViewById(R.id.menuIcon_img);
                 menuIcon.setOnClickListener(new View.OnClickListener(){
-
                     @RequiresApi(api = Build.VERSION_CODES.M)
                     @Override
                     public void onClick(final View v) {
@@ -157,7 +120,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 i.putExtra("title", nota.getTitol());
                                 i.putExtra("content", nota.getContent());
                                 startActivity(i);
-                                
                                 return false;
                             }
                         });
@@ -166,8 +128,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             @Override
                             public boolean onMenuItemClick(MenuItem item) {
                                 DocumentReference docRef = db.collection("users").document(mAuth.getCurrentUser().getEmail()).collection("notes").document(nota.getTitol());
-
-
                                 docRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
@@ -183,15 +143,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 return false;
                             }
                         });
-
                         menu.show();
                     }
                 });
-
-
-
-
-
             }
 
             @NonNull
@@ -201,7 +155,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return new NotaViewHolder(view);
             }
         };
-
 
         noteLists.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
         noteLists.setAdapter(notaAdaptador);
@@ -287,39 +240,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                                 .build()))
                                 .build());
 
-                        //Tamaño
-                        int size;
-                        try{
-                            size = document.getLong("tamaño").intValue();
-                        } catch (Exception e) {
-                            size = 0;
-                        }
-
-                        //Bundle bundle = this.getIntent().getExtras();
-                        //String email = bundle.getString("email");
-                        //setUp(email);
-
-
                         add = (FloatingActionButton) findViewById(R.id.fabAdd);
-
-
                         add.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 actividad("add");
                             }
                         });
-
-
-
                     } else {
                         Log.d(TAG, "No such document");
-
-
-
                         add = (FloatingActionButton) findViewById(R.id.fabAdd);
-
-
                         add.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -331,17 +261,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                         View headerView = nav_view.getHeaderView(0);
                         TextView userEmail = headerView.findViewById(R.id.userDisplayEmail);
-
                         userEmail.setText(mAuth.getCurrentUser().getEmail());
                     }
                 } else {
                     Log.d(TAG, "get failed with ", task.getException());
-
-
-
                     add = (FloatingActionButton) findViewById(R.id.fabAdd);
-
-
                     add.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -350,12 +274,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     });
                     noteLists.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
                     noteLists.setAdapter(notaAdaptador);
-
                     View headerView = nav_view.getHeaderView(0);
                     TextView userEmail = headerView.findViewById(R.id.userDisplayEmail);
-
                     userEmail.setText(mAuth.getCurrentUser().getEmail());
-
                 }
             }
         });
@@ -366,13 +287,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu_main, menu);
         menu.add(1,SETTINGS,0,R.string.menu_settings);
-        menu.add(1,ORDENAR,0,R.string.menu_ordenar);
-        menu.add(1,EXIST,0,R.string.menu_cerrar);
-        menu.add(1,DELETE,0,R.string.menu_borrar);
         super.onCreateOptionsMenu(menu);
         return true;
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -381,15 +298,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (id){
             case SETTINGS:
                 Intent intent = new Intent(MainActivity.this, Ajustes.class);
-                startActivity(intent);
-                return true;
-            case ORDENAR:
-                return true;
-            case DELETE:
-                alert("deletes");
-                return true;
-            case EXIST:
-                intent = new Intent(MainActivity.this, Login.class);
                 startActivity(intent);
                 return true;
             default:
@@ -401,8 +309,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
-
-
 
     public void actividad(String act){
         String type ="",content="";
@@ -422,7 +328,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
             }else {
                 if (act.equals("see")){
-
                     Intent intent = new Intent(MainActivity.this, VerNota.class);
                     intent.putExtra("title", notaAct.getTitol());
                     intent.putExtra("content", notaAct.getContent());
@@ -430,83 +335,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         }
-    }
-
-    private void alert(String f){
-        AlertDialog alerta;
-        alerta = new android.app.AlertDialog.Builder(this).create();
-        if(f.equals("list")){
-            alerta.setTitle("The title of the note: " + notaAct.getTitol());
-            alerta.setMessage("Quina acció vol realitzar?");
-            alerta.setButton("Veure Nota", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    actividad("see");
-
-                }
-            });
-            alerta.setButton2("Borrar Nota", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    delete("delete");
-                    Intent intent = getIntent();
-                    startActivity(intent);
-
-                }
-            });
-            alerta.setButton3("Editar Nota", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    actividad("edit");
-
-                }
-            });
-        }else{
-            if (f.equals("deletes")){
-                alerta.setTitle("Missatje de confirmació");
-                alerta.setMessage("Quina acció vol realitzar?");
-                alerta.setButton("Cancelar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        return;
-                    }
-                });
-                alerta.setButton2("Borrar Notes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        delete("deletes");
-                        Intent intent = getIntent();
-                        startActivity(intent);
-                    }
-                });
-            }
-
-        }
-        alerta.show();
-    }
-//fix
-    private void delete(String f){
-        DocumentReference docRef = db.collection("users").document(mAuth.getCurrentUser().getEmail()).collection("notes").document(notaAct.getTitol());
-
-
-        docRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.d(TAG, "DocumentSnapshot successfully deleted!");
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w(TAG, "Error deleting document", e);
-                        }
-                    });
-
-
-
-    }
-    private void setUp(String email){
-
     }
 
     private void setAppLocale(String localeCode) {
@@ -523,13 +351,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()){
 
             case R.id.notes_lay:
-
                 startActivity(new Intent(this,MainActivity.class));
                 break;
             case R.id.Imatges_lay:
-
                 startActivity(new Intent(this,Main_activity_img.class));
-
+                break;
+            case R.id.logout:
+                startActivity(new Intent(this,Login.class));
                 break;
             default:
                 Toast.makeText(this,"ComingSoon",Toast.LENGTH_SHORT);
@@ -538,14 +366,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public class NotaViewHolder extends RecyclerView.ViewHolder{
-
         TextView noteTitle,noteContent;
         View view;
         CardView mCardView;
-
         public NotaViewHolder(@NonNull View itemView) {
             super(itemView);
-
             noteTitle = itemView.findViewById(R.id.titles_img);
             noteContent = itemView.findViewById(R.id.content1);
             mCardView = itemView.findViewById(R.id.noteCard_img);

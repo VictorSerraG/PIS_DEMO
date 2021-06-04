@@ -10,10 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Spinner;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,20 +19,15 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
-
 import io.github.inflationx.calligraphy3.CalligraphyConfig;
 import io.github.inflationx.calligraphy3.CalligraphyInterceptor;
 import io.github.inflationx.viewpump.ViewPump;
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 public class Ajustes extends AppCompatActivity {
-    Spinner tamaño, letra, estilo, idioma;
+    Spinner letra, estilo, idioma;
     Button aplicar;
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
@@ -125,22 +118,9 @@ public class Ajustes extends AppCompatActivity {
                                                 .build()))
                                 .build());
 
-                        //Tamaño
-                        int size;
-                        try{
-                            size = document.getLong("tamaño").intValue();
-                        } catch (Exception e) {
-                            size = 0;
-                        }
-
-                        
-
                         setContentView(R.layout.ajustes);
 
                         //Spinners
-                        tamaño = (Spinner) findViewById(R.id.tamaño);
-                        tamaño.setSelection(size);
-
                         letra = (Spinner) findViewById(R.id.letra);
                         letra.setSelection(fuente);
 
@@ -165,8 +145,6 @@ public class Ajustes extends AppCompatActivity {
                         setContentView(R.layout.ajustes);
 
                         //Spinners
-                        tamaño = (Spinner) findViewById(R.id.tamaño);
-
                         letra = (Spinner) findViewById(R.id.letra);
 
                         estilo = (Spinner) findViewById(R.id.estilo);
@@ -189,8 +167,6 @@ public class Ajustes extends AppCompatActivity {
                     setContentView(R.layout.ajustes);
 
                     //Spinners
-                    tamaño = (Spinner) findViewById(R.id.tamaño);
-
                     letra = (Spinner) findViewById(R.id.letra);
 
                     estilo = (Spinner) findViewById(R.id.estilo);
@@ -227,7 +203,6 @@ public class Ajustes extends AppCompatActivity {
 
     private void saveSettings(){
         HashMap<String, Integer> ajustes = new HashMap<String, Integer>();
-        ajustes.put("tamaño",  tamaño.getSelectedItemPosition());
         ajustes.put("letra",  letra.getSelectedItemPosition());
         ajustes.put("estilo",  estilo.getSelectedItemPosition());
         ajustes.put("idioma",  idioma.getSelectedItemPosition());

@@ -3,55 +3,45 @@ package com.example.PIS;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.webkit.CookieSyncManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import android.webkit.CookieManager;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-//import com.google.firebase.database.FirebaseDatabase;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
-
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import io.github.inflationx.calligraphy3.CalligraphyConfig;
 import io.github.inflationx.calligraphy3.CalligraphyInterceptor;
 import io.github.inflationx.viewpump.ViewPump;
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
-
 public class AgregarNota extends AppCompatActivity {
     Button Add;
     EditText TITLE, CONTENT;
     String type, getTitle;
     private static final int SALIR = Menu.FIRST;
-
     private static final String TAG = "AddNote";
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
@@ -59,10 +49,8 @@ public class AgregarNota extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
-
         DocumentReference docRef = db.collection("users").document(mAuth.getCurrentUser().getEmail());
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -136,14 +124,6 @@ public class AgregarNota extends AppCompatActivity {
                                                 .build()))
                                 .build());
 
-                        //Tamaño
-                        int size;
-                        try{
-                            size = document.getLong("tamaño").intValue();
-                        } catch (Exception e) {
-                            size = 0;
-                        }
-
                         setContentView(R.layout.agregar_nota);
 
                         Add = (Button) findViewById(R.id.button_Agregar);
@@ -163,13 +143,13 @@ public class AgregarNota extends AppCompatActivity {
                         });
 
                         if (type.equals(("add"))) {
-                            Add.setText("Afegir nota");
+                            Add.setText(getResources().getString(R.string.afegir_note_b));
 
                         } else {
                             if (type.equals("edit")) {
                                 TITLE.setText(getTitle);
                                 CONTENT.setText(content);
-                                Add.setText("Actualitzar nota");
+                                Add.setText(getResources().getString(R.string.update_note_b));
                             }
                         }
                     } else {
@@ -193,13 +173,13 @@ public class AgregarNota extends AppCompatActivity {
                         });
 
                         if (type.equals(("add"))) {
-                            Add.setText("Afegir nota");
+                            Add.setText(getResources().getString(R.string.afegir_note_b));
 
                         } else {
                             if (type.equals("edit")) {
                                 TITLE.setText(getTitle);
                                 CONTENT.setText(content);
-                                Add.setText("Actualitzar nota");
+                                Add.setText(getResources().getString(R.string.update_note_b));
                             }
                         }
                     }
@@ -260,7 +240,6 @@ public class AgregarNota extends AppCompatActivity {
                     CONTENT.requestFocus();
                     Mensaje(msj);
                 } else {
-
                     DocumentReference docRef = db.collection("users").document(mAuth.getCurrentUser().getEmail()).collection("notes").document(nTitle);
                     Map<String,Object> note = new HashMap<>();
                     note.put("titol",nTitle);
@@ -281,7 +260,6 @@ public class AgregarNota extends AppCompatActivity {
                         }
                     });
                 }
-
             }
         } else {
             if (type.equals("edit")) {
@@ -327,29 +305,18 @@ public class AgregarNota extends AppCompatActivity {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 Toast.makeText(AgregarNota.this,getResources().getString(R.string.no_afegida_note),Toast.LENGTH_SHORT).show();
-
                             }
                         });
-
                     }
                 }
             }
         }
     }
 
-
     public void Mensaje(String msj) {
         Toast toast = Toast.makeText(this, msj, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
         toast.show();
-    }
-
-    public void actividad(String title, String content) {
-        Intent intent = new Intent(AgregarNota.this, VerNota.class);
-        intent.putExtra("title", title);
-        intent.putExtra("content", content);
-        startActivity(intent);
-
     }
 
     private void setAppLocale(String localeCode) {
@@ -359,5 +326,4 @@ public class AgregarNota extends AppCompatActivity {
         conf.setLocale(new Locale(localeCode.toLowerCase()));
         res.updateConfiguration(conf, dm);
     }
-
 }

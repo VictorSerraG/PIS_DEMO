@@ -29,14 +29,11 @@ public class VerImatge extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ver_imatge);
-
         imageView = findViewById(R.id.imageView_preview);
         textView = findViewById(R.id.textView_img);
         mAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
-
         CollectionReference collRef = firestore.collection("users").document(mAuth.getCurrentUser().getEmail()).collection("imatges");
-
         String titol = getIntent().getStringExtra("Titol");
 
         DocumentReference documentReference = collRef.document(titol);

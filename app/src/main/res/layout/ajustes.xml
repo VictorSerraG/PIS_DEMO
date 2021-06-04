@@ -16,33 +16,6 @@
         tools:layout_editor_absoluteY="20dp">
 
         <TextView
-            android:id="@+id/textView_Ajustes"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|center_horizontal|fill|fill_horizontal|center_vertical|fill_vertical"
-            android:layout_marginStart="20dp"
-            android:layout_marginBottom="10dp"
-            android:text="@string/tamaño"
-            android:textColor="?attr/primaryTextColor"
-            android:textSize="@dimen/text"
-            app:autoSizeTextType="uniform"/>
-
-        <Spinner
-            android:id="@+id/tamaño"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|center_horizontal|fill|fill_horizontal|center_vertical|fill_vertical"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="20dp"
-            android:background="@android:drawable/btn_dropdown"
-            android:gravity="center|fill"
-            android:spinnerMode="dropdown"
-            android:textColor="?attr/primaryTextColor"
-            android:entries="@array/tamaño"
-            app:autoSizeTextType="uniform"/>
-
-        <TextView
             android:id="@+id/textView_Letra"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -136,9 +109,9 @@
             android:hapticFeedbackEnabled="false"
             android:text="@string/buttonAplicar"
             android:textAllCaps="false"
-            android:textColor="?attr/secondaryTextColor"
             android:textSize="@dimen/button"
-            app:backgroundTint="?attr/primaryTextColor"
+            app:backgroundTint="@color/md_black_1000"
+            android:textColor="@color/md_white_1000"
             app:autoSizeTextType="uniform"/>
 
     </LinearLayout>

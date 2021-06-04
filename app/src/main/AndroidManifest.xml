@@ -10,7 +10,7 @@
         android:theme="@style/ActivityTheme.Primary.Base.Light">
 
         <activity android:name=".MainActivity" android:theme="@style/ActivityTheme.NoActionBar"
-           android:label="Bloc de notes">
+           android:label="@string/app_name">
 
         </activity>
 
@@ -20,12 +20,12 @@
         </activity>
         <activity
             android:name=".VerImatge"
-            android:parentActivityName="com.example.PIS.MainActivity">
+            android:parentActivityName="com.example.PIS.Main_activity_img">
         </activity>
 
         <activity
             android:name=".AgregarImatge"
-            android:parentActivityName="com.example.PIS.MainActivity">
+            android:parentActivityName="com.example.PIS.Main_activity_img">
         </activity>
 
         <activity
