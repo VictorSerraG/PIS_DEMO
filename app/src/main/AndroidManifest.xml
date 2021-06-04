@@ -18,6 +18,10 @@
             android:name=".AgregarNota"
             android:parentActivityName="com.example.PIS.MainActivity">
         </activity>
+        <activity
+            android:name=".VerImatge"
+            android:parentActivityName="com.example.PIS.MainActivity">
+        </activity>
 
         <activity
             android:name=".AgregarImatge"

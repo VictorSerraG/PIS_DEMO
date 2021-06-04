@@ -107,7 +107,10 @@ public class Main_activity_img extends AppCompatActivity implements NavigationVi
 
 
 
-            CarregarData("");
+
+
+
+
 
 
 
@@ -263,14 +266,11 @@ public class Main_activity_img extends AppCompatActivity implements NavigationVi
                     }
                 }
             });
-
+            CarregarData("");
         }
 
     private void CarregarData(String data) {
-
-
         Query query=db.collection("users").document(mAuth.getCurrentUser().getEmail()).collection("imatges").orderBy("titol", Query.Direction.DESCENDING);
-
 
         FirestoreRecyclerOptions<Imatge> allNotes = new FirestoreRecyclerOptions.Builder<Imatge>()
                 .setQuery(query,Imatge.class)
@@ -284,12 +284,47 @@ public class Main_activity_img extends AppCompatActivity implements NavigationVi
                 holder.view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        /*
-                        Intent intent=new Intent(this,ViewActivity.class);
-                        intent.putExtra("ImgKey",getRef(position).getKey());
-                        startActivity(intent);
-                        */
 
+                        Intent intent=new Intent(getApplicationContext(),VerImatge.class);
+                        intent.putExtra("Titol",imatge.getTitol());
+                        startActivity(intent);
+
+
+                    }
+                });
+                ImageView menuIcon = holder.view.findViewById(R.id.menuIcon_img);
+                menuIcon.setOnClickListener(new View.OnClickListener(){
+
+                    @RequiresApi(api = Build.VERSION_CODES.M)
+                    @Override
+                    public void onClick(final View v) {
+                        final String docId = notaAdaptador.getSnapshots().getSnapshot(position).getId();
+                        PopupMenu menu = new PopupMenu(v.getContext(),v);
+                        menu.setGravity(Gravity.END);
+
+                        menu.getMenu().add("Delete").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem item) {
+                                DocumentReference docRef = db.collection("users").document(mAuth.getCurrentUser().getEmail()).collection("imatges").document(imatge.getTitol());
+
+
+                                docRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                                    }
+                                })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.w(TAG, "Error deleting document", e);
+                                            }
+                                        });
+                                return false;
+                            }
+                        });
+
+                        menu.show();
                     }
                 });
 
@@ -328,8 +363,6 @@ public class Main_activity_img extends AppCompatActivity implements NavigationVi
                 case SETTINGS:
                     Intent intent = new Intent(this, Ajustes.class);
                     startActivity(intent);
-                    return true;
-                case ORDENAR:
                     return true;
                 case DELETE:
                     alert("deletes");
@@ -478,6 +511,10 @@ public class Main_activity_img extends AppCompatActivity implements NavigationVi
                     startActivity(new Intent(this, MainActivity.class));
 
                     break;
+
+                case R.id.logout:
+
+                    startActivity(new Intent(this, Login.class));
                 default:
                     Toast.makeText(this,"ComingSoon",Toast.LENGTH_SHORT);
             }

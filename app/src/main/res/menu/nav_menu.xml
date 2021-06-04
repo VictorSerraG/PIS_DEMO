@@ -10,23 +10,6 @@
                 android:id="@+id/Imatges_lay"
                 android:icon="@android:drawable/ic_menu_camera"
                 android:title="Imatges" />
-            <item
-                android:id="@+id/sync"
-                android:icon="@drawable/ic_sync_black_24dp"
-                android:title="Sync Notes" />
-        </menu>
-    </item>
-    <item android:title="Support">
-        <menu>
-            <item
-                android:id="@+id/rating"
-                android:icon="@drawable/ic_star_half_black_24dp"
-                android:title="Rate App" />
-
-            <item
-                android:id="@+id/shareapp"
-                android:icon="@drawable/ic_share_black_24dp"
-                android:title="shareapp" />
         </menu>
     </item>
     <item android:title="Logout">
